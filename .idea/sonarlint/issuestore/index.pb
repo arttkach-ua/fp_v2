@@ -1,25 +1,9 @@
 
-X
-(src/main/java/controller/Controller.java,0\5\05fd466bff28423ca702e1a116df355b44712db1
-^
-.src/main/java/controller/command/ICommand.java,c\1\c1d8ee1682b46694ac549a142e5237a7da804d9d
-d
-4src/main/java/controller/command/CommandFactory.java,8\4\8493da1e24b439f669987da9dd53d89cf12c89b9
-f
-6src/main/java/controller/command/common/setLocale.java,5\e\5e2a8f76e996f1202c4f799fb9404b8ed82c5a7e
-R
-"src/main/java/controller/Path.java,c\a\ca06d8ad902105aebfdc9a92414dbc97ef245ed9
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 f
 6src/main/webapp/WEB-INF/navigation/_manager_navbar.jsp,b\7\b7b0a4f0a08acb00637dccc7cbea7dda6b2a3bf6
-d
-4src/main/webapp/WEB-INF/navigation/_admin_navbar.jsp,a\9\a9c2ec3747416d7575a0cfeebffc2a7aa666a9c1
 e
 5src/main/webapp/WEB-INF/navigation/_common_navbar.jsp,c\4\c42b6c3e855c9828ba09f6f278e1e0cf6244c4f4
 T
 $src/main/webapp/META-INF/context.xml,c\b\cbfb0d2e9b2b9fbf9d54374577c894a38643c6d0
 e
 5src/main/webapp/WEB-INF/navigation/_client_navbar.jsp,9\c\9cc4cde1ed2a38434feee05dc0a624646ee56558
-d
-4src/main/java/controller/filters/EncodingFilter.java,f\f\ffc31786e533b1b9f4914f59cfdb8cfbe8045fcc

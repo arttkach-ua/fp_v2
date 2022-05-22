@@ -1,5 +1,6 @@
 package com.epam.tkach.carrent.model.entity;
 
+import com.epam.tkach.carrent.model.entity.enums.BodyStyles;
 import com.epam.tkach.carrent.model.entity.enums.CarClass;
 import com.epam.tkach.carrent.model.entity.enums.FuelTypes;
 import com.epam.tkach.carrent.model.entity.enums.TransmissionTypes;
@@ -9,7 +10,7 @@ public class Car extends Entity{
     CarModel model;
     CarClass carClass;
     int graduationYear;
-    String bodyStyle;//!!!!!
+    BodyStyles bodyStyle;//!!!!!
     TransmissionTypes transmission;
     FuelTypes fuelType;
     //Getters
@@ -29,7 +30,7 @@ public class Car extends Entity{
         return graduationYear;
     }
 
-    public String getBodyStyle() {
+    public BodyStyles getBodyStyle() {
         return bodyStyle;
     }
 
@@ -58,7 +59,7 @@ public class Car extends Entity{
         this.graduationYear = graduationYear;
     }
 
-    public void setBodyStyle(String bodyStyle) {
+    public void setBodyStyle(BodyStyles bodyStyle) {
         this.bodyStyle = bodyStyle;
     }
 
