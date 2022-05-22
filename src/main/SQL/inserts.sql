@@ -14,3 +14,14 @@ insert into transmission_types(transmission_type_en, transmission_type_ua) value
 /*
 * scripts to adding body_styles
 */
+
+/*
+ * scripts to adding car classes
+ */
+
+insert into car_classes(id, car_class) values (1, 'PREMIUM');
+insert into car_classes(id, car_class) values (2,'ECONOMY');
+insert into car_classes(id, car_class) values (3, 'MIDDLE');
+insert into car_classes(id, car_class) values (4, 'BUSINESS');
+insert into car_classes(id, car_class) values (5, 'SUV');
+insert into car_classes(id, car_class) values (6, 'MINIVAN');
