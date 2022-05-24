@@ -46,7 +46,9 @@
                             <select class="form-control" name="body_style" id="body_style">
                                 <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
                                 <c:forEach items="${bodyStyleList}" var="bodyStyle">
-                                    <option value=${bodyStyle.getID()}>${bodyStyle.getName()}</option>
+                                    <option value=${bodyStyle.getValue()}>
+                                        <fmt:message key="${bodyStyle}"/>
+                                    </option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -134,9 +136,9 @@
                 console.log(data);
                 let obj = $.parseJSON(data);
                 $.each(obj, function (key, value) {
-                    $('#car_model').append('<option value="' + value.id + '">' + value.modelName + '</option>')
+                    $('#car_model').append('<option value="' + value.ID + '">' + value.modelName + '</option>')
                 });
-                $('select').formSelect();
+                //$('select').formSelect();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#car_model').append('<option>Car model Unavailable</option>');

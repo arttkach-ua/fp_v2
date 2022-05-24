@@ -26,4 +26,12 @@ public interface CarModelRepoI {
     Optional<CarModel> findByNameAndBrand(int carBrandID, String name) throws CarModelRepoException;
 
     List<CarModel> getModelsByBrand(int carBrandID) throws CarModelRepoException;
+
+    /**
+     * Method search for existing car model in DB.
+     * @param ID - id of car model
+     * @return Optional with car model class
+     * @throws CarModelRepoException
+     */
+    Optional<CarModel> findByID(int ID) throws CarModelRepoException;
 }

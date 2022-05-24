@@ -62,6 +62,24 @@
         <param-value>file:///resources/log4j2.xml</param-value>
     </context-param>
 
+    <filter>
+        <filter-name>charsetFilter</filter-name>
+        <filter-class>com.epam.tkach.carrent.controller.filters.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>requestEncoding</param-name>
+            <param-value>UTF8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>responseEncoding</param-name>
+            <param-value>cp1251</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>charsetFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
 
 

@@ -1,5 +1,7 @@
 package com.epam.tkach.carrent;
 
+import com.epam.tkach.carrent.controller.PageParameters;
+import com.epam.tkach.carrent.controller.RequestReader;
 import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.CarModelRepoException;
 import com.epam.tkach.carrent.model.entity.CarBrand;
@@ -26,25 +28,8 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String op = request.getParameter("operation");
-        if (op == null || op.equals("car_brand")) {
-            CarBrandRepoI brandRepo = new CarBrandRepoMySql();
-            List<CarBrand> brandList = null;
-            try {
-                brandList = brandRepo.getAll();
-                Gson json = new Gson();
-                String JsonBrandList = json.toJson(brandList);
-                response.setContentType("text/html");
-                response.getWriter().write(JsonBrandList);
-            } catch (CarBrandRepoException | IOException ex) {
-                //logger.error(ex);
-            }
-            return;
-        };
         if (op.equals("car_model")){
-            int id = Integer.parseInt(request.getParameter("id"));
-            logger.trace("id:::" + request.getParameter("id"));
-
-            logger.trace("id_int:::" + id);
+            int id = RequestReader.readIntFromRequest(request, PageParameters.ID);
             CarModelRepoI modelRepo = new CarModelRepoMySql();
             List<CarModel> modelList = null;
             try{

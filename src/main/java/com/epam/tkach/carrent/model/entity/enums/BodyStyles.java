@@ -7,11 +7,17 @@ public enum BodyStyles {
     MINIVAN(4),
     SUV(5),
     COMBI(6);
+
     int value;
 
     private BodyStyles(int value){
         this.value = value;
     }
+
+    public int getValue() {
+        return value;
+    }
+
     public static BodyStyles getByID(int id){
         switch (id){
             case 1: return SEDAN;

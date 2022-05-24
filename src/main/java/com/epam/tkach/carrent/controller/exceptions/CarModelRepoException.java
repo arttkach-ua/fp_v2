@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class CarModelRepoException extends Exception{
-    private static final Logger logger = LogManager.getLogger(CarBrandRepoException.class);
+    private static final Logger logger = LogManager.getLogger(CarModelRepoException.class);
 
     public CarModelRepoException() {
         logger.error("Car model exception was thrown");

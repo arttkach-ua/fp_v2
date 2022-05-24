@@ -5,14 +5,27 @@ import com.epam.tkach.carrent.model.entity.enums.CarClass;
 import com.epam.tkach.carrent.model.entity.enums.FuelTypes;
 import com.epam.tkach.carrent.model.entity.enums.TransmissionTypes;
 
+import javax.validation.constraints.NotNull;
+
 public class Car extends Entity{
+    @NotNull(message = "error.nullCarBrand")
     CarBrand brand;
+    @NotNull(message = "error.nullCarModel")
     CarModel model;
+    @NotNull(message = "error.nullCarClass")
     CarClass carClass;
+    @NotNull(message = "error.nullGraduationYear")
     int graduationYear;
+    @NotNull(message = "error.nullBodyStyle")
     BodyStyles bodyStyle;//!!!!!
+    @NotNull(message = "error.nullTransmissionType")
     TransmissionTypes transmission;
+    @NotNull(message = "error.nullFuelType")
     FuelTypes fuelType;
+    String stateNumber;
+    String vinCode;
+
+    double engine;
     //Getters
     public CarBrand getBrand() {
         return brand;
@@ -40,6 +53,18 @@ public class Car extends Entity{
 
     public FuelTypes getFuelType() {
         return fuelType;
+    }
+
+    public String getStateNumber() {
+        return stateNumber;
+    }
+
+    public String getVinCode() {
+        return vinCode;
+    }
+
+    public double getEngine() {
+        return engine;
     }
     //Setters
 
@@ -71,8 +96,32 @@ public class Car extends Entity{
         this.fuelType = fuelType;
     }
 
+    public void setStateNumber(String stateNumber) {
+        this.stateNumber = stateNumber;
+    }
+
+    public void setVinCode(String vinCode) {
+        this.vinCode = vinCode;
+    }
+
+    public void setEngine(double engine) {
+        this.engine = engine;
+    }
     //Constructor
 
     public Car() {
+    }
+
+    public Car(CarBrand brand, CarModel model, CarClass carClass, int graduationYear, BodyStyles bodyStyle, TransmissionTypes transmission, FuelTypes fuelType, String stateNumber, String vinCode, double engine) {
+        this.brand = brand;
+        this.model = model;
+        this.carClass = carClass;
+        this.graduationYear = graduationYear;
+        this.bodyStyle = bodyStyle;
+        this.transmission = transmission;
+        this.fuelType = fuelType;
+        this.stateNumber = stateNumber;
+        this.vinCode = vinCode;
+        this.engine = engine;
     }
 }

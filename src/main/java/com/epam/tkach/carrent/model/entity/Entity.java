@@ -3,13 +3,13 @@ package com.epam.tkach.carrent.model.entity;
 import java.io.Serializable;
 
 public class Entity implements Serializable {
-    long ID;
+    int ID;
 
-    public long getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(long ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 }

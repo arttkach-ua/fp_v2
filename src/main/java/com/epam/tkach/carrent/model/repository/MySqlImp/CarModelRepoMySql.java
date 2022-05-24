@@ -128,6 +128,33 @@ public class CarModelRepoMySql implements CarModelRepoI {
         return carModelList;
     }
 
+    @Override
+    public Optional<CarModel> findByID(int id) throws CarModelRepoException {
+        if (id<0) return Optional.empty();
+
+        final String QUERY = "select id, car_model, car_brands_id, car_classes_id from car_models where id = ?";
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs;
+        CarModel carModel = null;
+        try{
+            con = connectionPool.getConnection();
+            pstmt = con.prepareStatement(QUERY);
+            pstmt.setInt(1,id);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                carModel = getCarModelFromResultSet(rs);
+            }
+        } catch (SQLException ex) {
+            logger.error("Error in findByID method", ex);
+            throw new CarModelRepoException(ex);
+        } finally {
+            connectionPool.close(con, pstmt,null);
+        }
+
+        return Optional.ofNullable(carModel);
+    }
+
     /**
      * Creates a statement of CarModel Class from result of query to CarModels table
      * @param rs
@@ -142,7 +169,7 @@ public class CarModelRepoMySql implements CarModelRepoI {
         CarModel model= new CarModel();
         CarBrandRepoI brandRepo = new CarBrandRepoMySql();
         try {
-            model.setID(rs.getLong(1));
+            model.setID(rs.getInt(1));
             model.setModelName(rs.getString(2));
             model.setBrand(brandRepo.findByID(rs.getInt(3)).orElse(null));
             model.setCarClass(CarClass.getByID(rs.getInt(4)));

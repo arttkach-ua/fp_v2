@@ -21,7 +21,7 @@ public class CarBrand extends Entity implements Serializable {
     //Constructors
     public CarBrand() {}
 
-    public CarBrand(long ID, String carBrandName) {
+    public CarBrand(int ID, String carBrandName) {
         this.ID = ID;
         this.carBrandName = carBrandName;
     }

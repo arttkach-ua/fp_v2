@@ -68,6 +68,8 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
 
     @Override
     public Optional<CarBrand> findByID(int id) throws CarBrandRepoException {
+        if (id<0) return Optional.empty();
+
         final String QUERY = "select id,brand from car_brands where id=?";
         CarBrand carBrand = null;
         ConnectionPool connectionPool = ConnectionPool.getInstance();

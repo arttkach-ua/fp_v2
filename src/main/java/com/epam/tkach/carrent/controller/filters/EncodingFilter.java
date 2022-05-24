@@ -7,43 +7,25 @@ import java.io.IOException;
 
 
 public class EncodingFilter implements Filter {
-    private static final Logger log = Logger.getLogger(EncodingFilter.class);
-    private String encoding;
 
-    /**
-     * Destroy method.
-     */
-    public void destroy() {
-        log.debug("Filter destruction starts");
-        // do nothing
-        log.debug("Filter destruction finished");
+    private static final Logger loggger = Logger.getLogger(EncodingFilter.class);
+
+    private String requestEncoding;
+    private String responseEncoding;
+
+    public void init(FilterConfig config) throws ServletException {
+        requestEncoding = config.getInitParameter("requestEncoding");
+        responseEncoding = config.getInitParameter("responseEncoding");
     }
 
-    /**
-     * Main method.
-     */
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
-            throws ServletException, IOException {
-        log.debug("Filter starts");
-
-        String requestEncoding = req.getCharacterEncoding();
-
-        if (requestEncoding == null) {
-            log.trace("Request encoding = null, set encoding --> " + encoding);
-            req.setCharacterEncoding(encoding);
-        }
-        log.debug("Filter finished");
-        chain.doFilter(req, resp);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain net)
+            throws IOException, ServletException {
+        request.setCharacterEncoding(requestEncoding);
+        response.setCharacterEncoding(responseEncoding);
+        loggger.debug("After - Request encoding: " + request.getCharacterEncoding());
+        net.doFilter(request, response);
     }
 
-    /**
-     * Init method.
-     */
-    public void init(FilterConfig config) {
-        log.debug("Filter initialization starts");
-        encoding = config.getInitParameter("encoding");
-        log.trace("Encoding from web.xml --> " + encoding);
-        log.debug("Filter initialization finished");
+    public void destroy(){
     }
-
 }

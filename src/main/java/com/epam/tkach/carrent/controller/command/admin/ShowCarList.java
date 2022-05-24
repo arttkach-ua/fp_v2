@@ -1,11 +1,16 @@
 package com.epam.tkach.carrent.controller.command.admin;
 
+import com.epam.tkach.carrent.controller.PageParameters;
 import com.epam.tkach.carrent.controller.Path;
 import com.epam.tkach.carrent.controller.command.ICommand;
 import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
+import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
+import com.epam.tkach.carrent.model.entity.Car;
 import com.epam.tkach.carrent.model.entity.CarBrand;
 import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
+import com.epam.tkach.carrent.model.repository.CarRepoI;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarBrandRepoMySql;
+import com.epam.tkach.carrent.model.repository.MySqlImp.CarRepoMySql;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,23 +22,32 @@ public class ShowCarList implements ICommand {
     private static final Logger logger = LogManager.getLogger(ShowCarList.class);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        CarBrandRepoI brandRepo = new CarBrandRepoMySql();
-        List<CarBrand> brendList = null;
-        int selectedBrand = 0;
-
+        CarRepoI repo = new CarRepoMySql();
+        List<Car> carList;
         try {
-            brendList = brandRepo.getAll();
-        } catch (CarBrandRepoException ex) {
-            logger.error(ex);
+            int carBrandsCount = repo.getCountInDB();
+            int currentPage = 1;
+            if (request.getParameter(PageParameters.CURRENT_PAGE) != null) {
+                currentPage = Integer.parseInt(request.getParameter(PageParameters.CURRENT_PAGE));
+            }
+            int recordsPerPage = 5;
+
+            carList = repo.getListForPagination(currentPage, recordsPerPage);
+            int nOfPages = carBrandsCount / recordsPerPage;
+
+            if (nOfPages % recordsPerPage > 0) {
+                nOfPages++;
+            }
+            carList.stream().forEachOrdered(p->System.out.println(p.getStateNumber()));
+
+            request.setAttribute(PageParameters.CAR_LIST, carList);
+            request.setAttribute(PageParameters.NO_OF_PAGES, nOfPages);
+            request.setAttribute(PageParameters.CURRENT_PAGE, currentPage);
+            request.setAttribute(PageParameters.RECORD_PER_PAGE, recordsPerPage);
+            return Path.PAGE_ALL_CARS;
+        } catch (CarRepoException e) {
+            logger.error(e);
+            return Path.PAGE_ERROR_PAGE;
         }
-        if (request.getParameter("brand_selection")!=null){
-            selectedBrand = Integer.parseInt(request.getParameter("brand_selection"));
-        };
-
-
-        request.setAttribute("selectedBrand",selectedBrand);
-        System.out.println(selectedBrand);
-        request.setAttribute("carBrands",brendList);
-        return Path.PAGE_ALL_CARS;
     }
 }

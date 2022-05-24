@@ -8,10 +8,21 @@ public class PageParameters {
 
     public static final String CAR_CLASS = "car_class";
     public static final String CAR_BRAND = "car_brand";
+    public static final String CAR_MODEL = "car_model";
     public static final String NAME = "name";
+    public static final String YEAR = "year";
+    public static final String BODY_STYLE = "body_style";
+    public static final String TRANSMISSION = "transmission";
+    public static final String ENGINE = "engine";
+    public static final String FUEL_TYPE = "fuel_type";
+    public static final String STATE_NUMBER = "state_number";
+    public static final String VIN_CODE = "vin_code";
+    public static final String ID = "id";
 
     //Lists of entities for JSP
     public static final String CAR_BRAND_LIST = "carBrandsList";
+    public static final String CAR_LIST = "carList";
     public static final String FUEL_TYPES_LIST = "fuelTypesList";
     public static final String TRANSMISSION_LIST = "transmissionList";
+    public static final String BODY_STYLE_LIST = "bodyStyleList";
 }

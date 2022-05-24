@@ -35,7 +35,7 @@ public class Validator {
         return isValid;
     }
     /**
-     * Validates Car Brand Entity
+     * Validates Entity
      * @param entity
      * @param errorList - here will be placed errors if brand is not valid
      * @return true if valid, false if not

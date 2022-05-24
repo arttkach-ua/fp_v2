@@ -30,15 +30,16 @@
                 <c:forEach items="${carList}" var="car">
                     <tr>
                         <td>${car.getID()}</td>
-                        <td><fmt:message key="${car.getCarClass()}"/></td>
+                        <%--<td><fmt:message key="${car.getCarClass()}"/></td>--%>
+                        <td>${car.getCarClass()}</td>
                         <td>${car.getBrand().getCarBrandName()}</td>
-                        <td>${car.getModel()}</td>
-                        <td>${car.getYear()}</td>
+                        <td>${car.getModel().getModelName()}</td>
+                        <td>${car.getGraduationYear()}</td>
                         <td>${car.getEngine()}</td>
                         <td>${car.getTransmission()}</td>
-                        <td>${car.fuelType()}</td>
-                        <td>${car.getBrand().getCarBrandName()}</td>
-                        <td>${carBrand.getModelName()}</td>
+                        <td>${car.getFuelType()}</td>
+                        <td>${car.getVinCode()}</td>
+                        <td>${car.getStateNumber()}</td>
                     </tr>
                 </c:forEach>
             </table>

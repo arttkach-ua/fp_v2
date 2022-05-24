@@ -52,6 +52,7 @@ public class CommandFactory{
         commands.put("openNewCarPage", new OpenNewCarPage());
         commands.put("addNewCarBrand", new AddNewCarBrand());
         commands.put("addNewCarModel", new AddNewCarModel());
+        commands.put("addNewCar", new AddNewCar());
 
         //manager commands
 

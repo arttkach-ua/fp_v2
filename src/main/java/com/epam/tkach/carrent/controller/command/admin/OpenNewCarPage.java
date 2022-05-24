@@ -5,6 +5,7 @@ import com.epam.tkach.carrent.controller.Path;
 import com.epam.tkach.carrent.controller.command.ICommand;
 import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.model.entity.CarBrand;
+import com.epam.tkach.carrent.model.entity.enums.BodyStyles;
 import com.epam.tkach.carrent.model.entity.enums.FuelTypes;
 import com.epam.tkach.carrent.model.entity.enums.TransmissionTypes;
 import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
@@ -30,6 +31,7 @@ public class OpenNewCarPage implements ICommand {
         request.setAttribute(PageParameters.CAR_BRAND_LIST, brandList);
         request.setAttribute(PageParameters.FUEL_TYPES_LIST, FuelTypes.values());
         request.setAttribute(PageParameters.TRANSMISSION_LIST, TransmissionTypes.values());
+        request.setAttribute(PageParameters.BODY_STYLE_LIST, BodyStyles.values());
         return Path.PAGE_ADD_CAR;
     }
 }

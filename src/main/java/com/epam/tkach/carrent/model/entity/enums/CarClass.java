@@ -4,9 +4,7 @@ public enum CarClass {
     ECONOMY(1),
     MIDDLE(2),
     BUSINESS(3),
-    PREMIUM(4),
-    SUV(5),
-    MINIVAN(6);
+    PREMIUM(4);
 
     private int value;
     private CarClass(int value){
@@ -23,8 +21,6 @@ public enum CarClass {
             case 2: return MIDDLE;
             case 3: return BUSINESS;
             case 4: return PREMIUM;
-            case 5: return SUV;
-            case 6: return MINIVAN;
         }
         return null;
     }

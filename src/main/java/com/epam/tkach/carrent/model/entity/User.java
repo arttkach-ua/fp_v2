@@ -63,7 +63,7 @@ public class User extends Entity implements Serializable {
     }
 
     //Constructors
-    public User(long ID, String email, String firstName, String secondName, String phone, String documentInfo, String password, Role role, boolean blocked) {
+    public User(int ID, String email, String firstName, String secondName, String phone, String documentInfo, String password, Role role, boolean blocked) {
         this.ID = ID;
         this.email = email;
         this.firstName = firstName;
