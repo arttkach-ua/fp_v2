@@ -1,8 +1,7 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="ua"/>
 <fmt:setBundle basename="localization"/>
-<%--<c:set value="${sessionScope.get(\"locale\").language}" var="lang"  scope="page"/>--%>
+
 <html lang="en">
 <%@ include file="/WEB-INF/jsp/head.jsp" %>
 <body>

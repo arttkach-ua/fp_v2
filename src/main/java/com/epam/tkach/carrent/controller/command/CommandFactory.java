@@ -1,7 +1,7 @@
 package com.epam.tkach.carrent.controller.command;
 
 import com.epam.tkach.carrent.controller.command.admin.*;
-import com.epam.tkach.carrent.controller.command.common.I18N;
+import com.epam.tkach.carrent.controller.command.common.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -35,9 +35,11 @@ public class CommandFactory{
      */
     static {
         //all users access commands
-        //commands.put("login", new LoginCommand());
-        //commands.put("logout", new LogoutCommand());
-        //commands.put("setLocale", new setLocale());
+        commands.put("openLoginForm", new OpenLoginForm());
+        commands.put("openRegisterForm", new OpenRegisterForm());
+        commands.put("login", new Login());
+        commands.put("logout", new LogOut());
+        commands.put("register", new CreateNewUser());
         commands.put("i18n", new I18N());
         commands.put("redirect", null);
         commands.put("carList", new ShowCarList());

@@ -72,10 +72,9 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
 
         final String QUERY = "select id,brand from car_brands where id=?";
         CarBrand carBrand = null;
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection con = null;
         PreparedStatement pstmt = null;
-        ResultSet rs;
+        ResultSet rs = null;
 
         try{
             con = connectionPool.getConnection();
@@ -89,7 +88,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
             logger.error("Error in addUser method", ex);
             throw new CarBrandRepoException(ex);
         } finally {
-            connectionPool.close(con, pstmt,null);
+            connectionPool.close(con, pstmt,rs);
         }
         return Optional.of(carBrand);
     }
@@ -99,7 +98,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
         final String QUERY = "insert into car_brands(brand) values(?)";
         boolean success = false;
         PreparedStatement pstmt = null;
-        ResultSet rs;
+        ResultSet rs = null;
         try{
             con = connectionPool.getConnection();
             pstmt = con.prepareStatement(QUERY);
@@ -110,7 +109,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
             logger.error("Error in addNew method", ex);
             throw new CarBrandRepoException(ex);
         } finally {
-            connectionPool.close(con, pstmt,null);
+            connectionPool.close(con, pstmt,rs);
         }
 
         return success;
@@ -121,7 +120,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
         final String QUERY = "select car_brands.id, car_brands.brand from car_brands where car_brands.brand=?";
         CarBrand carBrand = null;
         PreparedStatement pstmt = null;
-        ResultSet rs;
+        ResultSet rs = null;
 
         try{
             con = connectionPool.getConnection();
@@ -135,7 +134,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
             logger.error("Error in addUser method", ex);
             throw new CarBrandRepoException(ex);
         } finally {
-            connectionPool.close(con, pstmt,null);
+            connectionPool.close(con, pstmt,rs);
         }
         return Optional.ofNullable(carBrand);
     }
@@ -145,7 +144,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
         final String QUERY = "select id,brand from car_brands order by brand";
         ArrayList<CarBrand> list= new ArrayList();
         Statement stmt = null;
-        ResultSet rs;
+        ResultSet rs = null;
 
         try{
             con = connectionPool.getConnection();
@@ -158,7 +157,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
             logger.error("Error in getAll method", ex);
             throw new CarBrandRepoException(ex);
         } finally {
-            connectionPool.close(con, stmt,null);
+            connectionPool.close(con, stmt,rs);
         }
 
         return list;

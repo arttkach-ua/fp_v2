@@ -18,6 +18,13 @@ public class PageParameters {
     public static final String STATE_NUMBER = "state_number";
     public static final String VIN_CODE = "vin_code";
     public static final String ID = "id";
+    public static final String EMAIL = "email";
+    public static final String PASSWORD = "password";
+    public static final String FIRST_NAME = "first_name";
+    public static final String SECOND_NAME = "second_name";
+    public static final String PHONE_NUMBER = "phone_number";
+    public static final String DOCUMENT = "document";
+    public static final String ROLE = "role";
 
     //Lists of entities for JSP
     public static final String CAR_BRAND_LIST = "carBrandsList";

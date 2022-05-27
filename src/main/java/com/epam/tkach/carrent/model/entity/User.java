@@ -1,16 +1,27 @@
 package com.epam.tkach.carrent.model.entity;
 
+import com.epam.tkach.carrent.controller.Messages;
+import com.epam.tkach.carrent.model.entity.enums.Role;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class User extends Entity implements Serializable {
+    @Email(message = Messages.INVALID_EMAIL)
     private String email;
+    @Size(min = 2, message = Messages.ERROR_SHORT_FIRST_NAME)
     private String firstName;
+    @Size(min = 2, message = Messages.ERROR_SHORT_SECOND_NAME)
     private String secondName;
+    @Size(min = 2, message = Messages.INVALID_PHONE)
     private String phone;
+    @Size(min = 2, message = Messages.INVALID_DOCUMENT)
     private String documentInfo;
     private String password;
     private Role role;
     private boolean blocked;
+
 
     //region Setters
     public void setPhone(String phone) {
@@ -34,7 +45,9 @@ public class User extends Entity implements Serializable {
     public void setRole(Role role) {
         this.role = role;
     }
-
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
     //Getters
 
     public String getPhone() {
@@ -58,7 +71,7 @@ public class User extends Entity implements Serializable {
     public Role getRole() {
         return role;
     }
-    public boolean isBlocked() {
+    public boolean getBlocked() {
         return blocked;
     }
 
@@ -75,33 +88,21 @@ public class User extends Entity implements Serializable {
         this.blocked = blocked;
     }
 
-    enum Role{
-        ADMIN,
-        MANAGER,
-        CLIENT,
-        UNDEFINED;
-
-        @Override
-        public String toString() {
-            switch (this){
-                case ADMIN: return "admin";
-                case CLIENT: return "client";
-                case MANAGER: return "manager";
-                default: return "undefined";
-            }
-        }
-        public static Role getValueByName(String name){
-            Role valueToReturn;
-            if (name==null) return UNDEFINED;
-
-            switch (name){
-                case "admin": valueToReturn = ADMIN; break;
-                case "client": valueToReturn = CLIENT; break;
-                case "manager": valueToReturn = MANAGER; break;
-                default:valueToReturn = UNDEFINED;
-            }
-            return valueToReturn;
-        }
+    public User() {
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", documentInfo='" + documentInfo + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", blocked=" + blocked +
+                ", ID=" + ID +
+                '}';
+    }
 }

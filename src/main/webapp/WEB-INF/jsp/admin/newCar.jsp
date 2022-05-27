@@ -1,12 +1,12 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="ua"/>
+
 <fmt:setBundle basename="localization"/>
 
 <html lang="en">
 <%@ include file="/WEB-INF/jsp/head.jsp" %>
 <body>
-<%@ include file="/WEB-INF/navigation/admin_navbar.jsp" %>
+<%@ include file="/WEB-INF/navigation/navbar.jsp" %>
 <!--New car form -->
 <div class="container">
     <div class="row justify-content-center">

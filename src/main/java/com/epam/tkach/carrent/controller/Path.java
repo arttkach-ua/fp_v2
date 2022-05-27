@@ -13,7 +13,8 @@ public class Path {
 
     //pages
     public static final String PAGE_INDEX = "/index.jsp";
-    public static final String PAGE_LOGIN = "/login.jsp";
+    public static final String PAGE_LOGIN = "WEB-INF/jsp/common/login.jsp";
+    public static final String PAGE_REGISTER = "WEB-INF/jsp/common/register.jsp";
     public static final String PAGE_ERROR_PAGE = "/WEB-INF/jsp/error_page.jsp";
     public static final String PAGE_SUCCESS = "/WEB-INF/jsp/success_page.jsp";
     public static final String PAGE_ALL_USERS = "/WEB-INF/jsp/all_users.jsp";

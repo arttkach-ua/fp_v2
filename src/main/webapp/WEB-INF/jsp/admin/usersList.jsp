@@ -15,7 +15,7 @@
     <br></br>
 </form>
 <!--Users list Form -->
-<form action="usersList" method="get">
+<form action="controller?action=usersList" method="get">
 <main class="m-3">
     <div class="row col-md-6">
         <table class="table table-striped table-bordered table-sm">
@@ -70,7 +70,7 @@
                         </c:when>
                         <c:otherwise>
                             <li class="page-item"><a class="page-link"
-                                                     href="usersList?recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a>
+                                                     href="controller?action=usersList?recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -78,7 +78,7 @@
 
                 <c:if test="${currentPage lt noOfPages}">
                     <li class="page-item"><a class="page-link"
-                                             href="usersList?recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}"><fmt:message key="pagination.next"/></a>
+                                             href="controller?action=usersList?recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}"><fmt:message key="pagination.next"/></a>
                     </li>
                 </c:if>
             </ul>

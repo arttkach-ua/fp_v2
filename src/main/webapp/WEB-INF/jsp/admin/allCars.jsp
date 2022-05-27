@@ -1,14 +1,13 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="ua"/>
+<%--<fmt:setLocale value="ua"/>--%>
 <fmt:setBundle basename="localization"/>
-<%--<c:set value="${sessionScope.get(\"locale\").language}" var="lang"  scope="page"/>--%>
 
 <html lang="en">
 <%@ include file="/WEB-INF/jsp/head.jsp" %>
 
 <body>
-<%@ include file="/WEB-INF/navigation/admin_navbar.jsp" %>
+<%@ include file="/WEB-INF/navigation/navbar.jsp" %>
 <!--Car list form-->
 <form action="controller?action=carList" method="get">
     <main class="m-3">

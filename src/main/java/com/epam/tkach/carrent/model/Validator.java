@@ -1,13 +1,13 @@
 package com.epam.tkach.carrent.model;
 
 import com.epam.tkach.carrent.model.entity.CarBrand;
-import com.epam.tkach.carrent.model.entity.CarModel;
 import com.epam.tkach.carrent.model.entity.Entity;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,7 +40,7 @@ public class Validator {
      * @param errorList - here will be placed errors if brand is not valid
      * @return true if valid, false if not
      */
-    public static boolean validateEntity(Entity entity, ArrayList errorList){
+    public static boolean validateEntity(Entity entity, List errorList){
         boolean isValid = true;
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         javax.validation.Validator validator = factory.getValidator();

@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="ua"/>
+
 <fmt:setBundle basename="localization"/>
 
 <html lang="en">
