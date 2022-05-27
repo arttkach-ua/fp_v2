@@ -21,6 +21,7 @@ public class User extends Entity implements Serializable {
     private String password;
     private Role role;
     private boolean blocked;
+    private byte[] salt;
 
 
     //region Setters
@@ -48,6 +49,9 @@ public class User extends Entity implements Serializable {
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
     }
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
     //Getters
 
     public String getPhone() {
@@ -74,9 +78,10 @@ public class User extends Entity implements Serializable {
     public boolean getBlocked() {
         return blocked;
     }
+    public byte[] getSalt() { return salt; }
 
     //Constructors
-    public User(int ID, String email, String firstName, String secondName, String phone, String documentInfo, String password, Role role, boolean blocked) {
+    public User(int ID, String email, String firstName, String secondName, String phone, String documentInfo, String password, Role role, boolean blocked, byte[] salt) {
         this.ID = ID;
         this.email = email;
         this.firstName = firstName;
@@ -86,6 +91,7 @@ public class User extends Entity implements Serializable {
         this.password = password;
         this.role = role;
         this.blocked = blocked;
+        this.salt = salt;
     }
 
     public User() {
@@ -103,6 +109,7 @@ public class User extends Entity implements Serializable {
                 ", role=" + role +
                 ", blocked=" + blocked +
                 ", ID=" + ID +
+                ", salt=" + salt.toString() +
                 '}';
     }
 }

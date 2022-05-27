@@ -24,7 +24,7 @@ public class UserRepoMySql implements UserRepoI {
     @Override
     public boolean addNew(User user) throws UserRepoException {
         boolean success = false;
-        final String QUERY = "insert into users(phone, password, first_name, second_name, email, document_info, role, blocked) values (?,?,?,?,?,?,?,?)";
+        final String QUERY = "insert into users(phone, password, first_name, second_name, email, document_info, role, blocked,salt) values (?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -39,6 +39,7 @@ public class UserRepoMySql implements UserRepoI {
             pstmt.setString(6,user.getDocumentInfo());
             pstmt.setInt(7,user.getRole().getValue());
             pstmt.setBoolean(8, user.getBlocked());
+            pstmt.setBytes(9, user.getSalt());
 
             pstmt.executeUpdate();
             success=true;
@@ -62,7 +63,7 @@ public class UserRepoMySql implements UserRepoI {
         if (email==null) return Optional.empty();
         if (email.length()==0) return Optional.empty();
 
-        final String QUERY = "select id, email, password, first_name, second_name, document_info, role, blocked, phone from users where email = (?)";
+        final String QUERY = "select id, email, password, first_name, second_name, document_info, role, blocked, phone, salt from users where email = (?)";
         User user = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -88,7 +89,7 @@ public class UserRepoMySql implements UserRepoI {
     public Optional<User> findByID(int id) throws UserRepoException {
         if (id<0) return Optional.empty();
 
-        final String QUERY = "select id, email, password, first_name, second_name, document_info, role, blocked, phone from users where id = (?)";
+        final String QUERY = "select id, email, password, first_name, second_name, document_info, role, blocked, phone, salt from users where id = (?)";
         User user = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -126,6 +127,8 @@ public class UserRepoMySql implements UserRepoI {
             user.setDocumentInfo(rs.getString("document_info"));
             user.setRole(Role.getByID(rs.getInt("role")));
             user.setBlocked(rs.getBoolean("blocked"));
+            user.setPassword(rs.getString("password"));
+            user.setSalt(rs.getBytes("salt"));
 
         } catch (SQLException ex) {
             logger.error(ex);

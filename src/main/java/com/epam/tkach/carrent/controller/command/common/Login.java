@@ -32,38 +32,38 @@ public class Login implements ICommand {
         CryptographyI crypto = new CryptographyPBKDF();
         HttpSession session = request.getSession();
 
-        session.setAttribute("role", Role.ADMIN);
+        //session.setAttribute("role", Role.CLIENT);
 
-        return Path.PAGE_INDEX;
+        //return Path.PAGE_INDEX;
 
-//        String login = request.getParameter(PageParameters.EMAIL);
-//        String pass = request.getParameter(PageParameters.PASSWORD);
-//        try{
-//            Optional<User> userOpt = repo.findByEmail(login);
-//            if (userOpt.isEmpty()){
-//                //User not found
-//                errorList.add(Messages.USER_NOT_FOUND);
-//                request.setAttribute(PageParameters.ERRORS,errorList);
-//                return Path.PAGE_ERROR_PAGE;
-//            }
-//            User user = userOpt.get();
-//            //Checking for valid pass
-//            boolean passIsCorrect = crypto.passIsCorrect(pass, user.getPassword());
-//            if (!passIsCorrect){
-//                errorList.add(Messages.PASS_IS_NOT_CORRECT);
-//                request.setAttribute(PageParameters.ERRORS,errorList);
-//                return Path.PAGE_ERROR_PAGE;
-//            }
-//            //Pass is correct.
-//            //session.setAttribute("role", user.getRole());
-//            session.setAttribute("role", Role.ADMIN);
-//            errorList.add(Messages.LOGIN_SUCCESS);
-//            request.setAttribute(PageParameters.ERRORS, errorList);
-//            return Path.PAGE_SUCCESS;
-//
-//        } catch (UserRepoException e) {
-//            logger.error(e);
-//        }
-//        return null;
+        String login = request.getParameter(PageParameters.EMAIL);
+        String pass = request.getParameter(PageParameters.PASSWORD);
+        try{
+            Optional<User> userOpt = repo.findByEmail(login);
+            if (userOpt.isEmpty()){
+                //User not found
+                errorList.add(Messages.USER_NOT_FOUND);
+                request.setAttribute(PageParameters.ERRORS,errorList);
+                return Path.PAGE_ERROR_PAGE;
+            }
+            User user = userOpt.get();
+            //Checking for valid pass
+            boolean passIsCorrect = crypto.passIsCorrect(pass, user.getSalt(), user.getPassword());
+            if (!passIsCorrect){
+                errorList.add(Messages.PASS_IS_NOT_CORRECT);
+                request.setAttribute(PageParameters.ERRORS,errorList);
+                return Path.PAGE_ERROR_PAGE;
+            }
+            //Pass is correct.
+            //session.setAttribute("role", user.getRole());
+            session.setAttribute("role", Role.ADMIN);
+            errorList.add(Messages.LOGIN_SUCCESS);
+            request.setAttribute(PageParameters.ERRORS, errorList);
+            return Path.PAGE_SUCCESS;
+
+        } catch (UserRepoException e) {
+            logger.error(e);
+        }
+        return null;
     }
 }

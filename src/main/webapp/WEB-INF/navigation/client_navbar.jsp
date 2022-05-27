@@ -20,7 +20,7 @@
         </div>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="controller?action=usersList"><fmt:message key="navbar.users"/></a>
+            <a class="nav-link" href="controller?action=my_profile"><fmt:message key="navbar.my_profile"/></a>
         </li>
         </ul>
         <div class="dropdown">

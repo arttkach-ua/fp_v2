@@ -4,7 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 public interface CryptographyI {
-    String generateStrongPasswordHash(String originalPassword) throws NoSuchAlgorithmException, InvalidKeySpecException;
+    PassGenerationResult generateStrongPasswordHash(String originalPassword, byte[] inputSalt) throws NoSuchAlgorithmException, InvalidKeySpecException;
 
-    boolean passIsCorrect(String notHashedPass, String hashedPass);
+    boolean passIsCorrect(String notHashedPass, byte[] salt, String hashedPass);
 }

@@ -7,6 +7,7 @@ import com.epam.tkach.carrent.controller.command.ICommand;
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.controller.security.CryptographyI;
+import com.epam.tkach.carrent.controller.security.PassGenerationResult;
 import com.epam.tkach.carrent.controller.security.implementation.CryptographyPBKDF;
 import com.epam.tkach.carrent.model.Validator;
 import com.epam.tkach.carrent.model.entity.User;
@@ -66,6 +67,9 @@ public class CreateNewUser implements ICommand {
         CryptographyI crypto = new CryptographyPBKDF();
         String pass = request.getParameter(PageParameters.PASSWORD);
         String role = request.getParameter(PageParameters.ROLE);
+        PassGenerationResult passGen;
+
+        logger.debug("pass:::" + pass);
 
         User user = new User();
         user.setEmail(request.getParameter(PageParameters.EMAIL));
@@ -76,7 +80,10 @@ public class CreateNewUser implements ICommand {
         user.setRole(role==null? Role.CLIENT:Role.getByID(Integer.parseInt(role)));
         try {
             if (pass != null) {
-                user.setPassword(crypto.generateStrongPasswordHash(pass));
+                passGen = crypto.generateStrongPasswordHash(pass,null);
+                user.setPassword(passGen.getGeneratedPassHash());
+                user.setSalt(passGen.getSalt());
+                logger.debug("generated:::"+user.getPassword());
             }
         }catch (NoSuchAlgorithmException | InvalidKeySpecException ex){
             logger.error(ex);
