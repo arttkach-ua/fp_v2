@@ -18,12 +18,13 @@ public class I18N implements ICommand {
 
         if (request.getParameter("ua") != null) {
             Config.set(session, fmtLocale, Path.LOCALE_NAME_UA);
-            session.setAttribute(defaultLocale, "ru");
+            session.setAttribute(defaultLocale, "ua");
 
         } else {
             Config.set(session, fmtLocale, "en");
             session.setAttribute(defaultLocale, Path.LOCALE_NAME_EN);
         }
         return "";
+        //return request.getHeader("referer") - откуда пришли;
     }
 }
