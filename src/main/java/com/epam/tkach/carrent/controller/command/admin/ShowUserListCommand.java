@@ -2,13 +2,8 @@ package com.epam.tkach.carrent.controller.command.admin;
 
 import com.epam.tkach.carrent.controller.*;
 import com.epam.tkach.carrent.controller.command.ICommand;
-import com.epam.tkach.carrent.controller.exceptions.CarModelRepoException;
 import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
-import com.epam.tkach.carrent.model.entity.Car;
-import com.epam.tkach.carrent.model.entity.CarModel;
 import com.epam.tkach.carrent.model.entity.User;
-import com.epam.tkach.carrent.model.repository.CarModelRepoI;
-import com.epam.tkach.carrent.model.repository.MySqlImp.CarModelRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.UserRepoMySql;
 import com.epam.tkach.carrent.model.repository.UserRepoI;
 import org.apache.logging.log4j.LogManager;
@@ -46,9 +41,9 @@ public class ShowUserListCommand implements ICommand {
                     .limit(recordsPerPage)
                     .collect(Collectors.toList());
 
-            logger.debug("Skips:::" + countOfSkips);
-            logger.debug("List size:::" + list.size());
-            logger.debug("nOfPages:::" + nOfPages);
+            logger.debug("Skips:::%i",countOfSkips);
+            logger.debug("List size:::%i",list.size());
+            logger.debug("nOfPages:::%i",nOfPages);
 
             request.setAttribute(PageParameters.NO_OF_PAGES, nOfPages);
             request.setAttribute(PageParameters.CURRENT_PAGE, currentPage);
@@ -57,7 +52,7 @@ public class ShowUserListCommand implements ICommand {
             request.setAttribute(PageParameters.USER_NAME, searchParam);
         } catch (UserRepoException e) {
             logger.error(e);
-            List<String> errorList = new ArrayList();
+            List<String> errorList = new ArrayList<>();
             errorList.add(Messages.ERROR_DATABASE_ERROR);
             request.setAttribute(PageParameters.ERRORS, errorList);
             return Path.PAGE_ERROR_PAGE;
