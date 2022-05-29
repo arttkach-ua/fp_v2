@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/jsp/head.jsp" %>
 
 <body>
-<%@ include file="/WEB-INF/navigation/common_navbar.jsp" %>
+<%@ include file="/WEB-INF/navigation/navbar.jsp" %>
 <main class="my-form">
     <div class="cotainer">
         <div class="row justify-content-center">
@@ -74,6 +74,23 @@
 
                             </div>
 
+                            <c:choose>
+                                <c:when test = "${sessionScope.role == 'ADMIN'}">
+                                    <div class="form-group row">
+                                        <label for="role" class="col-md-4 col-form-label text-md-right"><fmt:message key="role"/></label>
+                                        <div class="col-md-6">
+                                            <select class="form-control" id="role" name="role">
+                                                <c:forEach items="${rolesList}" var="role">
+                                                    <option value=${role.getValue()}>
+                                                        <fmt:message key="${role}"/>
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </c:when>
+                            </c:choose>
 
                             <div class = "form-group row">
                                 <div class="form-check form-check-inline col-md-4">
