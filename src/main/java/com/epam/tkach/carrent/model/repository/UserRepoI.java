@@ -5,6 +5,7 @@ import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.model.entity.CarBrand;
 import com.epam.tkach.carrent.model.entity.User;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -40,7 +41,30 @@ public interface UserRepoI {
      * @return
      * @throws UserRepoException
      */
-
     Optional<User> findByID(int id) throws UserRepoException;
+    /**
+     * Method deletes user from dataBase
+     * @param user - statement of User Class
+     * @return true if success, false if not deleted
+     * @throws UserRepoException
+     */
+    boolean delete(User user) throws UserRepoException;
+    /**
+     * Method deletes user from dataBase
+     * @param id - id of user in DataBase
+     * @return true if success, false if not deleted
+     * @throws UserRepoException
+     */
+    boolean delete(int id) throws UserRepoException;
 
+    /**
+     * Method searches users un DB with limit
+     * @param currentPage
+     * @param recordsPerPage
+     * @return
+     * @throws UserRepoException
+     */
+    List<User> getListForPagination(int currentPage, int recordsPerPage) throws UserRepoException;
+
+    List<User> getAll() throws UserRepoException;
 }

@@ -45,7 +45,6 @@ public class CommandFactory{
         commands.put("carList", new ShowCarList());
 
         //admin commands
-        //commands.put("allUsers", new ShowUserListCommand());
         commands.put("usersList", new ShowUserListCommand());
         commands.put("carBrands", new ShowCarBrands());
         commands.put("carModels", new ShowCarModels());
@@ -55,6 +54,8 @@ public class CommandFactory{
         commands.put("addNewCarBrand", new AddNewCarBrand());
         commands.put("addNewCarModel", new AddNewCarModel());
         commands.put("addNewCar", new AddNewCar());
+        commands.put("setUserBlock", new SetUserBlock());
+        //commands.put("addNewUser", new OpenRegisterForm());
 
         //manager commands
 

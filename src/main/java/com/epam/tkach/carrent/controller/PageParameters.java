@@ -25,6 +25,9 @@ public class PageParameters {
     public static final String PHONE_NUMBER = "phone_number";
     public static final String DOCUMENT = "document";
     public static final String ROLE = "role";
+    public static final String RECEIVE_NOTIFICATIONS = "receiveNotifications";
+    public static final String USER_NAME = "userName";
+    public static final String NEW_VALUE = "newValue";
 
     //Lists of entities for JSP
     public static final String CAR_BRAND_LIST = "carBrandsList";
@@ -32,4 +35,6 @@ public class PageParameters {
     public static final String FUEL_TYPES_LIST = "fuelTypesList";
     public static final String TRANSMISSION_LIST = "transmissionList";
     public static final String BODY_STYLE_LIST = "bodyStyleList";
+    public static final String USERS_LIST = "usersList";
+    public static final String CAR_MODEL_LIST = "carModelsList";
 }

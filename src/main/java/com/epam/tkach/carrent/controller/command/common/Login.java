@@ -8,7 +8,6 @@ import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.controller.security.CryptographyI;
 import com.epam.tkach.carrent.controller.security.implementation.CryptographyPBKDF;
 import com.epam.tkach.carrent.model.entity.User;
-import com.epam.tkach.carrent.model.entity.enums.Role;
 import com.epam.tkach.carrent.model.repository.MySqlImp.UserRepoMySql;
 import com.epam.tkach.carrent.model.repository.UserRepoI;
 import org.apache.logging.log4j.LogManager;
@@ -32,10 +31,6 @@ public class Login implements ICommand {
         CryptographyI crypto = new CryptographyPBKDF();
         HttpSession session = request.getSession();
 
-        //session.setAttribute("role", Role.CLIENT);
-
-        //return Path.PAGE_INDEX;
-
         String login = request.getParameter(PageParameters.EMAIL);
         String pass = request.getParameter(PageParameters.PASSWORD);
         try{
@@ -55,8 +50,7 @@ public class Login implements ICommand {
                 return Path.PAGE_ERROR_PAGE;
             }
             //Pass is correct.
-            //session.setAttribute("role", user.getRole());
-            session.setAttribute("role", Role.ADMIN);
+            session.setAttribute("role", user.getRole());
             errorList.add(Messages.LOGIN_SUCCESS);
             request.setAttribute(PageParameters.ERRORS, errorList);
             return Path.PAGE_SUCCESS;

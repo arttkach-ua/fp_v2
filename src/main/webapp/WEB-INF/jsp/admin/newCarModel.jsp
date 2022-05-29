@@ -5,7 +5,7 @@
 <html lang="en">
 <%@ include file="/WEB-INF/jsp/head.jsp" %>
 <body>
-<%@ include file="/WEB-INF/navigation/admin_navbar.jsp" %>
+<%@ include file="/WEB-INF/navigation/navbar.jsp" %>
 <!--New car brand list form -->
 <div class="container">
     <div class="row justify-content-center">

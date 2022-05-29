@@ -32,4 +32,10 @@ public class RequestReader {
         }
         return value;
     }
+
+    public static boolean readBooleanFromRequest(HttpServletRequest request, String param){
+        boolean value = false;
+        if (request.getParameter(param)!=null&&request.getParameter(param).toLowerCase().equals("true")) value = true;
+        return value;
+    }
 }

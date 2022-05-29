@@ -74,6 +74,14 @@
 
                             </div>
 
+
+                            <div class = "form-group row">
+                                <div class="form-check form-check-inline col-md-4">
+                                    <input class="form-check-input" type="checkbox" id="receiveNotifications" value="receiveNotifications" name = "receiveNotifications">
+                                    <label class="form-check-label" for="receiveNotifications"><fmt:message key="receive_notifications"/></label>
+                                </div>
+                            </div>
+
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary" id="submit">
                                     <fmt:message key="register"/>

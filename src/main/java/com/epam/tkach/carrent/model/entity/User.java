@@ -22,6 +22,7 @@ public class User extends Entity implements Serializable {
     private Role role;
     private boolean blocked;
     private byte[] salt;
+    boolean receiveNotifications;
 
 
     //region Setters
@@ -52,6 +53,9 @@ public class User extends Entity implements Serializable {
     public void setSalt(byte[] salt) {
         this.salt = salt;
     }
+    public void setReceiveNotifications(boolean receiveNotifications) {
+        this.receiveNotifications = receiveNotifications;
+    }
     //Getters
 
     public String getPhone() {
@@ -79,6 +83,9 @@ public class User extends Entity implements Serializable {
         return blocked;
     }
     public byte[] getSalt() { return salt; }
+    public boolean isReceiveNotifications() {
+        return receiveNotifications;
+    }
 
     //Constructors
     public User(int ID, String email, String firstName, String secondName, String phone, String documentInfo, String password, Role role, boolean blocked, byte[] salt) {

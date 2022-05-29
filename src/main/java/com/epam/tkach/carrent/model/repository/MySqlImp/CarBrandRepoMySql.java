@@ -23,7 +23,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
         final String SELECT_CAR_BRANDS_WITH_LIMIT_QUERY = "select id, brand from car_brands limit ?,?";
         List<CarBrand> carBrandList= new ArrayList<>();
         PreparedStatement pstmt = null;
-        ResultSet rs;
+        ResultSet rs = null;
 
         try{
             con = connectionPool.getConnection();
@@ -39,7 +39,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
             logger.error("Error in addUser method", ex);
             throw new CarBrandRepoException(ex);
         } finally {
-            connectionPool.close(con, pstmt,null);
+            connectionPool.close(con, pstmt,rs);
         }
         return carBrandList;
     }

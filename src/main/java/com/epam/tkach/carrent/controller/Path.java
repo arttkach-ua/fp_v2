@@ -1,5 +1,9 @@
 package com.epam.tkach.carrent.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class contains all pages of web application
  * created for easier access to pages url
@@ -17,7 +21,7 @@ public class Path {
     public static final String PAGE_REGISTER = "WEB-INF/jsp/common/register.jsp";
     public static final String PAGE_ERROR_PAGE = "/WEB-INF/jsp/error_page.jsp";
     public static final String PAGE_SUCCESS = "/WEB-INF/jsp/success_page.jsp";
-    public static final String PAGE_ALL_USERS = "/WEB-INF/jsp/all_users.jsp";
+    public static final String PAGE_ALL_USERS = "/WEB-INF/jsp/admin/usersList.jsp";
     public static final String PAGE_ALL_CAR_BRANDS = "/WEB-INF/jsp/admin/carBrands.jsp";
     public static final String PAGE_ALL_CAR_MODELS = "/WEB-INF/jsp/admin/carModels.jsp";
     public static final String PAGE_ALL_CARS = "/WEB-INF/jsp/admin/allCars.jsp";
@@ -39,4 +43,17 @@ public class Path {
     //common commands
     public static final String COMMAND_LOGIN = "com/epam/tkach/carrent/controller";
     public static final String COMMAND_LOGOUT = "com/epam/tkach/carrent/controller";
+
+    /**
+     * Method sets to request error message and returns error page
+     * @param request - HttpServletRequest
+     * @param errorMessage - message that will be shown to user
+     * @return Error page
+     */
+    public static final String prepareErrorPage(HttpServletRequest request, String errorMessage){
+        List<String> errorList = new ArrayList();
+        errorList.add(errorMessage);
+        request.setAttribute(PageParameters.ERRORS,errorList);
+        return Path.PAGE_ERROR_PAGE;
+    }
 }

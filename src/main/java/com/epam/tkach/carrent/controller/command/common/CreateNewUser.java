@@ -3,6 +3,7 @@ package com.epam.tkach.carrent.controller.command.common;
 import com.epam.tkach.carrent.controller.Messages;
 import com.epam.tkach.carrent.controller.PageParameters;
 import com.epam.tkach.carrent.controller.Path;
+import com.epam.tkach.carrent.controller.RequestReader;
 import com.epam.tkach.carrent.controller.command.ICommand;
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
@@ -77,6 +78,7 @@ public class CreateNewUser implements ICommand {
         user.setSecondName(request.getParameter(PageParameters.SECOND_NAME));
         user.setPhone(request.getParameter(PageParameters.PHONE_NUMBER));
         user.setDocumentInfo(request.getParameter(PageParameters.DOCUMENT));
+        user.setReceiveNotifications(RequestReader.readBooleanFromRequest(request,PageParameters.RECEIVE_NOTIFICATIONS));
         user.setRole(role==null? Role.CLIENT:Role.getByID(Integer.parseInt(role)));
         try {
             if (pass != null) {
