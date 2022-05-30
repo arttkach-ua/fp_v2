@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 public class AddNewCar implements ICommand {
-    private static final Logger logger = LogManager.getLogger(AddNewCarBrand.class);
+    private static final Logger logger = LogManager.getLogger(AddNewCar.class);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         CarRepoI carRepo = new CarRepoMySql();
@@ -77,6 +77,7 @@ public class AddNewCar implements ICommand {
 
         String stateNumber = request.getParameter(PageParameters.STATE_NUMBER);
         String vinCode = request.getParameter(PageParameters.VIN_CODE);
+        Double price = RequestReader.readDoubleFromRequest(request, PageParameters.PRICE);
 
         try {
             brand = brandRepo.findByID(brandID).orElse(null);
@@ -86,7 +87,7 @@ public class AddNewCar implements ICommand {
             logger.error(ex);
         }
 
-        Car car = new Car(brand,model,model.getCarClass(),year,bodyStyle,transmission,fuel_type,stateNumber,vinCode, engine);
+        Car car = new Car(brand,model,model.getCarClass(),year,bodyStyle,transmission,fuel_type,stateNumber,vinCode, engine, price);
         return car;
     }
 

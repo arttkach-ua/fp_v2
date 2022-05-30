@@ -1,6 +1,8 @@
 package com.epam.tkach.carrent.controller;
 
 public class PageParameters {
+    private PageParameters() {
+    }
     public static final String CURRENT_PAGE = "currentPage";
     public static final String NO_OF_PAGES = "noOfPages";
     public static final String RECORD_PER_PAGE = "recordsPerPage";
@@ -28,6 +30,7 @@ public class PageParameters {
     public static final String RECEIVE_NOTIFICATIONS = "receiveNotifications";
     public static final String USER_NAME = "userName";
     public static final String NEW_VALUE = "newValue";
+    public static final String PRICE = "price";
 
     //Lists of entities for JSP
     public static final String CAR_BRAND_LIST = "carBrandsList";

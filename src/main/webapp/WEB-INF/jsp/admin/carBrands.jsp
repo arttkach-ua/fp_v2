@@ -1,8 +1,10 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
+<%@ taglib prefix="ctg" uri="customtags"%>
 
 <fmt:setBundle basename="localization"/>
 
+<!DOCTYPE html>
 <html lang="en">
 <%@ include file="/WEB-INF/jsp/head.jsp" %>
 
@@ -12,28 +14,22 @@
 <form action="controller?action=carBrands" method="get">
     <main class="m-3">
         <div class="row col-md-6">
+            <ctg:CarBrandTable carBrandList="${carBrandsList}"></ctg:CarBrandTable >
+            <%--
             <table class="table table-striped table-bordered table-sm">
                 <tr>
                     <th>ID</th>
                     <th><fmt:message key="car_brand"/></th>
-                    <!--<th></th>-->
                 </tr>
 
                 <c:forEach items="${carBrandsList}" var="carBrand">
                     <tr>
                         <td>${carBrand.getID()}</td>
                         <td>${carBrand.getCarBrandName()}</td>
-                        <!--<td><a href="#" id="remove"
-                               onclick="document.getElementById('action').value = 'remove';document.getElementById('idEmployee').value = '${user.getID()}';
-
-                                       document.getElementById('employeeForm').submit();">
-                            <span class="glyphicon glyphicon-trash"/>
-                        </a>
-
-                        </td>-->
                     </tr>
                 </c:forEach>
             </table>
+            --%>
 
             <nav aria-label="Navigation for car brands">
                 <ul class="pagination">
@@ -65,7 +61,6 @@
                     </c:if>
                 </ul>
             </nav>
-
         </div>
     </main>
 </form>

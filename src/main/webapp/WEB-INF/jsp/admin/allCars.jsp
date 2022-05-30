@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 <%--<fmt:setLocale value="ua"/>--%>
 <fmt:setBundle basename="localization"/>
-
+<!DOCTYPE html>
 <html lang="en">
 <%@ include file="/WEB-INF/jsp/head.jsp" %>
 
@@ -24,6 +24,7 @@
                     <th><fmt:message key="fuel_type"/></th>
                     <th><fmt:message key="vin_code"/></th>
                     <th><fmt:message key="state_number"/></th>
+                    <th><fmt:message key="price_per_day"/></th>
                 </tr>
 
                 <c:forEach items="${carList}" var="car">
@@ -38,6 +39,7 @@
                         <td><fmt:message key="${car.getFuelType()}"/></td>
                         <td>${car.getVinCode()}</td>
                         <td>${car.getStateNumber()}</td>
+                        <td>${car.getPrice()}</td>
                     </tr>
                 </c:forEach>
             </table>

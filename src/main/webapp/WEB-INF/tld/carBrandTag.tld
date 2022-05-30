@@ -1,0 +1,15 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>Example TLD</short-name>
+
+    <tag>
+        <name>CarBrandTable</name>
+        <tag-class>com.epam.tkach.carrent.web.CarBrandTag</tag-class>
+
+        <attribute>
+            <name>carBrandList</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

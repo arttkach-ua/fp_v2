@@ -7,7 +7,6 @@ import com.epam.tkach.carrent.model.entity.enums.Role;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 
 public class OpenRegisterForm implements ICommand {
     @Override
@@ -15,7 +14,9 @@ public class OpenRegisterForm implements ICommand {
         HttpSession session = request.getSession(false);
         if (session != null) {
             Role role = (Role)session.getAttribute("role");
-            request.setAttribute("rolesList",Role.values());
+            if (role==Role.ADMIN) {
+                request.setAttribute("rolesList",Role.values());
+            }
         }
         return Path.PAGE_REGISTER;
     }

@@ -24,6 +24,7 @@ public class Car extends Entity{
     FuelTypes fuelType;
     String stateNumber;
     String vinCode;
+    double price;
 
     double engine;
     //Getters
@@ -66,6 +67,10 @@ public class Car extends Entity{
     public double getEngine() {
         return engine;
     }
+
+    public double getPrice() {
+        return price;
+    }
     //Setters
 
     public void setBrand(CarBrand brand) {
@@ -107,12 +112,16 @@ public class Car extends Entity{
     public void setEngine(double engine) {
         this.engine = engine;
     }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
     //Constructor
 
     public Car() {
     }
 
-    public Car(CarBrand brand, CarModel model, CarClass carClass, int graduationYear, BodyStyles bodyStyle, TransmissionTypes transmission, FuelTypes fuelType, String stateNumber, String vinCode, double engine) {
+    public Car(CarBrand brand, CarModel model, CarClass carClass, int graduationYear, BodyStyles bodyStyle, TransmissionTypes transmission, FuelTypes fuelType, String stateNumber, String vinCode, double engine, double price) {
         this.brand = brand;
         this.model = model;
         this.carClass = carClass;
@@ -123,5 +132,6 @@ public class Car extends Entity{
         this.stateNumber = stateNumber;
         this.vinCode = vinCode;
         this.engine = engine;
+        this.price = price;
     }
 }
