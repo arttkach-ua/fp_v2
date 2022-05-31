@@ -3,11 +3,12 @@
 
 <fmt:setBundle basename="localization"/>
 
+<!DOCTYPE html>
 <html lang="en">
 <%@ include file="/WEB-INF/jsp/head.jsp" %>
 <body>
-<%@ include file="/WEB-INF/navigation/admin_navbar.jsp" %>
-<!--New car brand list form -->
+<%@ include file="/WEB-INF/navigation/navbar.jsp" %>
+<!--New car brand form -->
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
