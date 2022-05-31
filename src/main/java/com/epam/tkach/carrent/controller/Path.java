@@ -28,8 +28,8 @@ public class Path {
     public static final String PAGE_ADD_CAR_BRAND = "/WEB-INF/jsp/admin/newCarBrand.jsp";
     public static final String PAGE_ADD_CAR_MODEL = "/WEB-INF/jsp/admin/newCarModel.jsp";
     public static final String PAGE_ADD_CAR = "/WEB-INF/jsp/admin/newCar.jsp";
-
-
+    public static final String PAGE_MY_PROGILE = "/WEB-INF/jsp/common/myProfile.jsp";
+    public static final String PAGE_EDIT_CAR = "/WEB-INF/jsp/admin/editCar.jsp";
 
 
 

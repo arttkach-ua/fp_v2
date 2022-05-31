@@ -13,23 +13,24 @@
     <main class="m-3">
         <div class="row col-md-6">
             <table class="table table-striped table-bordered table-sm">
+                <caption style="caption-side: top"><fmt:message key="navbar.company_cars"/></caption>
                 <tr>
-                    <th>ID</th>
-                    <th><fmt:message key="car_class"/></th>
-                    <th><fmt:message key="car_brand"/></th>
-                    <th><fmt:message key="car_model"/></th>
-                    <th><fmt:message key="year"/></th>
-                    <th><fmt:message key="engine"/></th>
-                    <th><fmt:message key="transmission"/></th>
-                    <th><fmt:message key="fuel_type"/></th>
-                    <th><fmt:message key="vin_code"/></th>
-                    <th><fmt:message key="state_number"/></th>
-                    <th><fmt:message key="price_per_day"/></th>
+                    <th scope="col">ID</th>
+                    <th scope="col"><fmt:message key="car_class"/></th>
+                    <th scope="col"><fmt:message key="car_brand"/></th>
+                    <th scope="col"><fmt:message key="car_model"/></th>
+                    <th scope="col"><fmt:message key="year"/></th>
+                    <th scope="col"><fmt:message key="engine"/></th>
+                    <th scope="col"><fmt:message key="transmission"/></th>
+                    <th scope="col"><fmt:message key="fuel_type"/></th>
+                    <th scope="col"><fmt:message key="vin_code"/></th>
+                    <th scope="col"><fmt:message key="state_number"/></th>
+                    <th scope="col"><fmt:message key="price_per_day"/></th>
                 </tr>
 
                 <c:forEach items="${carList}" var="car">
                     <tr>
-                        <td>${car.getID()}</td>
+                        <td><a href="controller?action=editCar&id=${car.getID()}">${car.getID()}</a></td>
                         <td><fmt:message key="${car.getCarClass()}"/></td>
                         <td>${car.getBrand().getCarBrandName()}</td>
                         <td>${car.getModel().getModelName()}</td>

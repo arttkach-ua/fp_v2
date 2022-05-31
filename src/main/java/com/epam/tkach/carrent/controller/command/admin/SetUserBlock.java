@@ -22,7 +22,9 @@ public class SetUserBlock implements ICommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         int id = RequestReader.readIntFromRequest(request, PageParameters.ID);
-        boolean newValue = RequestReader.readBooleanFromRequest(request, PageParameters.NEW_VALUE);
+        String param = RequestReader.readStringFromRequest(request, PageParameters.NEW_VALUE);
+        boolean newValue = "true".equals(param);
+
         UserRepoI repo = new UserRepoMySql();
 
         try {

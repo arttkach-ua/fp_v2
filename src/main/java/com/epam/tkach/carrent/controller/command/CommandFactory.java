@@ -43,6 +43,8 @@ public class CommandFactory{
         commands.put("i18n", new I18N());
         commands.put("redirect", null);
         commands.put("carList", new ShowCarList());
+        commands.put("myProfile", new OpenUserProfile());
+        commands.put("updateProfile",new UpdateProfile());
 
         //admin commands
         commands.put("usersList", new ShowUserListCommand());
@@ -55,6 +57,8 @@ public class CommandFactory{
         commands.put("addNewCarModel", new AddNewCarModel());
         commands.put("addNewCar", new AddNewCar());
         commands.put("setUserBlock", new SetUserBlock());
+        commands.put("editCar", new OpenEditCarPage());
+        commands.put("updateCar", new UpdateCar());
         //commands.put("addNewUser", new OpenRegisterForm());
 
         //manager commands

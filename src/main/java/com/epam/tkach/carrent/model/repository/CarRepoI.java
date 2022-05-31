@@ -4,6 +4,7 @@ import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.model.entity.Car;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface that contain methods with car
@@ -31,6 +32,18 @@ public interface CarRepoI {
      */
     int getCountInDB() throws CarRepoException;
 
-
+    /**
+     * Method gets car from db by ID
+     * @return Optional with car statement if found and empty if not found
+     * @throws CarRepoException
+     */
+    Optional<Car> getById(int id) throws CarRepoException;
+    /**
+     * Method that updates car record to database.
+     * Search of car must by ID field, if ID empty
+     * @return true if updated, false if not
+     * @throws CarRepoException
+     */
+    boolean update(Car car) throws CarRepoException;
 
 }

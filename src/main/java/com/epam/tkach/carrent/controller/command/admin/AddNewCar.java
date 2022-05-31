@@ -35,7 +35,7 @@ public class AddNewCar implements ICommand {
         CarRepoI carRepo = new CarRepoMySql();
         boolean success = false;
         ArrayList<String> errorList = new ArrayList();
-        Car car = createCarFromRequest(request);
+        Car car = RequestReader.createCarFromRequest(request);
         boolean isValid = Validator.validateEntity(car,errorList);
         if (isValid==false) {
             request.setAttribute(PageParameters.ERRORS, errorList);
@@ -51,44 +51,8 @@ public class AddNewCar implements ICommand {
         if (success){
             return Path.PAGE_SUCCESS;//temp
         }else{
-            errorList.add(Messages.ERROR_DATABASE_ERROR);
-            request.setAttribute(PageParameters.ERRORS, errorList);
-            return Path.PAGE_ERROR_PAGE;
+            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
         }
-    }
-
-    private Car createCarFromRequest(HttpServletRequest request){
-
-        CarBrandRepoI brandRepo = new CarBrandRepoMySql();
-        CarModelRepoI modelRepo = new CarModelRepoMySql();
-        CarBrand brand = null;
-        CarModel model = null;
-        int year = 0;
-        double engine = 0d;
-
-        int brandID = RequestReader.readIntFromRequest(request, PageParameters.CAR_BRAND);
-        int modelID = RequestReader.readIntFromRequest(request, PageParameters.CAR_MODEL);
-        year = RequestReader.readIntFromRequest(request, PageParameters.YEAR);
-        engine = RequestReader.readDoubleFromRequest(request, PageParameters.ENGINE);
-
-        BodyStyles bodyStyle = BodyStyles.getByID(RequestReader.readIntFromRequest(request, PageParameters.BODY_STYLE));
-        TransmissionTypes transmission = TransmissionTypes.getByID(RequestReader.readIntFromRequest(request, PageParameters.TRANSMISSION));
-        FuelTypes fuel_type = FuelTypes.getByID(RequestReader.readIntFromRequest(request, PageParameters.FUEL_TYPE));
-
-        String stateNumber = request.getParameter(PageParameters.STATE_NUMBER);
-        String vinCode = request.getParameter(PageParameters.VIN_CODE);
-        Double price = RequestReader.readDoubleFromRequest(request, PageParameters.PRICE);
-
-        try {
-            brand = brandRepo.findByID(brandID).orElse(null);
-            model = modelRepo.findByID(modelID).orElse(null);
-
-        } catch (CarBrandRepoException|CarModelRepoException ex) {
-            logger.error(ex);
-        }
-
-        Car car = new Car(brand,model,model.getCarClass(),year,bodyStyle,transmission,fuel_type,stateNumber,vinCode, engine, price);
-        return car;
     }
 
 

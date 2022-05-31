@@ -22,6 +22,9 @@
                 <li class="nav-item">
                         <a class="nav-link" href="controller?action=usersList"><fmt:message key="navbar.users"/></a>
                 </li>
+                <li class="nav-item">
+                <a class="nav-link" href="controller?action=myProfile"><fmt:message key="navbar.my_profile"/></a>
+                </li>
         </ul>
         <div class="dropdown">
         <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton"

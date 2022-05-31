@@ -1,9 +1,7 @@
 package com.epam.tkach.carrent.model.repository.MySqlImp;
 
-import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.model.connectionPool.ConnectionPool;
-import com.epam.tkach.carrent.model.entity.CarBrand;
 import com.epam.tkach.carrent.model.entity.User;
 import com.epam.tkach.carrent.model.entity.enums.Role;
 import com.epam.tkach.carrent.model.repository.UserRepoI;
@@ -90,7 +88,7 @@ public class UserRepoMySql implements UserRepoI {
         if (email==null) return Optional.empty();
         if (email.length()==0) return Optional.empty();
 
-        final String QUERY = "select id, email, password, first_name, second_name, document_info, role, blocked, phone, salt from users where email = (?)";
+        final String QUERY = "select id, email, password, first_name, second_name, document_info, role, blocked, phone, salt, receive_notifications from users where email = (?)";
         User user = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;

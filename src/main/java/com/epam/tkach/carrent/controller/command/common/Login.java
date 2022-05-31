@@ -27,7 +27,7 @@ public class Login implements ICommand {
 
 
         UserRepoI repo = new UserRepoMySql();
-        List<String> errorList = new ArrayList();
+        List<String> messageList = new ArrayList();
         CryptographyI crypto = new CryptographyPBKDF();
         HttpSession session = request.getSession();
 
@@ -37,22 +37,23 @@ public class Login implements ICommand {
             Optional<User> userOpt = repo.findByEmail(login);
             if (userOpt.isEmpty()){
                 //User not found
-                errorList.add(Messages.USER_NOT_FOUND);
-                request.setAttribute(PageParameters.ERRORS,errorList);
-                return Path.PAGE_ERROR_PAGE;
+                return Path.prepareErrorPage(request, Messages.USER_NOT_FOUND);
             }
             User user = userOpt.get();
             //Checking for valid pass
             boolean passIsCorrect = crypto.passIsCorrect(pass, user.getSalt(), user.getPassword());
             if (!passIsCorrect){
-                errorList.add(Messages.PASS_IS_NOT_CORRECT);
-                request.setAttribute(PageParameters.ERRORS,errorList);
-                return Path.PAGE_ERROR_PAGE;
+                return Path.prepareErrorPage(request, Messages.PASS_IS_NOT_CORRECT);
+            }
+            //User banned
+            if (user.getBlocked()){
+                return Path.prepareErrorPage(request, Messages.ERROR_USER_BLOCKED);
             }
             //Pass is correct.
             session.setAttribute("role", user.getRole());
-            errorList.add(Messages.LOGIN_SUCCESS);
-            request.setAttribute(PageParameters.ERRORS, errorList);
+            session.setAttribute(PageParameters.ID,user.getID());
+//            messageList.add(Messages.LOGIN_SUCCESS);
+//            request.setAttribute(PageParameters.ERRORS, messageList);
             return Path.PAGE_SUCCESS;
 
         } catch (UserRepoException e) {

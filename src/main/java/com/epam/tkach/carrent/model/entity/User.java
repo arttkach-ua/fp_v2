@@ -6,6 +6,7 @@ import com.epam.tkach.carrent.model.entity.enums.Role;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class User extends Entity implements Serializable {
     @Email(message = Messages.INVALID_EMAIL)
@@ -115,8 +116,9 @@ public class User extends Entity implements Serializable {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", blocked=" + blocked +
+                ", salt=" + Arrays.toString(salt) +
+                ", receiveNotifications=" + receiveNotifications +
                 ", ID=" + ID +
-                ", salt=" + salt.toString() +
                 '}';
     }
 }
