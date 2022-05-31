@@ -8,7 +8,6 @@ import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.model.entity.Car;
 import com.epam.tkach.carrent.model.repository.CarRepoI;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarRepoMySql;
-import com.epam.tkach.carrent.model.repository.MySqlImp.UserRepoMySql;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
