@@ -1,11 +1,9 @@
 package com.epam.tkach.carrent.controller;
 
-import com.epam.tkach.carrent.controller.command.admin.AddNewCarBrand;
 import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.CarModelRepoException;
-import com.epam.tkach.carrent.model.entity.Car;
-import com.epam.tkach.carrent.model.entity.CarBrand;
-import com.epam.tkach.carrent.model.entity.CarModel;
+import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
+import com.epam.tkach.carrent.model.entity.*;
 import com.epam.tkach.carrent.model.entity.enums.BodyStyles;
 import com.epam.tkach.carrent.model.entity.enums.FuelTypes;
 import com.epam.tkach.carrent.model.entity.enums.TransmissionTypes;
@@ -13,10 +11,14 @@ import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
 import com.epam.tkach.carrent.model.repository.CarModelRepoI;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarBrandRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarModelRepoMySql;
+import com.epam.tkach.carrent.model.repository.MySqlImp.UserRepoMySql;
+import com.epam.tkach.carrent.model.repository.UserRepoI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * Class used to get values from request and process errors if values are not correct
@@ -29,7 +31,7 @@ public class RequestReader {
         int value = 0;
         try{
             value = Integer.parseInt(request.getParameter(param));
-        }catch (NumberFormatException ex){
+        }catch (NumberFormatException|NullPointerException ex){
             logger.error("Failed to read "+param, ex);
         }
         return value;
@@ -39,7 +41,7 @@ public class RequestReader {
         double value = 0d;
         try{
             value = Double.parseDouble(request.getParameter(param));
-        }catch (NumberFormatException ex){
+        }catch (NumberFormatException|NullPointerException ex){
             logger.error("Failed to read "+param, ex);
         }
         return value;
@@ -94,5 +96,19 @@ public class RequestReader {
         Car car = new Car(brand,model,model.getCarClass(),year,bodyStyle,transmission,fuel_type,stateNumber,vinCode, engine, price);
         car.setID(id);
         return car;
+    }
+
+    public static Transaction CreateTopUpTransactionFromRequest(HttpServletRequest request, int id) throws UserRepoException {
+        UserRepoI repo = new UserRepoMySql();
+        Optional<User> userOpt = repo.findByID(id);
+        if (userOpt.isEmpty()) throw new UserRepoException();
+
+        Transaction transaction = new Transaction();
+        transaction.setUser(userOpt.get());
+        transaction.setTimestamp(LocalDateTime.now());
+        transaction.setDescription("User balance donation");
+        transaction.setSum(readDoubleFromRequest(request,PageParameters.SUM));
+        logger.debug(transaction.toString());
+        return transaction;
     }
 }

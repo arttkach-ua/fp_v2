@@ -31,6 +31,9 @@ public class PageParameters {
     public static final String USER_NAME = "userName";
     public static final String NEW_VALUE = "newValue";
     public static final String PRICE = "price";
+    public static final String SUM = "sum";
+    public static final String BALANCE = "balance";
+    public static final String DAYS_COUNT = "days_count";
 
     //Lists of entities for JSP
     public static final String CAR_BRAND_LIST = "carBrandsList";
@@ -40,4 +43,5 @@ public class PageParameters {
     public static final String BODY_STYLE_LIST = "bodyStyleList";
     public static final String USERS_LIST = "usersList";
     public static final String CAR_MODEL_LIST = "carModelsList";
+    public static final String CAR_CLASS_LIST = "carClassList";
 }

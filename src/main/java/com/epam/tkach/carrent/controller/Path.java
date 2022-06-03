@@ -30,15 +30,10 @@ public class Path {
     public static final String PAGE_ADD_CAR = "/WEB-INF/jsp/admin/newCar.jsp";
     public static final String PAGE_MY_PROGILE = "/WEB-INF/jsp/common/myProfile.jsp";
     public static final String PAGE_EDIT_CAR = "/WEB-INF/jsp/admin/editCar.jsp";
+    public static final String PAGE_TOP_UP = "/WEB-INF/jsp/client/TopUp.jsp";
+    public static final String PAGE_SELECT_CAR = "/WEB-INF/jsp/client/selectCarPage.jsp";
+    public static final String PAGE_CREATE_ORDER = "/WEB-INF/jsp/client/createOrder.jsp";
 
-
-
-
-    //admin commands
-
-    //client commands
-
-    //manager commands
 
     //common commands
     public static final String COMMAND_LOGIN = "com/epam/tkach/carrent/controller";

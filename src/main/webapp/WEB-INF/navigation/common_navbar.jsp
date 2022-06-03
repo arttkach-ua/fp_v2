@@ -20,7 +20,7 @@
                     </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><fmt:message key="navbar.COMMON"/></a>
+                <a class="nav-link" href="#"><fmt:message key="navbar.about_us"/></a>
             </li>
         </ul>
         <div class="dropdown">

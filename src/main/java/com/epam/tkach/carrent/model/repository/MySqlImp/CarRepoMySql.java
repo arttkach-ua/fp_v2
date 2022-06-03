@@ -28,7 +28,7 @@ public class CarRepoMySql implements CarRepoI {
 
     @Override
     public boolean addNew(Car car) throws CarRepoException {
-        final String QUERY = "insert into cars(brand_id, model_id, graduation_year, body_style_id, transmission_id, fuel_type_id, engine, vin_code, state_number,price) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        final String QUERY = "insert into cars(brand_id, model_id, graduation_year, body_style_id, transmission_id, fuel_type_id, engine, vin_code, state_number,price, driver_price) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         boolean success = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -45,6 +45,7 @@ public class CarRepoMySql implements CarRepoI {
             pstmt.setString(8,car.getVinCode());
             pstmt.setString(9,car.getStateNumber());
             pstmt.setDouble(10, car.getPrice());
+            pstmt.setDouble(11, car.getDriverPrice());
 
             pstmt.executeUpdate();
             success=true;
@@ -60,7 +61,7 @@ public class CarRepoMySql implements CarRepoI {
 
     @Override
     public List<Car> getListForPagination(int currentPage, int recordsPerPage) throws CarRepoException {
-        final String QUERY = "select id, graduation_year, body_style_id, transmission_id, fuel_type_id, engine, model_id, brand_id, vin_code, state_number, price from cars limit ?,?";
+        final String QUERY = "select id, graduation_year, body_style_id, transmission_id, fuel_type_id, engine, model_id, brand_id, vin_code, state_number, price, driver_price from cars limit ?,?";
         List<Car> carList= new ArrayList();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -107,7 +108,7 @@ public class CarRepoMySql implements CarRepoI {
 
     @Override
     public Optional<Car> getById(int id) throws CarRepoException {
-        final String QUERY = "select id, graduation_year, body_style_id, transmission_id, fuel_type_id, engine, model_id, brand_id, vin_code, state_number, price from cars where id=?";
+        final String QUERY = "select id, graduation_year, body_style_id, transmission_id, fuel_type_id, engine, model_id, brand_id, vin_code, state_number, price, driver_price from cars where id=?";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Car car = null;
@@ -132,7 +133,7 @@ public class CarRepoMySql implements CarRepoI {
 
     @Override
     public boolean update(Car car) throws CarRepoException {
-        final String QUERY = "update cars set brand_id = ?, model_id = ?, graduation_year = ?, body_style_id = ?, transmission_id = ?, fuel_type_id = ?, engine = ?, vin_code = ?, state_number = ?,price = ? where id=?";
+        final String QUERY = "update cars set brand_id = ?, model_id = ?, graduation_year = ?, body_style_id = ?, transmission_id = ?, fuel_type_id = ?, engine = ?, vin_code = ?, state_number = ?,price = ?, driver_price=? where id=?";
         boolean success = false;
         PreparedStatement pstmt = null;
         try{
@@ -148,7 +149,8 @@ public class CarRepoMySql implements CarRepoI {
             pstmt.setString(8,car.getVinCode());
             pstmt.setString(9,car.getStateNumber());
             pstmt.setDouble(10, car.getPrice());
-            pstmt.setInt(11, car.getID());
+            pstmt.setInt(12, car.getID());
+            pstmt.setDouble(11, car.getDriverPrice());
 
             pstmt.executeUpdate();
             success=true;
@@ -179,6 +181,7 @@ public class CarRepoMySql implements CarRepoI {
             car.setStateNumber(rs.getString("state_number"));
             car.setVinCode(rs.getString("vin_code"));
             car.setPrice(rs.getDouble("price"));
+            car.setDriverPrice(rs.getDouble("driver_price"));
             car.setCarClass(car.getModel().getCarClass());
         } catch (SQLException | CarModelRepoException | CarBrandRepoException ex) {
             logger.error(ex);

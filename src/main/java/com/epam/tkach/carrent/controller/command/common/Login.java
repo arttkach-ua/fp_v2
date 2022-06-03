@@ -4,11 +4,16 @@ import com.epam.tkach.carrent.controller.Messages;
 import com.epam.tkach.carrent.controller.PageParameters;
 import com.epam.tkach.carrent.controller.Path;
 import com.epam.tkach.carrent.controller.command.ICommand;
+import com.epam.tkach.carrent.controller.exceptions.TransactionException;
 import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.controller.security.CryptographyI;
 import com.epam.tkach.carrent.controller.security.implementation.CryptographyPBKDF;
+import com.epam.tkach.carrent.model.entity.Transaction;
 import com.epam.tkach.carrent.model.entity.User;
+import com.epam.tkach.carrent.model.entity.enums.Role;
+import com.epam.tkach.carrent.model.repository.MySqlImp.TransactionRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.UserRepoMySql;
+import com.epam.tkach.carrent.model.repository.TransactionRepoI;
 import com.epam.tkach.carrent.model.repository.UserRepoI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +32,7 @@ public class Login implements ICommand {
 
 
         UserRepoI repo = new UserRepoMySql();
-        List<String> messageList = new ArrayList();
+        //List<String> messageList = new ArrayList();
         CryptographyI crypto = new CryptographyPBKDF();
         HttpSession session = request.getSession();
 
@@ -52,13 +57,17 @@ public class Login implements ICommand {
             //Pass is correct.
             session.setAttribute("role", user.getRole());
             session.setAttribute(PageParameters.ID,user.getID());
+            if (user.getRole().equals(Role.CLIENT)){
+                TransactionRepoI repoTransaction = new TransactionRepoMySql();
+                session.setAttribute(PageParameters.BALANCE, repoTransaction.getUserBalance(user.getID()));
+            }
 //            messageList.add(Messages.LOGIN_SUCCESS);
 //            request.setAttribute(PageParameters.ERRORS, messageList);
             return Path.PAGE_SUCCESS;
 
-        } catch (UserRepoException e) {
+        } catch (UserRepoException | TransactionException e) {
             logger.error(e);
+            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
         }
-        return null;
     }
 }

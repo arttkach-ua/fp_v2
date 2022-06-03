@@ -1,6 +1,7 @@
 package com.epam.tkach.carrent.controller.command;
 
 import com.epam.tkach.carrent.controller.command.admin.*;
+import com.epam.tkach.carrent.controller.command.client.*;
 import com.epam.tkach.carrent.controller.command.common.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +66,11 @@ public class CommandFactory{
 
         //client commands
         //commands.put("showUserOrders", new ShowUserListCommand());
+        commands.put("openTopUpPage", new OpenTopUpPage());
+        commands.put("TopUp", new TopUp());
+        commands.put("selectCar", new OpenCarSelectPage());
+        commands.put("OpenNewOrderPage", new OpenNewOrderPage());
+        commands.put("addNewOrder", new AddNewOrder());
 
     }
 

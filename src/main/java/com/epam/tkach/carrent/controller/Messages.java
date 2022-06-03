@@ -5,6 +5,7 @@ package com.epam.tkach.carrent.controller;
  */
 public class Messages {
     public static final String ERROR_DATABASE_ERROR = "error.database_error";
+    public static final String ERROR_SESSION_ERROR = "error.session_error";
     public static final String ERROR_NULL_CAR_MODEL_NAME = "error.nullCarModelName";
     public static final String ERROR_NULL_CAR_BRAND = "error.nullCarBrand";
     public static final String ERROR_NULL_CAR_CLASS = "error.nullCarClass";
