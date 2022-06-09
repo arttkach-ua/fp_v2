@@ -1,9 +1,6 @@
 package com.epam.tkach.carrent.controller.command.common;
 
-import com.epam.tkach.carrent.controller.Messages;
-import com.epam.tkach.carrent.controller.PageParameters;
-import com.epam.tkach.carrent.controller.Path;
-import com.epam.tkach.carrent.controller.RequestReader;
+import com.epam.tkach.carrent.controller.*;
 import com.epam.tkach.carrent.controller.command.ICommand;
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
@@ -35,7 +32,9 @@ public class CreateNewUser implements ICommand {
         boolean success = false;
 
         //First step of validation
-        User user = CreateUserFromRequest(request);
+
+        User user = Mapper.createUserFromRequest(request);
+
         try {
             //Checking for existing user
             if (repo.findByEmail(user.getEmail()).isPresent()){
@@ -49,7 +48,9 @@ public class CreateNewUser implements ICommand {
                 request.setAttribute(PageParameters.ERRORS, errorList);
                 return Path.PAGE_ERROR_PAGE;
             }
-
+            //this is first registration in System
+            int countInDd = repo.getCountInDb();
+            if (countInDd==0) user.setRole(Role.ADMIN);
             success = repo.addNew(user);
         } catch (UserRepoException e) {
             errorList.add(Messages.ERROR_DATABASE_ERROR);
@@ -62,34 +63,5 @@ public class CreateNewUser implements ICommand {
             request.setAttribute(PageParameters.ERRORS, errorList);
             return Path.PAGE_ERROR_PAGE;
         }
-    }
-
-    private User CreateUserFromRequest(HttpServletRequest request){
-        CryptographyI crypto = new CryptographyPBKDF();
-        String pass = request.getParameter(PageParameters.PASSWORD);
-        String role = request.getParameter(PageParameters.ROLE);
-        PassGenerationResult passGen;
-
-        logger.debug("pass:::" + pass);
-
-        User user = new User();
-        user.setEmail(request.getParameter(PageParameters.EMAIL));
-        user.setFirstName(request.getParameter(PageParameters.FIRST_NAME));
-        user.setSecondName(request.getParameter(PageParameters.SECOND_NAME));
-        user.setPhone(request.getParameter(PageParameters.PHONE_NUMBER));
-        user.setDocumentInfo(request.getParameter(PageParameters.DOCUMENT));
-        user.setReceiveNotifications(RequestReader.readBooleanFromRequest(request,PageParameters.RECEIVE_NOTIFICATIONS));
-        user.setRole(role==null? Role.CLIENT:Role.getByID(Integer.parseInt(role)));
-        try {
-            if (pass != null) {
-                passGen = crypto.generateStrongPasswordHash(pass,null);
-                user.setPassword(passGen.getGeneratedPassHash());
-                user.setSalt(passGen.getSalt());
-                logger.debug("generated:::"+user.getPassword());
-            }
-        }catch (NoSuchAlgorithmException | InvalidKeySpecException ex){
-            logger.error(ex);
-        }
-        return user;
     }
 }

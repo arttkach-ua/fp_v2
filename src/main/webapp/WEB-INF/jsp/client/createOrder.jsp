@@ -50,17 +50,17 @@
                             <tr>
                                 <th scope="row">5</th>
                                 <td><fmt:message key="body_style"/></td>
-                                <td>${car.getBodyStyle()}</td>
+                                <td>${car.getCompleteSet().getBodyStyle()}</td>
                             </tr><!--Body style-->
                             <tr>
                                 <th scope="row">6</th>
                                 <td><fmt:message key="fuel_type"/></td>
-                                <td>${car.getFuelType()}</td>
+                                <td>${car.getCompleteSet().getFuelType()}</td>
                             </tr><!--Fuel type-->
                             <tr>
                                 <th scope="row">7</th>
                                 <td><fmt:message key="engine"/></td>
-                                <td>${car.getEngine()}</td>
+                                <td>${car.getCompleteSet().getEngine()}</td>
                             </tr><!--Engine-->
                             <tr>
                                 <th scope="row">9</th>
@@ -70,25 +70,31 @@
                             <tr>
                                 <th scope="row">10</th>
                                 <td><fmt:message key="driver"/></td>
-                                <td><input class="form-check-input" type="checkbox" id="with_driver" name="with_driver"/><fmt:message key="i_need_driver"/></td>
+                                <td><input class="form-check-input" type="checkbox" id="with_driver" name="with_driver" onchange="getSum()"/><fmt:message key="i_need_driver"/></td>
                             </tr><!--Engine-->
                             <tr>
                                 <th scope="row">11</th>
                                 <td><fmt:message key="price_per_day"/></td>
-                                <td><p id="price_per_day" name="price_per_day">${car.getPrice()}</p></td>
-                            </tr><!--Engine-->
+                                <td><p id="price_per_day" name="price_per_day">${car.getTariff().getRentPrice()}</p></td>
+                            </tr><!--Rent price-->
                             <tr>
                                 <th scope="row">12</th>
+                                <td><fmt:message key="driver_price"/></td>
+                                <td><p id="driver_price" name="driver_price">${car.getTariff().getDriverPrice()}</p></td>
+                            </tr><!--Driver price-->
+                            <tr>
+                                <th scope="row">13</th>
                                 <td><fmt:message key="days_count"/></td>
                                 <td><input type="number" value="1" step="1" class="form-control" id="days_count" name = "days_count" onchange="getSum()"></td>
                             </tr><!--DAYS-->
-                            <tr>
-                                <th scope="row">13</th>
-                                <td><fmt:message key="sum"/></td>
-                                <td><input type="number" value="${car.getPrice()}" class="form-control" id="sum" name = "sum" readonly></td>
-                            </tr><!--SUM-->
+
                             <tr>
                                 <th scope="row">14</th>
+                                <td><fmt:message key="sum"/></td>
+                                <td><input type="number" value="${car.getTariff().getDriverPrice()}" class="form-control" id="sum" name = "sum" readonly></td>
+                            </tr><!--SUM-->
+                            <tr>
+                                <th scope="row">15</th>
                                 <td><fmt:message key="document_info"/></td>
                                 <td><input type="text" value="${user.getDocumentInfo()}" class="form-control" id="document" name = "document"></td>
                             </tr><!--SUM-->

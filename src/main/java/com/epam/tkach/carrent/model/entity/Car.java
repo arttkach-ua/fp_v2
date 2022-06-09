@@ -16,20 +16,14 @@ public class Car extends Entity{
     private CarClass carClass;
     @NotNull(message = "error.nullGraduationYear")
     private int graduationYear;
-    @NotNull(message = "error.nullBodyStyle")
-    private BodyStyles bodyStyle;//!!!!!
-    @NotNull(message = "error.nullTransmissionType")
-    private TransmissionTypes transmission;
-    @NotNull(message = "error.nullFuelType")
-    private FuelTypes fuelType;
+    @NotNull
+    private CompleteSet completeSet;
     private String stateNumber;
     private String vinCode;
-    private double price;
-    private double driverPrice;
+    @NotNull(message = "error.nullTariff")
+    private Tariff tariff;
     private boolean available;
 
-
-    double engine;
     //Getters
     public CarBrand getBrand() {
         return brand;
@@ -43,30 +37,20 @@ public class Car extends Entity{
     public int getGraduationYear() {
         return graduationYear;
     }
-    public BodyStyles getBodyStyle() {
-        return bodyStyle;
-    }
-    public TransmissionTypes getTransmission() {
-        return transmission;
-    }
-    public FuelTypes getFuelType() {
-        return fuelType;
-    }
     public String getStateNumber() {
         return stateNumber;
     }
     public String getVinCode() {
         return vinCode;
     }
-    public double getEngine() {
-        return engine;
-    }
-    public double getPrice() {
-        return price;
-    }
-    public double getDriverPrice(){return driverPrice;}
     public boolean isAvailable() {
         return available;
+    }
+    public Tariff getTariff() {
+        return tariff;
+    }
+    public CompleteSet getCompleteSet() {
+        return completeSet;
     }
     //Setters
 
@@ -82,49 +66,32 @@ public class Car extends Entity{
     public void setGraduationYear(int graduationYear) {
         this.graduationYear = graduationYear;
     }
-    public void setBodyStyle(BodyStyles bodyStyle) {
-        this.bodyStyle = bodyStyle;
-    }
-    public void setTransmission(TransmissionTypes transmission) {
-        this.transmission = transmission;
-    }
-    public void setFuelType(FuelTypes fuelType) {
-        this.fuelType = fuelType;
-    }
     public void setStateNumber(String stateNumber) {
         this.stateNumber = stateNumber;
     }
     public void setVinCode(String vinCode) {
         this.vinCode = vinCode;
     }
-    public void setEngine(double engine) {
-        this.engine = engine;
-    }
-    public void setPrice(double price) {
-        this.price = price;
-    }
-    public void setDriverPrice(double driverPrice) {
-        this.driverPrice = driverPrice;
-    }
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+    public void setTariff(Tariff tariff) {
+        this.tariff = tariff;
+    }
+    public void setCompleteSet(CompleteSet completeSet) {
+        this.completeSet = completeSet;
     }
     //Constructor
 
     public Car() {
     }
 
-    public Car(CarBrand brand, CarModel model, CarClass carClass, int graduationYear, BodyStyles bodyStyle, TransmissionTypes transmission, FuelTypes fuelType, String stateNumber, String vinCode, double engine, double price) {
+    public Car(CarBrand brand, CarModel model, CarClass carClass, int graduationYear, String stateNumber, String vinCode) {
         this.brand = brand;
         this.model = model;
         this.carClass = carClass;
         this.graduationYear = graduationYear;
-        this.bodyStyle = bodyStyle;
-        this.transmission = transmission;
-        this.fuelType = fuelType;
         this.stateNumber = stateNumber;
         this.vinCode = vinCode;
-        this.engine = engine;
-        this.price = price;
     }
 }

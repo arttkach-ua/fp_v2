@@ -16,6 +16,8 @@ import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
 import com.epam.tkach.carrent.model.repository.CarRepoI;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarBrandRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarRepoMySql;
+import com.epam.tkach.carrent.model.repository.RepositoryFactory;
+import com.epam.tkach.carrent.model.service.CarBrandService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,17 +31,17 @@ public class OpenEditCarPage implements ICommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        CarBrandRepoI brandRepo = new CarBrandRepoMySql();
 
         int id = RequestReader.readIntFromRequest(request, PageParameters.ID);
-        CarRepoI repo = new CarRepoMySql();
 
         try {
+            CarRepoI repo = RepositoryFactory.getCarRepo();
             Optional<Car> carOpt = repo.getById(id);
             if (carOpt.isEmpty()) return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
             Car car = carOpt.get();
             setCarFieldsToRequest(request, car);
-            List<CarBrand> brandList = brandRepo.getAll();
+            List<CarBrand> brandList = CarBrandService.getAll();
+
             request.setAttribute(PageParameters.CAR_BRAND_LIST, brandList);
             request.setAttribute(PageParameters.FUEL_TYPES_LIST, FuelTypes.values());
             request.setAttribute(PageParameters.TRANSMISSION_LIST, TransmissionTypes.values());
@@ -47,8 +49,8 @@ public class OpenEditCarPage implements ICommand {
             return Path.PAGE_EDIT_CAR;
         } catch (CarRepoException | CarBrandRepoException e) {
             logger.error(e);
+            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
         }
-        return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
     }
 
     private void setCarFieldsToRequest(HttpServletRequest request, Car car){
@@ -56,12 +58,8 @@ public class OpenEditCarPage implements ICommand {
         request.setAttribute(PageParameters.CAR_BRAND, car.getBrand());
         request.setAttribute(PageParameters.CAR_MODEL, car.getModel());
         request.setAttribute(PageParameters.YEAR, car.getGraduationYear());
-        request.setAttribute(PageParameters.ENGINE, car.getEngine());
-        request.setAttribute(PageParameters.TRANSMISSION, car.getTransmission());
-        request.setAttribute(PageParameters.FUEL_TYPE, car.getFuelType());
         request.setAttribute(PageParameters.VIN_CODE, car.getVinCode());
         request.setAttribute(PageParameters.STATE_NUMBER, car.getStateNumber());
-        request.setAttribute(PageParameters.BODY_STYLE, car.getBodyStyle());
-        request.setAttribute(PageParameters.PRICE, car.getPrice());
+        //request.setAttribute(PageParameters.PRICE, car.getPrice());
     }
 }

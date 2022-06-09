@@ -2,13 +2,9 @@ package com.epam.tkach.carrent;
 
 import com.epam.tkach.carrent.controller.PageParameters;
 import com.epam.tkach.carrent.controller.RequestReader;
-import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.CarModelRepoException;
-import com.epam.tkach.carrent.model.entity.CarBrand;
 import com.epam.tkach.carrent.model.entity.CarModel;
-import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
 import com.epam.tkach.carrent.model.repository.CarModelRepoI;
-import com.epam.tkach.carrent.model.repository.MySqlImp.CarBrandRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarModelRepoMySql;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;

@@ -49,7 +49,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
         final String SELECT_COUNT_OF_CAR_BRANDS_QUERY = "select count(id) from car_brands";
         int countOfBrands = 0;
         Statement stmt = null;
-        ResultSet rs;
+        ResultSet rs = null;
         try{
             con = connectionPool.getConnection();
             stmt = con.createStatement();
@@ -58,10 +58,10 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
                 countOfBrands = rs.getInt(1);
             }
         } catch (SQLException ex) {
-            logger.error("Error in addUser method", ex);
+            logger.error("Error in getCountOfBrandsInDB method", ex);
             throw new CarBrandRepoException(ex);
         } finally {
-            connectionPool.close(con, stmt,null);
+            connectionPool.close(con, stmt,rs);
         }
         return countOfBrands;
     }

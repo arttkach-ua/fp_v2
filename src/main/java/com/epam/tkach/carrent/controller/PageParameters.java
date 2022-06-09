@@ -31,9 +31,16 @@ public class PageParameters {
     public static final String USER_NAME = "userName";
     public static final String NEW_VALUE = "newValue";
     public static final String PRICE = "price";
+    public static final String RENT_PRICE = "rent_price";
+    public static final String DRIVER_PRICE = "driver_price";
     public static final String SUM = "sum";
     public static final String BALANCE = "balance";
     public static final String DAYS_COUNT = "days_count";
+    public static final String TARIFF = "tariff";
+    public static final String ENTITY = "entity";
+    public static final String COMPLETE_SET = "complete_set";
+    public static final String WITH_DRIVER = "with_driver";
+
 
     //Lists of entities for JSP
     public static final String CAR_BRAND_LIST = "carBrandsList";
@@ -44,4 +51,13 @@ public class PageParameters {
     public static final String USERS_LIST = "usersList";
     public static final String CAR_MODEL_LIST = "carModelsList";
     public static final String CAR_CLASS_LIST = "carClassList";
+    public static final String TARIFF_LIST = "tariffList";
+    public static final String ENTITY_LIST = "entityList";
+    public static final String SORT_LIST = "sortList";
+    //FILTERS AND SORTING
+    public static final String SORT_FIELD = "sort_field";
+    public static final String CAR_CLASS_FILTER = "car_class_filter";
+    public static final String CAR_BRAND_FILTER = "car_brand_filter";
+    public static final String TRANSMISSION_FILTER = "transmission_filter";
+
 }

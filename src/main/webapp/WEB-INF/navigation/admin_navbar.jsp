@@ -15,12 +15,17 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="controller?action=carBrands"><fmt:message key="navbar.brands" /></a>
                         <a class="dropdown-item" href="controller?action=carModels"><fmt:message key="navbar.models" /></a>
+                        <a class="dropdown-item" href="controller?action=completeSets"><fmt:message key="navbar.completeSets" /></a>
+
                         <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="controller?action=carList"><fmt:message key="navbar.company_cars"/></a>
                 </div>
                 </li>
                 <li class="nav-item">
                         <a class="nav-link" href="controller?action=usersList"><fmt:message key="navbar.users"/></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="controller?action=tariffsList"><fmt:message key="navbar.tariffs"/></a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="controller?action=myProfile"><fmt:message key="navbar.my_profile"/></a>

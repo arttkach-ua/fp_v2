@@ -10,6 +10,8 @@ import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.model.entity.Transaction;
 import com.epam.tkach.carrent.model.repository.MySqlImp.TransactionRepoMySql;
 import com.epam.tkach.carrent.model.repository.TransactionRepoI;
+import com.epam.tkach.carrent.model.service.TariffService;
+import com.epam.tkach.carrent.model.service.TransactionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +24,6 @@ public class TopUp implements ICommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
-        TransactionRepoI repo = new TransactionRepoMySql();
 
         if (session == null) {
             logger.error("Session error");
@@ -32,8 +33,8 @@ public class TopUp implements ICommand {
         try {
             int userId = (int)session.getAttribute(PageParameters.ID);
             Transaction transaction = RequestReader.CreateTopUpTransactionFromRequest(request, userId);
-            repo.addNew(transaction);
-            session.setAttribute(PageParameters.BALANCE, repo.getUserBalance(userId));
+            TransactionService.addNew(transaction);
+            session.setAttribute(PageParameters.BALANCE, TransactionService.getUserBalance(userId));
             return Path.PAGE_SUCCESS;
         } catch (UserRepoException | TransactionException e) {
             logger.error(e);

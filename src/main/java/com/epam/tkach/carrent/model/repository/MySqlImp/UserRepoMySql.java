@@ -1,5 +1,6 @@
 package com.epam.tkach.carrent.model.repository.MySqlImp;
 
+import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.model.connectionPool.ConnectionPool;
 import com.epam.tkach.carrent.model.entity.User;
@@ -210,6 +211,28 @@ public class UserRepoMySql implements UserRepoI {
             connectionPool.close(con, stmt,rs);
         }
         return userList;
+    }
+
+    @Override
+    public int getCountInDb() throws UserRepoException {
+        final String QUERY = "select count(id) from users";
+        int countInDb = 0;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try{
+            con = connectionPool.getConnection();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(QUERY);
+            while (rs.next()){
+                countInDb = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            logger.error("Error in UserRepo.getCountInDb method", ex);
+            throw new UserRepoException(ex);
+        } finally {
+            connectionPool.close(con, stmt,rs);
+        }
+        return countInDb;
     }
 
     /**

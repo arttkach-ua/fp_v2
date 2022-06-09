@@ -67,4 +67,6 @@ public interface UserRepoI {
     List<User> getListForPagination(int currentPage, int recordsPerPage) throws UserRepoException;
 
     List<User> getAll() throws UserRepoException;
+
+    int getCountInDb() throws UserRepoException;
 }

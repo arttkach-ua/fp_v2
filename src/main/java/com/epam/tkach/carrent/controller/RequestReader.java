@@ -1,11 +1,13 @@
 package com.epam.tkach.carrent.controller;
 
-import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
-import com.epam.tkach.carrent.controller.exceptions.CarModelRepoException;
-import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
+import com.epam.tkach.carrent.controller.exceptions.*;
+import com.epam.tkach.carrent.controller.security.CryptographyI;
+import com.epam.tkach.carrent.controller.security.PassGenerationResult;
+import com.epam.tkach.carrent.controller.security.implementation.CryptographyPBKDF;
 import com.epam.tkach.carrent.model.entity.*;
 import com.epam.tkach.carrent.model.entity.enums.BodyStyles;
 import com.epam.tkach.carrent.model.entity.enums.FuelTypes;
+import com.epam.tkach.carrent.model.entity.enums.Role;
 import com.epam.tkach.carrent.model.entity.enums.TransmissionTypes;
 import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
 import com.epam.tkach.carrent.model.repository.CarModelRepoI;
@@ -13,10 +15,16 @@ import com.epam.tkach.carrent.model.repository.MySqlImp.CarBrandRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarModelRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.UserRepoMySql;
 import com.epam.tkach.carrent.model.repository.UserRepoI;
+import com.epam.tkach.carrent.model.service.CompleteSetService;
+import com.epam.tkach.carrent.model.service.TariffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -70,31 +78,40 @@ public class RequestReader {
         CarModelRepoI modelRepo = new CarModelRepoMySql();
         CarBrand brand = null;
         CarModel model = null;
+        Tariff tariff = null;
+        CompleteSet completeSet = null;
 
         int id = readIntFromRequest(request, PageParameters.ID);
         int brandID = RequestReader.readIntFromRequest(request, PageParameters.CAR_BRAND);
         int modelID = RequestReader.readIntFromRequest(request, PageParameters.CAR_MODEL);
+        int tariffID = RequestReader.readIntFromRequest(request, PageParameters.TARIFF);
+        int completeSetID = RequestReader.readIntFromRequest(request, PageParameters.COMPLETE_SET);
         int year = RequestReader.readIntFromRequest(request, PageParameters.YEAR);
-        double engine = RequestReader.readDoubleFromRequest(request, PageParameters.ENGINE);
-
-        BodyStyles bodyStyle = BodyStyles.getByID(RequestReader.readIntFromRequest(request, PageParameters.BODY_STYLE));
-        TransmissionTypes transmission = TransmissionTypes.getByID(RequestReader.readIntFromRequest(request, PageParameters.TRANSMISSION));
-        FuelTypes fuel_type = FuelTypes.getByID(RequestReader.readIntFromRequest(request, PageParameters.FUEL_TYPE));
 
         String stateNumber = request.getParameter(PageParameters.STATE_NUMBER);
         String vinCode = request.getParameter(PageParameters.VIN_CODE);
-        Double price = RequestReader.readDoubleFromRequest(request, PageParameters.PRICE);
+
 
         try {
             brand = brandRepo.findByID(brandID).orElse(null);
             model = modelRepo.findByID(modelID).orElse(null);
+            completeSet = CompleteSetService.findById(completeSetID);
+            tariff = TariffService.findById(tariffID);
 
-        } catch (CarBrandRepoException | CarModelRepoException ex) {
+        } catch (CarBrandRepoException | CarModelRepoException | CompleteSetsRepoException | TariffException ex) {
             logger.error(ex);
         }
 
-        Car car = new Car(brand,model,model.getCarClass(),year,bodyStyle,transmission,fuel_type,stateNumber,vinCode, engine, price);
+        Car car = new Car();
         car.setID(id);
+        car.setBrand(brand);
+        car.setModel(model);
+        car.setCarClass(model.getCarClass());
+        car.setGraduationYear(year);
+        car.setStateNumber(stateNumber);
+        car.setVinCode(vinCode);
+        car.setCompleteSet(completeSet);
+        car.setTariff(tariff);
         return car;
     }
 
@@ -111,4 +128,14 @@ public class RequestReader {
         logger.debug(transaction.toString());
         return transaction;
     }
+
+    public static int getUserIdFromSession(HttpServletRequest request) throws AuthenticationException {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            logger.error("Session error");
+            throw new AuthenticationException();
+        }
+        return (int)session.getAttribute(PageParameters.ID);
+    }
+
 }

@@ -1,6 +1,5 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<%--<fmt:setLocale value="ua"/>--%>
 <fmt:setBundle basename="localization"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,47 +15,67 @@
 </p>
 <div class="collapse" id="filtersCollapse">
     <div class="container-fluid">
-        Here will be filters
-        <div class="row">
-            <!--Car class filter-->
-            <div class="col-sm-2">
-                <label for="car_class_filter" class="control-label"><fmt:message key="car_class"/></label>
-                <select class="form-control" id="car_class_filter" name="car_class_filter">
-                    <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
-                    <c:forEach items="${carClassList}" var="carClass">
-                        <option value=${carClass.getValue()}>
-                            <fmt:message key="${carClass}"/>
-                        </option>
-                    </c:forEach>
-                </select>
-            </div>
-            <!--car brand filter-->
-            <div class="col-sm-2">
-                <label for="car_brand_filter" class="control-label"><fmt:message key="car_brand"/></label>
-                <select class="form-control" id="car_brand_filter" name="car_brand_filter">
-                    <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
-                    <c:forEach items="${carBrandsList}" var="carBrand">
-                        <option value=${carBrand.getID()}>${carBrand.getCarBrandName()}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <!--TransMission filter-->
-            <div class="col-sm-2">
-                <label for="transmission_filter" class="control-label"><fmt:message key="transmission"/></label>
-                <select class="form-control" id="transmission_filter" name="transmission_filter">
-                    <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
-                    <c:forEach items="${transmissionList}" var="transmission">
-                        <option value=${transmission.getValue()}>
-                            <fmt:message key="${transmission}"/>
-                        </option>
-                    </c:forEach>
-                </select>
-            </div>
-        </div>
+            <form class="form-horizontal" action="controller?action=selectCar" method="get">
+                <div class="row">
+                <input hidden name = "action" id="action" value="selectCar"/>
+                <!--Car class filter-->
+                <div class="form-group">
+                    <label for="car_class_filter" class="control-label"><fmt:message key="car_class"/></label>
+                    <select class="form-control" id="car_class_filter" name="car_class_filter">
+                        <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
+                        <c:forEach items="${carClassList}" var="carClass">
+                            <option ${car_class_filter!=null&&car_class_filter eq carClass.getValue() ? 'selected' : ''} value=${carClass.getValue()}>
+                                <fmt:message key="${carClass}"/>
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <!--car brand filter-->
+                <div class="form-group">
+                    <label for="car_brand_filter" class="control-label"><fmt:message key="car_brand"/></label>
+                    <select class="form-control" id="car_brand_filter" name="car_brand_filter">
+                        <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
+                        <c:forEach items="${carBrandsList}" var="carBrand">
+                            <option ${car_brand_filter!=null&&car_brand_filter eq carBrand.getID() ? 'selected' : ''} value=${carBrand.getID()}>${carBrand.getCarBrandName()}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <!--TransMission filter-->
+                <div class="form-group">
+                    <label for="transmission_filter" class="control-label"><fmt:message key="transmission"/></label>
+                    <select class="form-control" id="transmission_filter" name="transmission_filter">
+                        <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
+                        <c:forEach items="${transmissionList}" var="transmission">
+                            <option ${transmission_filter!=null&&transmission_filter eq transmission.getValue() ? 'selected' : ''} value=${transmission.getValue()}>
+                                <fmt:message key="${transmission}"/>
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
+                </div><!--Filters-->
+                <div class="row"><!--Sorting-->
+                    <div class="form-group">
+                        <label for="sort_field" class="control-label"><fmt:message key="sort_by"/></label>
+                        <select class="form-control" id="sort_field" name="sort_field">
+                            <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
+
+                            <c:forEach items="${sortList}" var="entity">
+                                <option ${sort_field!=null&&sort_field eq entity ? 'selected' : ''} value=${entity}>
+                                    <fmt:message key="${entity}"/>
+                                </option>
+                            </c:forEach>
+
+                        </select>
+                    </div>
+                </div><!--Sorting-->
+                <button type="submit" class="btn btn-primary">
+                    <fmt:message key="button.filter"/>
+                </button>
+            </form>
     </div>
 </div>
 <!--Car list form-->
-<form action="controller?action=carList" method="get">
+<form action="controller?action=selectCar" method="get">
     <main class="m-3">
         <div class="row col-md-6">
             <table class="table table-striped table-bordered table-sm">
@@ -73,6 +92,7 @@
                     <th scope="col"><fmt:message key="vin_code"/></th>
                     <th scope="col"><fmt:message key="state_number"/></th>
                     <th scope="col"><fmt:message key="price_per_day"/></th>
+                    <th scope="col"><fmt:message key="driver_price"/></th>
                     <th scope="col"></th>
                 </tr>
 
@@ -83,12 +103,13 @@
                         <td>${car.getBrand().getCarBrandName()}</td>
                         <td>${car.getModel().getModelName()}</td>
                         <td>${car.getGraduationYear()}</td>
-                        <td>${car.getEngine()}</td>
-                        <td><fmt:message key="${car.getTransmission()}"/></td>
-                        <td><fmt:message key="${car.getFuelType()}"/></td>
+                        <td>${car.getCompleteSet().getEngine()}</td>
+                        <td><fmt:message key="${car.getCompleteSet().getTransmission()}"/></td>
+                        <td><fmt:message key="${car.getCompleteSet().getFuelType()}"/></td>
                         <td>${car.getVinCode()}</td>
                         <td>${car.getStateNumber()}</td>
-                        <td>${car.getPrice()}</td>
+                        <td>${car.getTariff().getRentPrice()}</td>
+                        <td>${car.getTariff().getDriverPrice()}</td>
                         <td><a class="btn btn-outline-warning" href="controller?action=OpenNewOrderPage&id=${car.getID()}" role="button">Order_me</a></td>
                     </tr>
                 </c:forEach>
@@ -98,7 +119,7 @@
                 <ul class="pagination">
                     <c:if test="${currentPage != 1}">
                         <li class="page-item"><a class="page-link"
-                                                 href="controller?action=carList&recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}"><fmt:message key="pagination.previous"/></a>
+                                                 href="controller?action=selectCar&recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}&car_class_filter=${car_class_filter}&car_brand_filter=${car_brand_filter}&transmission_filter=${transmission_filter}&sort_field=${sort_field}"><fmt:message key="pagination.previous"/></a>
                         </li>
                     </c:if>
 
@@ -111,7 +132,7 @@
                             </c:when>
                             <c:otherwise>
                                 <li class="page-item"><a class="page-link"
-                                                         href="controller?action=carList&recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a>
+                                                         href="controller?action=selectCar&recordsPerPage=${recordsPerPage}&currentPage=${i}&car_class_filter=${car_class_filter}&car_brand_filter=${car_brand_filter}&transmission_filter=${transmission_filter}&sort_field=${sort_field}">${i}</a>
                                 </li>
                             </c:otherwise>
                         </c:choose>
@@ -119,7 +140,7 @@
 
                     <c:if test="${currentPage lt noOfPages}">
                         <li class="page-item"><a class="page-link"
-                                                 href="controller?action=carList&recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}"><fmt:message key="pagination.next"/></a>
+                                                 href="controller?action=selectCar&recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}&car_class_filter=${car_class_filter}&car_brand_filter=${car_brand_filter}&transmission_filter=${transmission_filter}&sort_field=${sort_field}"><fmt:message key="pagination.next"/></a>
                         </li>
                     </c:if>
                 </ul>
@@ -127,9 +148,9 @@
         </div>
     </main>
 </form>
-
+<%--
 <a class="btn btn-primary" id = "add-new-model" href="controller?action=openNewCarPage" role="button"><fmt:message key="add_new_car"/></a>
-
+--%>
 <%@ include file="/WEB-INF/navigation/footer.jsp" %>
 </body>
 </form>

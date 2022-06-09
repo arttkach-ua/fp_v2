@@ -1,5 +1,6 @@
 package com.epam.tkach.carrent.controller.command.admin;
 
+import com.epam.tkach.carrent.controller.Mapper;
 import com.epam.tkach.carrent.controller.Messages;
 import com.epam.tkach.carrent.controller.PageParameters;
 import com.epam.tkach.carrent.controller.Path;
@@ -9,6 +10,7 @@ import com.epam.tkach.carrent.model.Validator;
 import com.epam.tkach.carrent.model.entity.CarBrand;
 import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarBrandRepoMySql;
+import com.epam.tkach.carrent.model.repository.RepositoryFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,13 +22,11 @@ import java.util.Optional;
 public class AddNewCarBrand implements ICommand {
     private static final Logger logger = LogManager.getLogger(AddNewCarBrand.class);
 
-    CarBrandRepoI repo = new CarBrandRepoMySql();
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         boolean success = false;
         ArrayList<String> errorList = new ArrayList();
-        CarBrand brand = createCarBrandFromRequest(request);
+        CarBrand brand = Mapper.createCarBrandFromRequest(request);
         boolean brandIsValid = Validator.validateCarBrand(brand,errorList);
 
         if (brandIsValid==false) {
@@ -35,6 +35,7 @@ public class AddNewCarBrand implements ICommand {
         }
 
         try {
+            CarBrandRepoI repo = RepositoryFactory.getCarBrandRepo();
             //checking for existing model
             Optional<CarBrand> existingBrand = repo.findByName(request.getParameter(PageParameters.NAME));
             if (existingBrand.isEmpty()) {
@@ -55,12 +56,4 @@ public class AddNewCarBrand implements ICommand {
             return Path.PAGE_ERROR_PAGE;
         }
     }
-
-    private CarBrand createCarBrandFromRequest(HttpServletRequest request) {
-        CarBrand brand = new CarBrand();
-        brand.setCarBrandName(request.getParameter(PageParameters.NAME));
-        return brand;
-    }
-
-
 }

@@ -1,21 +1,26 @@
 package com.epam.tkach.carrent.model.repository.MySqlImp;
 
-import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
-import com.epam.tkach.carrent.controller.exceptions.CarModelRepoException;
-import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
+import com.epam.tkach.carrent.controller.Mapper;
+import com.epam.tkach.carrent.controller.RequestReader;
+import com.epam.tkach.carrent.controller.exceptions.*;
+import com.epam.tkach.carrent.model.QueryBuilder;
 import com.epam.tkach.carrent.model.connectionPool.ConnectionPool;
 import com.epam.tkach.carrent.model.entity.Car;
+import com.epam.tkach.carrent.model.entity.Order;
 import com.epam.tkach.carrent.model.entity.enums.BodyStyles;
 import com.epam.tkach.carrent.model.entity.enums.FuelTypes;
 import com.epam.tkach.carrent.model.entity.enums.TransmissionTypes;
 import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
 import com.epam.tkach.carrent.model.repository.CarModelRepoI;
 import com.epam.tkach.carrent.model.repository.CarRepoI;
+import com.epam.tkach.carrent.model.service.CompleteSetService;
+import com.epam.tkach.carrent.model.service.TariffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,32 +33,27 @@ public class CarRepoMySql implements CarRepoI {
 
     @Override
     public boolean addNew(Car car) throws CarRepoException {
-        final String QUERY = "insert into cars(brand_id, model_id, graduation_year, body_style_id, transmission_id, fuel_type_id, engine, vin_code, state_number,price, driver_price) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        final String QUERY = "insert into cars(brand_id, model_id, graduation_year, vin_code, state_number,tariff_id,complete_set_id) VALUES (?,?,?,?,?,?,?)";
         boolean success = false;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
         try{
             con = connectionPool.getConnection();
             pstmt = con.prepareStatement(QUERY);
             pstmt.setInt(1,car.getBrand().getID());
             pstmt.setInt(2,car.getModel().getID());
             pstmt.setInt(3,car.getGraduationYear());
-            pstmt.setInt(4,car.getBodyStyle().getValue());
-            pstmt.setInt(5,car.getTransmission().getValue());
-            pstmt.setInt(6,car.getFuelType().getValue());
-            pstmt.setDouble(7,car.getEngine());
-            pstmt.setString(8,car.getVinCode());
-            pstmt.setString(9,car.getStateNumber());
-            pstmt.setDouble(10, car.getPrice());
-            pstmt.setDouble(11, car.getDriverPrice());
+            pstmt.setString(4,car.getVinCode());
+            pstmt.setString(5,car.getStateNumber());
+            pstmt.setDouble(6, car.getTariff().getID());
+            pstmt.setInt(7, car.getCompleteSet().getID());
 
             pstmt.executeUpdate();
             success=true;
         }catch (SQLException ex) {
-            logger.error("Error in addNew car method", ex);
+            logger.error("Error in CarRepo.addNew car method", ex);
             throw new CarRepoException(ex);
         } finally {
-            connectionPool.close(con, pstmt,rs);
+            connectionPool.close(con, pstmt,null);
         }
 
         return success;
@@ -61,7 +61,7 @@ public class CarRepoMySql implements CarRepoI {
 
     @Override
     public List<Car> getListForPagination(int currentPage, int recordsPerPage) throws CarRepoException {
-        final String QUERY = "select id, graduation_year, body_style_id, transmission_id, fuel_type_id, engine, model_id, brand_id, vin_code, state_number, price, driver_price from cars limit ?,?";
+        final String QUERY = "select id, graduation_year, model_id, brand_id, vin_code, state_number, tariff_id, complete_set_id, available from cars limit ?,?";
         List<Car> carList= new ArrayList();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -73,7 +73,7 @@ public class CarRepoMySql implements CarRepoI {
             pstmt.setInt(2, recordsPerPage);
             rs = pstmt.executeQuery();
             while (rs.next()){
-                carList.add(createCarFromResultSet(rs));
+                carList.add(Mapper.createCarFromResultSet(rs));
             }
         } catch (SQLException ex) {
             logger.error("Error in addUser method", ex);
@@ -82,6 +82,53 @@ public class CarRepoMySql implements CarRepoI {
             connectionPool.close(con, pstmt,rs);
         }
         return carList;
+    }
+
+    @Override
+    public List<Car> getListForPagination(int currentPage, int recordsPerPage, LinkedHashMap<String, Object> filters, String orderBy) throws CarRepoException {
+        String query_ = "select cars.id,\n" +
+                "        cars.graduation_year,\n" +
+                "        cars.model_id,\n" +
+                "        cars.brand_id,\n" +
+                "        cars.vin_code,\n" +
+                "        cars.state_number,\n" +
+                "        cars.tariff_id,\n" +
+                "        cars.complete_set_id,\n" +
+                "        cs.transmission_id,\n" +
+                "        cs.body_style_id,\n" +
+                "        cs.engine,\n" +
+                "        cs.fuel_type_id,\n" +
+                "        cm.car_classes_id,\n" +
+                "        t.rent_price,\n" +
+                "        cb.brand,\n" +
+                "         cars.available from cars\n" +
+                " LEFT JOIN complete_sets cs on cars.complete_set_id = cs.id\n" +
+                " LEFT JOIN car_models cm on cars.model_id = cm.id\n" +
+                " LEFT JOIN tariffs t on cars.tariff_id = t.id\n" +
+                " LEFT JOIN car_brands cb on cm.car_brands_id = cb.id";
+
+        List<Car> entityList= new ArrayList();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try{
+            con = connectionPool.getConnection();
+            String query = QueryBuilder.buildQuery(query_, filters, orderBy, true);
+            logger.debug(query);
+            pstmt = con.prepareStatement(query);
+
+            QueryBuilder.setParamsToPreparedStatement(pstmt,true,currentPage,recordsPerPage,filters);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                entityList.add(Mapper.createCarFromResultSet(rs));
+            }
+        } catch (SQLException ex) {
+            logger.error("Error in CarRepo.getListForPaginationWithFilter method", ex);
+            throw new CarRepoException(ex);
+        } finally {
+            connectionPool.close(con, pstmt,rs);
+        }
+        return entityList;
     }
 
     @Override
@@ -107,8 +154,34 @@ public class CarRepoMySql implements CarRepoI {
     }
 
     @Override
+    public int getCountInDB(LinkedHashMap<String, Object> filters) throws CarRepoException {
+        String query_ = "select count(cars.id) from cars\n" +
+                "    LEFT JOIN complete_sets cs on cars.complete_set_id = cs.id\n" +
+                "                LEFT JOIN car_models cm on cars.model_id = cm.id";
+        int count = 0;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try{
+            con = connectionPool.getConnection();
+            String query = QueryBuilder.buildQuery(query_, filters,null, false);
+            pstmt = con.prepareStatement(query);
+            QueryBuilder.setParamsToPreparedStatement(pstmt,false,0,0,filters);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            logger.error("Error in CarReoiMySql.getCountInDB method", ex);
+            throw new CarRepoException(ex);
+        } finally {
+            connectionPool.close(con, pstmt,rs);
+        }
+        return count;
+    }
+
+    @Override
     public Optional<Car> getById(int id) throws CarRepoException {
-        final String QUERY = "select id, graduation_year, body_style_id, transmission_id, fuel_type_id, engine, model_id, brand_id, vin_code, state_number, price, driver_price from cars where id=?";
+        final String QUERY = "select id, graduation_year, model_id, brand_id, vin_code, state_number, tariff_id, complete_set_id, available from cars where id=?";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Car car = null;
@@ -119,7 +192,7 @@ public class CarRepoMySql implements CarRepoI {
             pstmt.setInt(1,id);
             rs = pstmt.executeQuery();
             while (rs.next()){
-                car = createCarFromResultSet(rs);
+                car = Mapper.createCarFromResultSet(rs);
                 break;
             }
         } catch (SQLException ex) {
@@ -133,7 +206,7 @@ public class CarRepoMySql implements CarRepoI {
 
     @Override
     public boolean update(Car car) throws CarRepoException {
-        final String QUERY = "update cars set brand_id = ?, model_id = ?, graduation_year = ?, body_style_id = ?, transmission_id = ?, fuel_type_id = ?, engine = ?, vin_code = ?, state_number = ?,price = ?, driver_price=? where id=?";
+        final String QUERY = "update cars set brand_id = ?, model_id = ?, graduation_year = ?, vin_code = ?, state_number = ?,tariff_id = ?, complete_set_id = ?, available=? where id=?";
         boolean success = false;
         PreparedStatement pstmt = null;
         try{
@@ -142,15 +215,14 @@ public class CarRepoMySql implements CarRepoI {
             pstmt.setInt(1,car.getBrand().getID());
             pstmt.setInt(2,car.getModel().getID());
             pstmt.setInt(3,car.getGraduationYear());
-            pstmt.setInt(4,car.getBodyStyle().getValue());
-            pstmt.setInt(5,car.getTransmission().getValue());
-            pstmt.setInt(6,car.getFuelType().getValue());
-            pstmt.setDouble(7,car.getEngine());
-            pstmt.setString(8,car.getVinCode());
-            pstmt.setString(9,car.getStateNumber());
-            pstmt.setDouble(10, car.getPrice());
-            pstmt.setInt(12, car.getID());
-            pstmt.setDouble(11, car.getDriverPrice());
+            pstmt.setString(4,car.getVinCode());
+            pstmt.setString(5,car.getStateNumber());
+            pstmt.setDouble(6, car.getTariff().getID());
+            pstmt.setInt(7, car.getCompleteSet().getID());
+            pstmt.setBoolean(8, car.isAvailable());
+            pstmt.setInt(9, car.getID());
+
+            logger.debug("update:::" + car.isAvailable());
 
             pstmt.executeUpdate();
             success=true;
@@ -162,30 +234,5 @@ public class CarRepoMySql implements CarRepoI {
         }
 
         return success;
-    }
-
-    private Car createCarFromResultSet(ResultSet rs){
-        Car car = null;
-        CarModelRepoI modelRepo = new CarModelRepoMySql();
-        CarBrandRepoI brandRepo = new CarBrandRepoMySql();
-        try {
-            car = new Car();
-            car.setID(rs.getInt(1));
-            car.setGraduationYear(rs.getInt(2));
-            car.setBodyStyle(BodyStyles.getByID(rs.getInt(3)));
-            car.setTransmission(TransmissionTypes.getByID(rs.getInt("transmission_id")));
-            car.setFuelType(FuelTypes.getByID(rs.getInt(5)));
-            car.setEngine(rs.getDouble(6));
-            car.setModel(modelRepo.findByID(rs.getInt("model_id")).orElse(null));
-            car.setBrand(brandRepo.findByID(rs.getInt("brand_id")).orElse(null));
-            car.setStateNumber(rs.getString("state_number"));
-            car.setVinCode(rs.getString("vin_code"));
-            car.setPrice(rs.getDouble("price"));
-            car.setDriverPrice(rs.getDouble("driver_price"));
-            car.setCarClass(car.getModel().getCarClass());
-        } catch (SQLException | CarModelRepoException | CarBrandRepoException ex) {
-            logger.error(ex);
-        }
-        return car;
     }
 }

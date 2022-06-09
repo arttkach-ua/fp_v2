@@ -13,7 +13,8 @@
                 <fmt:message key="navbar.orders" />
             </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="controller?action=myOrders"><fmt:message key="navbar.my_orders" /></a>
+                        <a class="dropdown-item" href="controller?action=ordersList"><fmt:message key="navbar.my_orders" /></a>
+                        <a class="dropdown-item" href="controller?action=invoiceList"><fmt:message key="navbar.invoices" /></a>
                         <a class="dropdown-item" href="controller?action=selectCar"><fmt:message key="navbar.new_order" /></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="controller?action=carList"><fmt:message key="navbar.company_cars"/></a>

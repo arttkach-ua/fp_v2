@@ -37,10 +37,10 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        logger.debug(req.getRequestURL().toString());
         CommandFactory commandFactory = CommandFactory.commandFactory();
         ICommand iCommand = commandFactory.getCommand(req);
         String page = iCommand.execute(req, resp);
+        logger.debug(req.getQueryString());
         RequestDispatcher dispatcher = req.getRequestDispatcher(page);
         if (!page.equals("redirect")) {
             dispatcher.forward(req, resp);

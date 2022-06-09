@@ -46,4 +46,20 @@ public class RepositoryFactory {
             throw new OrderRepoException("No realisation for selected db");
         }
     }
+
+    public static final TariffRepoI getTariffRepo() throws TariffException {
+        if (DataBaseSettings.getCurrentDBSelector().equals(DataBaseSettings.DataBaseSelector.MY_SQL)){
+            return new TariffRepoMySql();
+        }else{
+            throw new TariffException("No realisation for selected db");
+        }
+    }
+
+    public static final CompleteSetsRepoI getCompleteSetsRepo() throws CompleteSetsRepoException {
+        if (DataBaseSettings.getCurrentDBSelector().equals(DataBaseSettings.DataBaseSelector.MY_SQL)){
+            return new CompleteSetsRepoMySql();
+        }else{
+            throw new CompleteSetsRepoException("No realisation for selected db");
+        }
+    }
 }

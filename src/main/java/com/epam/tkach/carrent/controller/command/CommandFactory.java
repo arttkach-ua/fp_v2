@@ -1,8 +1,10 @@
 package com.epam.tkach.carrent.controller.command;
 
 import com.epam.tkach.carrent.controller.command.admin.*;
+import com.epam.tkach.carrent.controller.command.admin.CompleteSets.*;
 import com.epam.tkach.carrent.controller.command.client.*;
 import com.epam.tkach.carrent.controller.command.common.*;
+import com.epam.tkach.carrent.controller.command.manager.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -51,18 +53,34 @@ public class CommandFactory{
         commands.put("usersList", new ShowUserListCommand());
         commands.put("carBrands", new ShowCarBrands());
         commands.put("carModels", new ShowCarModels());
+        commands.put("tariffsList", new ShowTariffList());
         commands.put("openNewCarBrandPage", new OpenNewCarBrandPage());
         commands.put("openNewCarModelPage", new OpenNewCarModelPage());
         commands.put("openNewCarPage", new OpenNewCarPage());
         commands.put("addNewCarBrand", new AddNewCarBrand());
         commands.put("addNewCarModel", new AddNewCarModel());
+        commands.put("openNewTariffPage", new OpenNewTariffPage());
         commands.put("addNewCar", new AddNewCar());
+        commands.put("addNewTariff", new AddNewTariff());
         commands.put("setUserBlock", new SetUserBlock());
         commands.put("editCar", new OpenEditCarPage());
         commands.put("updateCar", new UpdateCar());
+        commands.put("editTariff", new OpenEditTariffPage());
+        commands.put("updateTariff", new UpdateTariff());
+        commands.put("completeSets", new ShowCompleteSets());
+        commands.put("openNewCompleteSetPage", new OpenNewCompleteSetPage());
+        commands.put("addNewCompleteSet", new AddNewCompleteSet());
+        commands.put("editCompleteSet", new OpenEditCompleteSetPage());
+        commands.put("updateCompleteSet", new UpdateCompleteSet());
+
         //commands.put("addNewUser", new OpenRegisterForm());
 
         //manager commands
+        commands.put("ConfirmOrder", new ConfirmOrder());
+        commands.put("OpenDeclineOrderPage", new OpenDeclineOrderPage());
+        commands.put("DeclineOrder", new DeclineOrder());
+        commands.put("closeOrder", new CloseOrder());
+        commands.put("closeOrderWithDamege", new CloseOrderWithDamage());
 
         //client commands
         //commands.put("showUserOrders", new ShowUserListCommand());
@@ -71,6 +89,7 @@ public class CommandFactory{
         commands.put("selectCar", new OpenCarSelectPage());
         commands.put("OpenNewOrderPage", new OpenNewOrderPage());
         commands.put("addNewOrder", new AddNewOrder());
+        commands.put("ordersList", new ShowOrders());
 
     }
 

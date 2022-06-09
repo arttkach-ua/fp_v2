@@ -17,4 +17,16 @@ public enum OrderStatuses {
     public int getValue(){
         return value;
     }
+
+    public static OrderStatuses getByID(int id){
+        switch (id){
+            case 1: return NEW;
+            case 2: return APPROVED;
+            case 3: return CANCELED;
+            case 4: return INPROGRESS;
+            case 5: return HASDAMAGE;
+            case 6: return COMPLETE;
+        }
+        return null;
+    }
 }

@@ -21,6 +21,7 @@ import com.epam.tkach.carrent.model.repository.CarRepoI;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarBrandRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarModelRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarRepoMySql;
+import com.epam.tkach.carrent.model.repository.RepositoryFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +33,7 @@ public class AddNewCar implements ICommand {
     private static final Logger logger = LogManager.getLogger(AddNewCar.class);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        CarRepoI carRepo = new CarRepoMySql();
+
         boolean success = false;
         ArrayList<String> errorList = new ArrayList();
         Car car = RequestReader.createCarFromRequest(request);
@@ -43,6 +44,7 @@ public class AddNewCar implements ICommand {
         }
 
         try {
+            CarRepoI carRepo = RepositoryFactory.getCarRepo();
             success = carRepo.addNew(car);
         } catch (CarRepoException ex) {
             success = false;

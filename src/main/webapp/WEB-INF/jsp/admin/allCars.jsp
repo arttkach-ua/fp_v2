@@ -1,6 +1,5 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<%--<fmt:setLocale value="ua"/>--%>
 <fmt:setBundle basename="localization"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +15,7 @@
                 <caption style="caption-side: top"><fmt:message key="navbar.company_cars"/></caption>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col"><fmt:message key="available"/></th>
                     <th scope="col"><fmt:message key="car_class"/></th>
                     <th scope="col"><fmt:message key="car_brand"/></th>
                     <th scope="col"><fmt:message key="car_model"/></th>
@@ -26,21 +26,24 @@
                     <th scope="col"><fmt:message key="vin_code"/></th>
                     <th scope="col"><fmt:message key="state_number"/></th>
                     <th scope="col"><fmt:message key="price_per_day"/></th>
+                    <th scope="col"><fmt:message key="driver_price"/></th>
                 </tr>
 
                 <c:forEach items="${carList}" var="car">
                     <tr>
                         <td><a href="controller?action=editCar&id=${car.getID()}">${car.getID()}</a></td>
+                        <td>${car.isAvailable()}</td>
                         <td><fmt:message key="${car.getCarClass()}"/></td>
                         <td>${car.getBrand().getCarBrandName()}</td>
                         <td>${car.getModel().getModelName()}</td>
                         <td>${car.getGraduationYear()}</td>
-                        <td>${car.getEngine()}</td>
-                        <td><fmt:message key="${car.getTransmission()}"/></td>
-                        <td><fmt:message key="${car.getFuelType()}"/></td>
+                        <td>${car.getCompleteSet().getEngine()}</td>
+                        <td><fmt:message key="${car.getCompleteSet().getTransmission()}"/></td>
+                        <td><fmt:message key="${car.getCompleteSet().getFuelType()}"/></td>
                         <td>${car.getVinCode()}</td>
                         <td>${car.getStateNumber()}</td>
-                        <td>${car.getPrice()}</td>
+                        <td>${car.getTariff().getRentPrice()}</td>
+                        <td>${car.getTariff().getDriverPrice()}</td>
                     </tr>
                 </c:forEach>
             </table>

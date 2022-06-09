@@ -1,6 +1,7 @@
 package com.epam.tkach.carrent.model.entity;
 
 import com.epam.tkach.carrent.model.entity.enums.OrderStatuses;
+import com.mysql.cj.xdevapi.DeleteStatement;
 
 import javax.validation.constraints.NotNull;
 
@@ -16,10 +17,9 @@ public class Order extends Entity{
     private double driverPrice;
     private String documents;
     private User manager;
-    private double damageSum;
     private double rentSum;
-    private String damageDescription;
     private String managerComment;
+    private boolean withDriver;
 
     //Getters
     public User getClient() {
@@ -46,17 +46,14 @@ public class Order extends Entity{
     public User getManager() {
         return manager;
     }
-    public double getDamageSum() {
-        return damageSum;
-    }
-    public String getDamageDescription() {
-        return damageDescription;
-    }
     public double getRentSum() {
         return rentSum;
     }
     public String getManagerComment() {
         return managerComment;
+    }
+    public boolean isWithDriver() {
+        return withDriver;
     }
 
     //Setters
@@ -84,21 +81,26 @@ public class Order extends Entity{
     public void setManager(User manager) {
         this.manager = manager;
     }
-    public void setDamageSum(double damageSum) {
-        this.damageSum = damageSum;
-    }
-    public void setDamageDescription(String damageDescription) {
-        this.damageDescription = damageDescription;
-    }
     public void setRentSum(double rentSum) {
         this.rentSum = rentSum;
     }
     public void setManagerComment(String managerComment) {
         this.managerComment = managerComment;
     }
+    public void setWithDriver(boolean withDriver) {
+        this.withDriver = withDriver;
+    }
     //Constructor
 
     public Order() {
+    }
+
+    public void calculateSum(){
+        if (withDriver){
+            rentSum = daysCount*(driverPrice + price);
+        }else {
+            rentSum = daysCount*price;
+        }
     }
 
 

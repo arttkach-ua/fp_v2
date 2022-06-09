@@ -13,6 +13,7 @@ public class PaginationHelper {
 
     public static int getNoOfPages(int countOfRecords, int recordsPerPage){
         if (recordsPerPage==0) return 1;
+        if (countOfRecords==0) return 1;
 
         int nOfPages = countOfRecords / recordsPerPage;
         if (countOfRecords % recordsPerPage > 0) {

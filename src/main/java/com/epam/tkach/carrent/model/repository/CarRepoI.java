@@ -3,6 +3,7 @@ package com.epam.tkach.carrent.model.repository;
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.model.entity.Car;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +27,15 @@ public interface CarRepoI {
      */
     List<Car> getListForPagination(int currentPage, int recordsPerPage) throws CarRepoException;
 
+    List<Car> getListForPagination(int currentPage, int recordsPerPage,LinkedHashMap<String, Object> filters, String orderBy) throws CarRepoException;
+
     /**
      * Method used for getting  count of rows with cars stored in database
      * @return Returns a count of rows with cars stored in database. Can be used for pagination page
      */
     int getCountInDB() throws CarRepoException;
+
+    int getCountInDB(LinkedHashMap<String, Object> filters) throws CarRepoException;
 
     /**
      * Method gets car from db by ID

@@ -25,9 +25,16 @@ public class Path {
     public static final String PAGE_ALL_CAR_BRANDS = "/WEB-INF/jsp/admin/carBrands.jsp";
     public static final String PAGE_ALL_CAR_MODELS = "/WEB-INF/jsp/admin/carModels.jsp";
     public static final String PAGE_ALL_CARS = "/WEB-INF/jsp/admin/allCars.jsp";
+    public static final String PAGE_ALL_TARIFFS = "/WEB-INF/jsp/admin/tariffList.jsp";
+    public static final String PAGE_ALL_COMPLETE_SETS = "/WEB-INF/jsp/admin/allCompleteSets.jsp";
+    public static final String PAGE_ALL_ORDERS = "/WEB-INF/jsp/common/ordersList.jsp";
     public static final String PAGE_ADD_CAR_BRAND = "/WEB-INF/jsp/admin/newCarBrand.jsp";
     public static final String PAGE_ADD_CAR_MODEL = "/WEB-INF/jsp/admin/newCarModel.jsp";
     public static final String PAGE_ADD_CAR = "/WEB-INF/jsp/admin/newCar.jsp";
+    public static final String PAGE_ADD_TARIFF = "/WEB-INF/jsp/admin/newTariff.jsp";
+    public static final String PAGE_ADD_COMPLETE_SET = "/WEB-INF/jsp/admin/newCompleteSet.jsp";
+    public static final String PAGE_EDIT_TARIFF = "/WEB-INF/jsp/admin/editTariff.jsp";
+    public static final String PAGE_EDIT_COMPLETE_SET = "/WEB-INF/jsp/admin/editCompleteSet.jsp";
     public static final String PAGE_MY_PROGILE = "/WEB-INF/jsp/common/myProfile.jsp";
     public static final String PAGE_EDIT_CAR = "/WEB-INF/jsp/admin/editCar.jsp";
     public static final String PAGE_TOP_UP = "/WEB-INF/jsp/client/TopUp.jsp";
@@ -49,6 +56,11 @@ public class Path {
         List<String> errorList = new ArrayList();
         errorList.add(errorMessage);
         request.setAttribute(PageParameters.ERRORS,errorList);
+        return Path.PAGE_ERROR_PAGE;
+    }
+
+    public static final String prepareErrorPage(HttpServletRequest request, ArrayList<String> errorsList){
+        request.setAttribute(PageParameters.ERRORS,errorsList);
         return Path.PAGE_ERROR_PAGE;
     }
 }
