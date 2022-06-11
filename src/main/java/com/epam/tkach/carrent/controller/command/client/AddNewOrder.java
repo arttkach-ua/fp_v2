@@ -11,11 +11,6 @@ import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.model.entity.Car;
 import com.epam.tkach.carrent.model.entity.Order;
 import com.epam.tkach.carrent.model.entity.User;
-import com.epam.tkach.carrent.model.entity.enums.OrderStatuses;
-import com.epam.tkach.carrent.model.repository.CarRepoI;
-import com.epam.tkach.carrent.model.repository.MySqlImp.CarRepoMySql;
-import com.epam.tkach.carrent.model.repository.RepositoryFactory;
-import com.epam.tkach.carrent.model.repository.UserRepoI;
 import com.epam.tkach.carrent.model.service.CarService;
 import com.epam.tkach.carrent.model.service.OrderService;
 import com.epam.tkach.carrent.model.service.UserService;
@@ -25,8 +20,7 @@ import org.apache.logging.log4j.Logger;
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.Optional;
+
 
 public class AddNewOrder implements ICommand {
     private static final Logger logger = LogManager.getLogger(AddNewOrder.class);
@@ -45,14 +39,15 @@ public class AddNewOrder implements ICommand {
 
             Order order = OrderService.createNew(client, car, daysCount,documents,withDriver);
             OrderService.addNew(order);
-            return Path.PAGE_SUCCESS;
+
+            return Path.prepareSuccessPage(request, response, null);
 
         } catch (CarRepoException | UserRepoException | OrderRepoException e) {
             logger.error(e);
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         } catch (AuthenticationException e) {
             logger.error(e);
-            return Path.prepareErrorPage(request, Messages.ERROR_SESSION_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_SESSION_ERROR);
         }
     }
 }
