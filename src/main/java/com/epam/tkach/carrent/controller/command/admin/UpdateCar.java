@@ -6,9 +6,6 @@ import com.epam.tkach.carrent.controller.RequestReader;
 import com.epam.tkach.carrent.controller.command.ICommand;
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.model.entity.Car;
-import com.epam.tkach.carrent.model.repository.CarRepoI;
-import com.epam.tkach.carrent.model.repository.MySqlImp.CarRepoMySql;
-import com.epam.tkach.carrent.model.repository.RepositoryFactory;
 import com.epam.tkach.carrent.model.service.CarService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,13 +17,13 @@ public class UpdateCar implements ICommand {
     private static final Logger logger = LogManager.getLogger(UpdateCar.class);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Car car = RequestReader.createCarFromRequest(request);
         try {
+            Car car = RequestReader.createCarFromRequest(request);
             CarService.update(car);
-            return Path.PAGE_SUCCESS;
+            return Path.prepareSuccessPage(request,response, null);
         } catch (CarRepoException e) {
            logger.error(e);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
-        return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
     }
 }
