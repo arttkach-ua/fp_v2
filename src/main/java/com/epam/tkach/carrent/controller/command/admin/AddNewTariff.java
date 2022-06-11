@@ -26,14 +26,14 @@ public class AddNewTariff implements ICommand {
             Tariff tariff = Mapper.createTariffFromRequest(request);
             boolean isValid = Validator.validateEntity(tariff,errorList);
 
-            if (isValid==false) return Path.prepareErrorPage(request, errorList);
+            if (!isValid) return Path.prepareErrorPage(request, response, errorList);
 
             service.addNew(tariff);
-            return Path.PAGE_SUCCESS;
+            return Path.prepareSuccessPage(request,response,null);
         }
         catch (TariffException ex){
             logger.error(ex);
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
     }
 }
