@@ -7,8 +7,7 @@ import com.epam.tkach.carrent.controller.Path;
 import com.epam.tkach.carrent.controller.command.ICommand;
 import com.epam.tkach.carrent.controller.exceptions.CarModelRepoException;
 import com.epam.tkach.carrent.model.entity.CarModel;
-import com.epam.tkach.carrent.model.repository.CarModelRepoI;
-import com.epam.tkach.carrent.model.repository.MySqlImp.CarModelRepoMySql;
+import com.epam.tkach.carrent.model.service.CarModelService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,13 +22,13 @@ public class ShowCarModels implements ICommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            CarModelRepoI repo = new CarModelRepoMySql();
             List<CarModel> carModelsList;
-            int countInDB = repo.getCountOfModelsInDB();
+
+            int countInDB = CarModelService.genCountInDB();
             int currentPage = PaginationHelper.getCurrentPage(request);
             int recordsPerPage = 5;
 
-            carModelsList = repo.getCarModelsListForPagination(currentPage, recordsPerPage);
+            carModelsList = CarModelService.getCarModelsListForPagination(currentPage, recordsPerPage);
             int nOfPages = PaginationHelper.getNoOfPages(countInDB,recordsPerPage);
 
             request.setAttribute(PageParameters.CAR_MODEL_LIST, carModelsList);
@@ -39,8 +38,7 @@ public class ShowCarModels implements ICommand {
             return Path.PAGE_ALL_CAR_MODELS;
         } catch (CarModelRepoException ex) {
             logger.error(ex);
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
-
     }
 }
