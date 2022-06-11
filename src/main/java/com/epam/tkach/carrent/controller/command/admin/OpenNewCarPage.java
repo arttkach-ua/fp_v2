@@ -24,6 +24,7 @@ public class OpenNewCarPage implements ICommand {
             request.setAttribute(PageParameters.CAR_BRAND_LIST, TariffService.getAll());
             return Path.PAGE_ADD_CAR;
         } catch (CarBrandRepoException | TariffException e) {
+            logger.error(e);
             return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
 
