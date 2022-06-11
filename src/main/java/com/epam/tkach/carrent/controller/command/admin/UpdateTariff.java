@@ -22,10 +22,10 @@ public class UpdateTariff implements ICommand {
         try {
             logger.debug(tariff.toString());
             TariffService.update(tariff);
-            return Path.PAGE_SUCCESS;
+            return Path.prepareSuccessPage(request, response, null);
         } catch (TariffException e) {
             logger.error(e);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
-        return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
     }
 }
