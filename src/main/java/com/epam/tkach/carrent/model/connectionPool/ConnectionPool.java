@@ -96,4 +96,11 @@ public class ConnectionPool {
             }
         }
     }
+    public void rollback(Connection con){
+        try {
+            con.rollback();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+    }
 }

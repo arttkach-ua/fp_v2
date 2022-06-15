@@ -35,7 +35,7 @@ public class OpenNewCompleteSetPage implements ICommand {
             return Path.PAGE_ADD_COMPLETE_SET;
         } catch (CarBrandRepoException ex) {
             logger.error(ex);
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request, response, Messages.ERROR_DATABASE_ERROR);
         }
     }
 }

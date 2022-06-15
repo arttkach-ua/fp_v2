@@ -20,14 +20,6 @@
             <taglib-location>/WEB-INF/tld/carBrandTag.tld</taglib-location>
         </taglib>
     </jsp-config>
-    <!--
-    <resource-ref>
-      <description>DB Connection</description>
-      <res-ref-name>jdbc/car_rent</res-ref-name>>
-      <res-type>javax.sql.DataSource</res-type>
-      <res-auth>Container</res-auth>>
-    </resource-ref>
-    -->
 
     <!--============================================================
           Controller
@@ -84,6 +76,44 @@
             <param-value>cp1251</param-value>
         </init-param>
     </filter>
+    <!--Security filter-->
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>com.epam.tkach.carrent.controller.filters.SecurityFilter</filter-class>
+
+        <init-param>
+            <param-name>admin</param-name>
+            <param-value>openNewCarBrandPage openNewCarModelPage openNewCarPage</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>manager</param-name>
+            <param-value>main users services registration edit_client profile add_tariff edit_tariff remove_tariff</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>client</param-name>
+            <param-value>account personal_data user_profile transactions save_profile</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>common</param-name>
+            <param-value>openLoginForm openRegisterForm login logout register i18n redirect</param-value>
+        </init-param>
+        <init-param>
+            <param-name>out-of-control</param-name>
+            <param-value>login i18n</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <!--
+        <servlet-name>Controller</servlet-name>
+        -->
+    </filter-mapping>
+    <!--Security filter-->
 
     <filter-mapping>
         <filter-name>charsetFilter</filter-name>

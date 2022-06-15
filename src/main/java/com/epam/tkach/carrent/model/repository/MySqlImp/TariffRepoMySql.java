@@ -1,10 +1,8 @@
 package com.epam.tkach.carrent.model.repository.MySqlImp;
+
 import com.epam.tkach.carrent.controller.Mapper;
-import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.TariffException;
-import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.model.connectionPool.ConnectionPool;
-import com.epam.tkach.carrent.model.entity.CarBrand;
 import com.epam.tkach.carrent.model.entity.Tariff;
 import com.epam.tkach.carrent.model.repository.TariffRepoI;
 import org.apache.logging.log4j.LogManager;
@@ -50,7 +48,6 @@ public class TariffRepoMySql implements TariffRepoI {
         boolean success = false;
         final String QUERY = "update tariffs set name = ?, rent_price = ?, driver_price = ? where id=?";
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
         try{
             con = connectionPool.getConnection();
             pstmt = con.prepareStatement(QUERY);

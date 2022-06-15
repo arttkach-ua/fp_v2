@@ -22,6 +22,7 @@ import com.epam.tkach.carrent.model.repository.MySqlImp.CarBrandRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarModelRepoMySql;
 import com.epam.tkach.carrent.model.repository.MySqlImp.CarRepoMySql;
 import com.epam.tkach.carrent.model.repository.RepositoryFactory;
+import com.epam.tkach.carrent.model.service.CarService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,28 +35,18 @@ public class AddNewCar implements ICommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        boolean success = false;
         ArrayList<String> errorList = new ArrayList();
         Car car = RequestReader.createCarFromRequest(request);
         boolean isValid = Validator.validateEntity(car,errorList);
         if (isValid==false) {
-            request.setAttribute(PageParameters.ERRORS, errorList);
-            return Path.PAGE_ERROR_PAGE;
+            return Path.prepareErrorPage(request, response, errorList);
         }
-
         try {
-            CarRepoI carRepo = RepositoryFactory.getCarRepo();
-            success = carRepo.addNew(car);
+            CarService.addNew(car);
+            return Path.prepareSuccessPage(request,response,null);
         } catch (CarRepoException ex) {
-            success = false;
             logger.error("Error while adding new car",ex);
-        }
-        if (success){
-            return Path.PAGE_SUCCESS;//temp
-        }else{
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
     }
-
-
 }

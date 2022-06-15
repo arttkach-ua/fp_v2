@@ -31,4 +31,12 @@ public class TariffService {
         TariffRepoI repo = RepositoryFactory.getTariffRepo();
         return repo.getAll();
     }
+    public static int getCountInDB() throws TariffException {
+        TariffRepoI repo = RepositoryFactory.getTariffRepo();
+        return repo.getCountInDB();
+    }
+    public static List<Tariff> getListForPagination(int currentPage, int recordsPerPage) throws TariffException {
+        TariffRepoI repo = RepositoryFactory.getTariffRepo();
+        return repo.getListForPagination(currentPage, recordsPerPage);
+    }
 }

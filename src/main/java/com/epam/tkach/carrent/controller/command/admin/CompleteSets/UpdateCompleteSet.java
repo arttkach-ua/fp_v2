@@ -25,14 +25,13 @@ public class UpdateCompleteSet implements ICommand {
 
             ArrayList<String> errorList = new ArrayList();
             boolean brandIsValid = Validator.validateEntity(completeSet,errorList);
-            if (brandIsValid==false) return Path.prepareErrorPage(request, errorList);
-
+            if (brandIsValid==false) return Path.prepareErrorPage(request, response, errorList);
 
             CompleteSetService.update(completeSet);
             return Path.PAGE_SUCCESS;
         } catch (CarModelRepoException | CompleteSetsRepoException e) {
            logger.error(e);
-           return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+           return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
     }
 }

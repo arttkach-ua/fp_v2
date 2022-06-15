@@ -8,66 +8,53 @@ import com.epam.tkach.carrent.controller.exceptions.TransactionException;
 import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.controller.security.CryptographyI;
 import com.epam.tkach.carrent.controller.security.implementation.CryptographyPBKDF;
-import com.epam.tkach.carrent.model.entity.Transaction;
 import com.epam.tkach.carrent.model.entity.User;
 import com.epam.tkach.carrent.model.entity.enums.Role;
-import com.epam.tkach.carrent.model.repository.MySqlImp.TransactionRepoMySql;
-import com.epam.tkach.carrent.model.repository.MySqlImp.UserRepoMySql;
-import com.epam.tkach.carrent.model.repository.TransactionRepoI;
-import com.epam.tkach.carrent.model.repository.UserRepoI;
+import com.epam.tkach.carrent.model.service.TransactionService;
+import com.epam.tkach.carrent.model.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class Login implements ICommand {
     private static final Logger logger = LogManager.getLogger(Login.class);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-
-        UserRepoI repo = new UserRepoMySql();
-        //List<String> messageList = new ArrayList();
         CryptographyI crypto = new CryptographyPBKDF();
         HttpSession session = request.getSession();
 
         String login = request.getParameter(PageParameters.EMAIL);
         String pass = request.getParameter(PageParameters.PASSWORD);
         try{
-            Optional<User> userOpt = repo.findByEmail(login);
-            if (userOpt.isEmpty()){
+            if (!UserService.userIsPresentInDB(login)){
                 //User not found
-                return Path.prepareErrorPage(request, Messages.USER_NOT_FOUND);
+                return Path.prepareErrorPage(request,response, Messages.USER_NOT_FOUND);
             }
-            User user = userOpt.get();
+            User user = UserService.findByEmail(login);
             //Checking for valid pass
             boolean passIsCorrect = crypto.passIsCorrect(pass, user.getSalt(), user.getPassword());
             if (!passIsCorrect){
-                return Path.prepareErrorPage(request, Messages.PASS_IS_NOT_CORRECT);
+                return Path.prepareErrorPage(request,response, Messages.PASS_IS_NOT_CORRECT);
             }
             //User banned
             if (user.getBlocked()){
-                return Path.prepareErrorPage(request, Messages.ERROR_USER_BLOCKED);
+                return Path.prepareErrorPage(request,response, Messages.ERROR_USER_BLOCKED);
             }
             //Pass is correct.
             session.setAttribute("role", user.getRole());
             session.setAttribute(PageParameters.ID,user.getID());
             if (user.getRole().equals(Role.CLIENT)){
-                TransactionRepoI repoTransaction = new TransactionRepoMySql();
-                session.setAttribute(PageParameters.BALANCE, repoTransaction.getUserBalance(user.getID()));
+                session.setAttribute(PageParameters.BALANCE, TransactionService.getUserBalance(user.getID()));
             }
-//            messageList.add(Messages.LOGIN_SUCCESS);
-//            request.setAttribute(PageParameters.ERRORS, messageList);
-            return Path.PAGE_SUCCESS;
+            return Path.prepareSuccessPage(request, response, null);
 
         } catch (UserRepoException | TransactionException e) {
             logger.error(e);
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
     }
 }

@@ -28,7 +28,8 @@ public class ShowCarList implements ICommand {
             String sortBy = RequestReader.readStringFromRequest(request, PageParameters.SORT_FIELD);
 
             LinkedHashMap<String, Object> filters = new LinkedHashMap<>();
-            filters.put("cars.available", true);
+
+            //filters.put("cars.available", true);
             if (carClassFilter != -1&&carClassFilter != 0){
                 filters.put("cm.car_classes_id", carClassFilter);
                 request.setAttribute(PageParameters.CAR_CLASS_FILTER, carClassFilter);

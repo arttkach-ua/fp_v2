@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 public class User extends Entity implements Serializable {
     @Email(message = Messages.INVALID_EMAIL)
@@ -103,6 +104,13 @@ public class User extends Entity implements Serializable {
     }
 
     public User() {
+    }
+
+    public String getFullName(){
+        StringJoiner joiner = new StringJoiner(" ");
+        joiner.add(firstName);
+        joiner.add(secondName);
+        return joiner.toString();
     }
 
     @Override

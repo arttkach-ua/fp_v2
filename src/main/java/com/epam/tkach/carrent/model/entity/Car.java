@@ -1,11 +1,10 @@
 package com.epam.tkach.carrent.model.entity;
 
-import com.epam.tkach.carrent.model.entity.enums.BodyStyles;
 import com.epam.tkach.carrent.model.entity.enums.CarClass;
-import com.epam.tkach.carrent.model.entity.enums.FuelTypes;
-import com.epam.tkach.carrent.model.entity.enums.TransmissionTypes;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.StringJoiner;
 
 public class Car extends Entity{
     @NotNull(message = "error.nullCarBrand")
@@ -18,7 +17,11 @@ public class Car extends Entity{
     private int graduationYear;
     @NotNull
     private CompleteSet completeSet;
+    @NotNull(message = "error.nullStateNumber")
+    @Size(min = 2, message = "error.nullStateNumber")
     private String stateNumber;
+    @NotNull(message = "error.nullVinNumber")
+    @Size(min = 2, message = "error.nullVinNumber")
     private String vinCode;
     @NotNull(message = "error.nullTariff")
     private Tariff tariff;
@@ -84,6 +87,13 @@ public class Car extends Entity{
     //Constructor
 
     public Car() {
+    }
+    public String getDescription(){
+        StringJoiner joiner = new StringJoiner(" ");
+        joiner.add(brand.getCarBrandName());
+        joiner.add(completeSet.getName());
+        joiner.add(stateNumber);
+        return joiner.toString();
     }
 
     public Car(CarBrand brand, CarModel model, CarClass carClass, int graduationYear, String stateNumber, String vinCode) {

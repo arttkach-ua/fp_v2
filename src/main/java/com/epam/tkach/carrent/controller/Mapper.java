@@ -103,17 +103,18 @@ public class Mapper {
 
     public static Order createOrderFromResultSet(ResultSet rs) throws SQLException, CarRepoException, UserRepoException {
         Order order = new Order();
-        order.setID(rs.getInt(1));
-        order.setClient(UserService.findByID(rs.getInt(2)));
-        order.setCar(CarService.getById(rs.getInt(3)));
-        order.setManager(UserService.findByID(rs.getInt(4)));
-        order.setDocuments(rs.getString(5));
-        order.setDaysCount(rs.getInt(6));
-        order.setPrice(rs.getDouble(7));
-        order.setStatus(OrderStatuses.getByID(rs.getInt(8)));
-        order.setWithDriver(rs.getBoolean(9));
-        order.setDriverPrice(rs.getDouble(10));
-        order.setRentSum(rs.getDouble(11));
+        order.setID(rs.getInt("id"));
+        order.setClient(UserService.findByID(rs.getInt("client_id")));
+        order.setCar(CarService.getById(rs.getInt("car_id")));
+        order.setManager(UserService.findByID(rs.getInt("manager_id")));
+        order.setDocuments(rs.getString("docements"));
+        order.setDaysCount(rs.getInt("day_counts"));
+        order.setPrice(rs.getDouble("price"));
+        order.setStatus(OrderStatuses.getByID(rs.getInt("status")));
+        order.setWithDriver(rs.getBoolean("with_driver"));
+        order.setManagerComment(rs.getString("manager_comment"));
+        order.setDriverPrice(rs.getDouble("driver_price"));
+        order.setRentSum(rs.getDouble("rent_sum"));
 
         return order;
     }
@@ -139,6 +140,28 @@ public class Mapper {
             logger.error(ex);
         }
         return car;
+    }
+
+    public static Invoice createInvoiceFromResultSet(ResultSet rs) throws SQLException, UserRepoException, OrderRepoException {
+        Invoice invoice = new Invoice();
+        invoice.setID(rs.getInt("id"));
+        invoice.setClient(UserService.findByID(rs.getInt("client_id")));
+        invoice.setAmount(rs.getDouble("amount"));
+        invoice.setDescription(rs.getString("description"));
+        invoice.setType(InvoiceTypes.getByID(rs.getInt("type")));
+        invoice.setOrder(OrderService.findById(rs.getInt("order_id")));
+        invoice.setPaid(rs.getBoolean("paid"));
+        invoice.setDateTime(rs.getTimestamp("timestamp"));
+        return invoice;
+    }
+
+    public static void setCarFieldsToRequest(HttpServletRequest request, Car car){
+        request.setAttribute(PageParameters.ID, car.getID());
+        request.setAttribute(PageParameters.CAR_BRAND, car.getBrand());
+        request.setAttribute(PageParameters.CAR_MODEL, car.getModel());
+        request.setAttribute(PageParameters.YEAR, car.getGraduationYear());
+        request.setAttribute(PageParameters.VIN_CODE, car.getVinCode());
+        request.setAttribute(PageParameters.STATE_NUMBER, car.getStateNumber());
     }
 
 }

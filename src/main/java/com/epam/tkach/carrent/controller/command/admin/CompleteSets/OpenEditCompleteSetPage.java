@@ -37,7 +37,7 @@ public class OpenEditCompleteSetPage implements ICommand {
             request.setAttribute(PageParameters.BODY_STYLE_LIST, BodyStyles.values());
             return Path.PAGE_EDIT_COMPLETE_SET;
         } catch (CompleteSetsRepoException | CarBrandRepoException e) {
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
 
     }

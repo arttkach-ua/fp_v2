@@ -85,7 +85,7 @@ public class CarBrandRepoMySql implements CarBrandRepoI {
                 carBrand = new CarBrand(rs.getInt(1), rs.getString(2));
             }
         } catch (SQLException ex) {
-            logger.error("Error in addUser method", ex);
+            logger.error("Error in CarBrandRepoMySql.findById method", ex);
             throw new CarBrandRepoException(ex);
         } finally {
             connectionPool.close(con, pstmt,rs);

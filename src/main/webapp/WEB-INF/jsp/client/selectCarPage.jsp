@@ -110,7 +110,7 @@
                         <td>${car.getStateNumber()}</td>
                         <td>${car.getTariff().getRentPrice()}</td>
                         <td>${car.getTariff().getDriverPrice()}</td>
-                        <td><a class="btn btn-outline-warning" href="controller?action=OpenNewOrderPage&id=${car.getID()}" role="button">Order_me</a></td>
+                        <td><a class="btn btn-outline-warning" href="controller?action=OpenNewOrderPage&id=${car.getID()}" role="button"><fmt:message key="button.order_car"/></a></td>
                     </tr>
                 </c:forEach>
             </table>

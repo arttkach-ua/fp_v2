@@ -78,9 +78,14 @@ public class CommandFactory{
         //manager commands
         commands.put("ConfirmOrder", new ConfirmOrder());
         commands.put("OpenDeclineOrderPage", new OpenDeclineOrderPage());
-        commands.put("DeclineOrder", new DeclineOrder());
+        commands.put("declineOrder", new DeclineOrder());
         commands.put("closeOrder", new CloseOrder());
         commands.put("closeOrderWithDamege", new CloseOrderWithDamage());
+        commands.put("openErrorPage", new OpenErrorPage());
+        commands.put("openSuccessPage", new OpenSuccessPage());
+        commands.put("closeOrder", new CloseOrder());
+        commands.put("closeOrderWithDamage", new CloseOrderWithDamage());
+        commands.put("openCloseOrderWithDamage", new OpenCloseOrderPageWithDamage());
 
         //client commands
         //commands.put("showUserOrders", new ShowUserListCommand());
@@ -90,6 +95,8 @@ public class CommandFactory{
         commands.put("OpenNewOrderPage", new OpenNewOrderPage());
         commands.put("addNewOrder", new AddNewOrder());
         commands.put("ordersList", new ShowOrders());
+        commands.put("invoiceList", new ShowInvoices());
+        commands.put("payInvoice", new PayInvoice());
 
     }
 

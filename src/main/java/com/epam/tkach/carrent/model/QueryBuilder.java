@@ -1,5 +1,8 @@
 package com.epam.tkach.carrent.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
@@ -9,6 +12,7 @@ import java.util.Map;
  * Class needed for creation queries with dynamic filtration and limits
  */
 public class QueryBuilder {
+    private static final Logger logger = LogManager.getLogger(QueryBuilder.class);
     /**
      *
      * @param Query - simple select query without where, order by, limit operators
@@ -49,6 +53,7 @@ public class QueryBuilder {
             for (Map.Entry<String, Object> entry : filtersMap.entrySet()) {
                 Object value = entry.getValue();
                 pstmt.setObject(i++, value);
+                logger.debug(entry.getValue());
             }
         }
         //Setting limit params

@@ -62,4 +62,12 @@ public class RepositoryFactory {
             throw new CompleteSetsRepoException("No realisation for selected db");
         }
     }
+    public static final InvoiceRepoI getInvoiceRepo() throws InvoiceRepoException{
+        if (DataBaseSettings.getCurrentDBSelector().equals(DataBaseSettings.DataBaseSelector.MY_SQL)){
+            return new InvoiceRepoMySql();
+        }else{
+            throw new InvoiceRepoException("No realisation for selected db");
+        }
+    }
+
 }

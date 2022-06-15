@@ -1,20 +1,11 @@
 package com.epam.tkach.carrent.model.repository.MySqlImp;
 
 import com.epam.tkach.carrent.controller.Mapper;
-import com.epam.tkach.carrent.controller.RequestReader;
 import com.epam.tkach.carrent.controller.exceptions.*;
 import com.epam.tkach.carrent.model.QueryBuilder;
 import com.epam.tkach.carrent.model.connectionPool.ConnectionPool;
 import com.epam.tkach.carrent.model.entity.Car;
-import com.epam.tkach.carrent.model.entity.Order;
-import com.epam.tkach.carrent.model.entity.enums.BodyStyles;
-import com.epam.tkach.carrent.model.entity.enums.FuelTypes;
-import com.epam.tkach.carrent.model.entity.enums.TransmissionTypes;
-import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
-import com.epam.tkach.carrent.model.repository.CarModelRepoI;
 import com.epam.tkach.carrent.model.repository.CarRepoI;
-import com.epam.tkach.carrent.model.service.CompleteSetService;
-import com.epam.tkach.carrent.model.service.TariffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -205,12 +196,13 @@ public class CarRepoMySql implements CarRepoI {
     }
 
     @Override
-    public boolean update(Car car) throws CarRepoException {
+    public boolean update(Car car, Connection con) throws CarRepoException {
+        boolean conIsNull = (con==null);
         final String QUERY = "update cars set brand_id = ?, model_id = ?, graduation_year = ?, vin_code = ?, state_number = ?,tariff_id = ?, complete_set_id = ?, available=? where id=?";
         boolean success = false;
         PreparedStatement pstmt = null;
         try{
-            con = connectionPool.getConnection();
+            if (con==null) con = connectionPool.getConnection();
             pstmt = con.prepareStatement(QUERY);
             pstmt.setInt(1,car.getBrand().getID());
             pstmt.setInt(2,car.getModel().getID());
@@ -230,7 +222,11 @@ public class CarRepoMySql implements CarRepoI {
             logger.error("Error in carRepoMySql.update method", ex);
             throw new CarRepoException(ex);
         } finally {
-            connectionPool.close(con, pstmt,null);
+            if (conIsNull){
+                connectionPool.close(con, pstmt,null);
+            }else{
+                connectionPool.close(null, pstmt,null);
+            }
         }
 
         return success;

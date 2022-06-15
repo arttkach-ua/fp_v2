@@ -3,6 +3,7 @@ package com.epam.tkach.carrent.model.repository;
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.model.entity.Car;
 
+import java.sql.Connection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,6 @@ public interface CarRepoI {
      * @return true if updated, false if not
      * @throws CarRepoException
      */
-    boolean update(Car car) throws CarRepoException;
+    boolean update(Car car, Connection con) throws CarRepoException;
 
 }

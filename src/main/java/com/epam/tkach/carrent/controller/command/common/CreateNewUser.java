@@ -12,6 +12,7 @@ import com.epam.tkach.carrent.model.entity.User;
 import com.epam.tkach.carrent.model.entity.enums.Role;
 import com.epam.tkach.carrent.model.repository.MySqlImp.UserRepoMySql;
 import com.epam.tkach.carrent.model.repository.UserRepoI;
+import com.epam.tkach.carrent.model.service.NotificationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,6 +53,7 @@ public class CreateNewUser implements ICommand {
             int countInDd = repo.getCountInDb();
             if (countInDd==0) user.setRole(Role.ADMIN);
             success = repo.addNew(user);
+            NotificationService.notifyAboutRegistration(user.getEmail(),SessionHelper.getCurrentLocale(request),user.isReceiveNotifications());
         } catch (UserRepoException e) {
             errorList.add(Messages.ERROR_DATABASE_ERROR);
             logger.error(e);

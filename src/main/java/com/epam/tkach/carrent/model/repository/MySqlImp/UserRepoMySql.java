@@ -1,6 +1,5 @@
 package com.epam.tkach.carrent.model.repository.MySqlImp;
 
-import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.UserRepoException;
 import com.epam.tkach.carrent.model.connectionPool.ConnectionPool;
 import com.epam.tkach.carrent.model.entity.User;

@@ -19,7 +19,7 @@ public class UpdateCar implements ICommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             Car car = RequestReader.createCarFromRequest(request);
-            CarService.update(car);
+            CarService.update(car,null);
             return Path.prepareSuccessPage(request,response, null);
         } catch (CarRepoException e) {
            logger.error(e);

@@ -8,6 +8,7 @@ import com.epam.tkach.carrent.model.repository.CarRepoI;
 import com.epam.tkach.carrent.model.repository.OrderRepoI;
 import com.epam.tkach.carrent.model.repository.RepositoryFactory;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,9 +16,9 @@ import java.util.Optional;
 
 public class CarService {
 
-    public static void update(Car car) throws CarRepoException {
+    public static void update(Car car, Connection con) throws CarRepoException {
         CarRepoI repo = RepositoryFactory.getCarRepo();
-        repo.update(car);
+        repo.update(car, con);
     }
 
     public static Car getById(int ID) throws CarRepoException{
@@ -60,5 +61,10 @@ public class CarService {
             case "brand.down": return "cb.brand desc";
             default: return "";
         }
+    }
+
+    public static boolean addNew(Car car) throws CarRepoException {
+        CarRepoI carRepo = RepositoryFactory.getCarRepo();
+        return carRepo.addNew(car);
     }
 }

@@ -1,18 +1,18 @@
 package com.epam.tkach.carrent.model.entity.enums;
 
-public enum InvoceTypes {
+public enum InvoiceTypes {
     RENT(1),
     DAMAGE(2);
 
     private int value;
 
-    InvoceTypes(int value){
+    InvoiceTypes(int value){
         this.value = value;
     }
     public int getValue(){
         return value;
     }
-    public static InvoceTypes getByID(int id){
+    public static InvoiceTypes getByID(int id){
         switch (id){
             case 1: return RENT;
             case 2: return DAMAGE;

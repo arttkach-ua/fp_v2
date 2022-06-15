@@ -1,8 +1,13 @@
 package com.epam.tkach.carrent.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class contains all pages of web application
@@ -11,6 +16,7 @@ import java.util.List;
  */
 
 public class Path {
+    private static final Logger logger = LogManager.getLogger(Path.class);
     // Localization::: i18n
     public static final String LOCALE_NAME_UA = "ua";
     public static final String LOCALE_NAME_EN = "en";
@@ -28,6 +34,7 @@ public class Path {
     public static final String PAGE_ALL_TARIFFS = "/WEB-INF/jsp/admin/tariffList.jsp";
     public static final String PAGE_ALL_COMPLETE_SETS = "/WEB-INF/jsp/admin/allCompleteSets.jsp";
     public static final String PAGE_ALL_ORDERS = "/WEB-INF/jsp/common/ordersList.jsp";
+    public static final String PAGE_ALL_INVOICES = "/WEB-INF/jsp/common/invoiceList.jsp";
     public static final String PAGE_ADD_CAR_BRAND = "/WEB-INF/jsp/admin/newCarBrand.jsp";
     public static final String PAGE_ADD_CAR_MODEL = "/WEB-INF/jsp/admin/newCarModel.jsp";
     public static final String PAGE_ADD_CAR = "/WEB-INF/jsp/admin/newCar.jsp";
@@ -40,11 +47,18 @@ public class Path {
     public static final String PAGE_TOP_UP = "/WEB-INF/jsp/client/TopUp.jsp";
     public static final String PAGE_SELECT_CAR = "/WEB-INF/jsp/client/selectCarPage.jsp";
     public static final String PAGE_CREATE_ORDER = "/WEB-INF/jsp/client/createOrder.jsp";
+    public static final String PAGE_DECLINE_ORDER = "/WEB-INF/jsp/manager/declineOrder.jsp";
+    public static final String PAGE_OPEN_CLOSE_ORDER_WITH_DAMAGE = "/WEB-INF/jsp/manager/closeOrderWithDamage.jsp";
 
 
     //common commands
     public static final String COMMAND_LOGIN = "com/epam/tkach/carrent/controller";
     public static final String COMMAND_LOGOUT = "com/epam/tkach/carrent/controller";
+    public static final String COMMAND_REDIRECT = "redirect";
+    public static final String COMMAND_ALL_CAR_BRANDS = "controller?action=carBrands";
+    public static final String COMMAND_ALL_ORDERS = "controller?action=ordersList";
+    public static final String OPEN_ERROR_PAGE = "controller?action=openErrorPage";
+    public static final String OPEN_SUCCESS_PAGE = "controller?action=openSuccessPage";
 
     /**
      * Method sets to request error message and returns error page
@@ -52,15 +66,39 @@ public class Path {
      * @param errorMessage - message that will be shown to user
      * @return Error page
      */
-    public static final String prepareErrorPage(HttpServletRequest request, String errorMessage){
-        List<String> errorList = new ArrayList();
-        errorList.add(errorMessage);
-        request.setAttribute(PageParameters.ERRORS,errorList);
-        return Path.PAGE_ERROR_PAGE;
+    public static final String prepareErrorPage(HttpServletRequest request, HttpServletResponse response, String errorMessage){
+        try {
+            response.sendRedirect(Path.OPEN_ERROR_PAGE);
+            HttpSession session = request.getSession();
+            session.setAttribute(PageParameters.ERRORS,errorMessage);
+            return Path.COMMAND_REDIRECT;
+        } catch (IOException e) {
+            logger.error(e);
+            return Path.OPEN_ERROR_PAGE;
+        }
     }
 
-    public static final String prepareErrorPage(HttpServletRequest request, ArrayList<String> errorsList){
-        request.setAttribute(PageParameters.ERRORS,errorsList);
-        return Path.PAGE_ERROR_PAGE;
+    public static final String prepareErrorPage(HttpServletRequest request, HttpServletResponse response, ArrayList<String> errorsList){
+        try {
+            response.sendRedirect(Path.OPEN_ERROR_PAGE);
+            HttpSession session = request.getSession();
+            session.setAttribute(PageParameters.ERRORS,errorsList);
+            return Path.COMMAND_REDIRECT;
+        } catch (IOException e) {
+            logger.error(e);
+            return Path.OPEN_ERROR_PAGE;
+        }
+    }
+
+    public static final String prepareSuccessPage(HttpServletRequest request, HttpServletResponse response, String errorMessage){
+        try {
+            response.sendRedirect(Path.OPEN_SUCCESS_PAGE);
+            HttpSession session = request.getSession();
+            session.setAttribute(PageParameters.ERRORS,errorMessage);
+            return Path.COMMAND_REDIRECT;
+        } catch (IOException e) {
+            logger.error(e);
+            return Path.OPEN_ERROR_PAGE;
+        }
     }
 }

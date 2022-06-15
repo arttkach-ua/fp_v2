@@ -35,7 +35,7 @@ public class ShowCompleteSets implements ICommand {
             return Path.PAGE_ALL_COMPLETE_SETS;
         } catch (CompleteSetsRepoException ex) {
             logger.error(ex);
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.epam.tkach.carrent.controller.command.client;
 
-import com.epam.tkach.carrent.controller.Messages;
-import com.epam.tkach.carrent.controller.PageParameters;
-import com.epam.tkach.carrent.controller.Path;
-import com.epam.tkach.carrent.controller.RequestReader;
+import com.epam.tkach.carrent.controller.*;
 import com.epam.tkach.carrent.controller.command.ICommand;
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.controller.exceptions.OrderRepoException;
@@ -29,7 +26,7 @@ public class AddNewOrder implements ICommand {
         try {
             //car
             int carId = RequestReader.readIntFromRequest(request, PageParameters.ID);
-            int userId = RequestReader.getUserIdFromSession(request);
+            int userId = SessionHelper.getUserIdFromSession(request);
             int daysCount = RequestReader.readIntFromRequest(request, PageParameters.DAYS_COUNT);
             String documents = RequestReader.readStringFromRequest(request, PageParameters.DOCUMENT);
             boolean withDriver = RequestReader.readBooleanFromRequest(request, PageParameters.WITH_DRIVER);
@@ -39,6 +36,8 @@ public class AddNewOrder implements ICommand {
 
             Order order = OrderService.createNew(client, car, daysCount,documents,withDriver);
             OrderService.addNew(order);
+//            EmailNotification not = new EmailNotification();
+//            not.sendNotification(client.getEmail());
 
             return Path.prepareSuccessPage(request, response, null);
 

@@ -13,8 +13,6 @@
                     <fmt:message key="navbar.cars" />
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="controller?action=carBrands"><fmt:message key="navbar.brands" /></a>
-                    <a class="dropdown-item" href="controller?action=carModels"><fmt:message key="navbar.models" /></a>
                     <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="controller?action=carList"><fmt:message key="navbar.company_cars"/></a>
                     </div>

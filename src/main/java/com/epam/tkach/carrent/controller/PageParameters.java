@@ -40,6 +40,7 @@ public class PageParameters {
     public static final String ENTITY = "entity";
     public static final String COMPLETE_SET = "complete_set";
     public static final String WITH_DRIVER = "with_driver";
+    public static final String DAMAGE = "damage";
 
 
     //Lists of entities for JSP
@@ -54,10 +55,15 @@ public class PageParameters {
     public static final String TARIFF_LIST = "tariffList";
     public static final String ENTITY_LIST = "entityList";
     public static final String SORT_LIST = "sortList";
+    public static final String STATUS_LIST = "statusList";
+    public static final String ROLES_LIST = "rolesList";
+    public static final String PAID_LIST = "paidList";
     //FILTERS AND SORTING
     public static final String SORT_FIELD = "sort_field";
     public static final String CAR_CLASS_FILTER = "car_class_filter";
     public static final String CAR_BRAND_FILTER = "car_brand_filter";
     public static final String TRANSMISSION_FILTER = "transmission_filter";
+    public static final String STATUS_FILTER = "status_filter";
+    public static final String PAID_FILTER = "paid_filter";
 
 }

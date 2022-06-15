@@ -2,17 +2,11 @@ package com.epam.tkach.carrent.controller.command.client;
 
 import com.epam.tkach.carrent.controller.*;
 import com.epam.tkach.carrent.controller.command.ICommand;
-import com.epam.tkach.carrent.controller.command.common.Login;
 import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.model.entity.Car;
-import com.epam.tkach.carrent.model.entity.Transaction;
 import com.epam.tkach.carrent.model.entity.enums.CarClass;
 import com.epam.tkach.carrent.model.entity.enums.TransmissionTypes;
-import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
-import com.epam.tkach.carrent.model.repository.CarRepoI;
-import com.epam.tkach.carrent.model.repository.MySqlImp.CarRepoMySql;
-import com.epam.tkach.carrent.model.repository.RepositoryFactory;
 import com.epam.tkach.carrent.model.service.CarBrandService;
 import com.epam.tkach.carrent.model.service.CarService;
 import org.apache.logging.log4j.LogManager;
@@ -20,10 +14,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OpenCarSelectPage implements ICommand {
     private static final Logger logger = LogManager.getLogger(OpenCarSelectPage.class);
@@ -70,7 +62,7 @@ public class OpenCarSelectPage implements ICommand {
             return Path.PAGE_SELECT_CAR;
         } catch (CarRepoException | CarBrandRepoException e) {
             logger.error(e);
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
     }
 }

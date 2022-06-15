@@ -7,6 +7,73 @@
 
 <body>
 <%@ include file="/WEB-INF/navigation/navbar.jsp" %>
+<!--FILTERS-->
+<p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#filtersCollapse" role="button" aria-expanded="false" aria-controls="filtersCollapse">
+        <fmt:message key="filters_and_sorting"/>
+    </a>
+</p>
+<div class="collapse" id="filtersCollapse">
+    <div class="container-fluid">
+        <form class="form-horizontal" action="controller?action=selectCar" method="get">
+            <div class="row">
+                <input hidden name = "action" id="action" value="carList"/>
+                <!--Car class filter-->
+                <div class="form-group">
+                    <label for="car_class_filter" class="control-label"><fmt:message key="car_class"/></label>
+                    <select class="form-control" id="car_class_filter" name="car_class_filter">
+                        <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
+                        <c:forEach items="${carClassList}" var="carClass">
+                            <option ${car_class_filter!=null&&car_class_filter eq carClass.getValue() ? 'selected' : ''} value=${carClass.getValue()}>
+                                <fmt:message key="${carClass}"/>
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <!--car brand filter-->
+                <div class="form-group">
+                    <label for="car_brand_filter" class="control-label"><fmt:message key="car_brand"/></label>
+                    <select class="form-control" id="car_brand_filter" name="car_brand_filter">
+                        <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
+                        <c:forEach items="${carBrandsList}" var="carBrand">
+                            <option ${car_brand_filter!=null&&car_brand_filter eq carBrand.getID() ? 'selected' : ''} value=${carBrand.getID()}>${carBrand.getCarBrandName()}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <!--TransMission filter-->
+                <div class="form-group">
+                    <label for="transmission_filter" class="control-label"><fmt:message key="transmission"/></label>
+                    <select class="form-control" id="transmission_filter" name="transmission_filter">
+                        <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
+                        <c:forEach items="${transmissionList}" var="transmission">
+                            <option ${transmission_filter!=null&&transmission_filter eq transmission.getValue() ? 'selected' : ''} value=${transmission.getValue()}>
+                                <fmt:message key="${transmission}"/>
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div><!--Filters-->
+            <div class="row"><!--Sorting-->
+                <div class="form-group">
+                    <label for="sort_field" class="control-label"><fmt:message key="sort_by"/></label>
+                    <select class="form-control" id="sort_field" name="sort_field">
+                        <option selected value=-1><fmt:message key="select_general_placeholder"/></option>
+
+                        <c:forEach items="${sortList}" var="entity">
+                            <option ${sort_field!=null&&sort_field eq entity ? 'selected' : ''} value=${entity}>
+                                <fmt:message key="${entity}"/>
+                            </option>
+                        </c:forEach>
+
+                    </select>
+                </div>
+            </div><!--Sorting-->
+            <button type="submit" class="btn btn-primary">
+                <fmt:message key="button.filter"/>
+            </button>
+        </form>
+    </div>
+</div>
 <!--Car list form-->
 <form action="controller?action=carList" method="get">
     <main class="m-3">
@@ -31,7 +98,12 @@
 
                 <c:forEach items="${carList}" var="car">
                     <tr>
-                        <td><a href="controller?action=editCar&id=${car.getID()}">${car.getID()}</a></td>
+                        <c:if test = "${(sessionScope.role == 'ADMIN')}">
+                            <td><a href="controller?action=editCar&id=${car.getID()}">${car.getID()}</a></td>
+                        </c:if>
+                        <c:if test = "${(sessionScope.role != 'ADMIN')}">
+                            <td>${car.getID()}</td>
+                        </c:if>
                         <td>${car.isAvailable()}</td>
                         <td><fmt:message key="${car.getCarClass()}"/></td>
                         <td>${car.getBrand().getCarBrandName()}</td>
@@ -52,7 +124,7 @@
                 <ul class="pagination">
                     <c:if test="${currentPage != 1}">
                         <li class="page-item"><a class="page-link"
-                                                 href="controller?action=carList&recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}"><fmt:message key="pagination.previous"/></a>
+                                                 href="controller?action=carList&recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}&car_class_filter=${car_class_filter}&car_brand_filter=${car_brand_filter}&transmission_filter=${transmission_filter}&sort_field=${sort_field}"><fmt:message key="pagination.previous"/></a>
                         </li>
                     </c:if>
 
@@ -65,7 +137,7 @@
                             </c:when>
                             <c:otherwise>
                                 <li class="page-item"><a class="page-link"
-                                                         href="controller?action=carList&recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a>
+                                                         href="controller?action=carList&recordsPerPage=${recordsPerPage}&currentPage=${i}&car_class_filter=${car_class_filter}&car_brand_filter=${car_brand_filter}&transmission_filter=${transmission_filter}&sort_field=${sort_field}">${i}</a>
                                 </li>
                             </c:otherwise>
                         </c:choose>
@@ -73,7 +145,7 @@
 
                     <c:if test="${currentPage lt noOfPages}">
                         <li class="page-item"><a class="page-link"
-                                                 href="controller?action=carList&recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}"><fmt:message key="pagination.next"/></a>
+                                                 href="controller?action=carList&recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}&car_class_filter=${car_class_filter}&car_brand_filter=${car_brand_filter}&transmission_filter=${transmission_filter}&sort_field=${sort_field}"><fmt:message key="pagination.next"/></a>
                         </li>
                     </c:if>
                 </ul>
@@ -81,9 +153,9 @@
         </div>
     </main>
 </form>
-
-<a class="btn btn-primary" id = "add-new-model" href="controller?action=openNewCarPage" role="button"><fmt:message key="add_new_car"/></a>
-
+<c:if test = "${(sessionScope.role == 'ADMIN')}">
+    <a class="btn btn-primary" id = "add-new-model" href="controller?action=openNewCarPage" role="button"><fmt:message key="add_new_car"/></a>
+</c:if>
 <%@ include file="/WEB-INF/navigation/footer.jsp" %>
 </body>
 </form>

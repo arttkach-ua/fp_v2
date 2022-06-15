@@ -1,7 +1,5 @@
 package com.epam.tkach.carrent.model.repository.MySqlImp;
 
-import com.epam.tkach.carrent.controller.command.common.UpdateProfile;
-import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.TransactionException;
 import com.epam.tkach.carrent.model.connectionPool.ConnectionPool;
 import com.epam.tkach.carrent.model.entity.Transaction;
@@ -40,6 +38,29 @@ public class TransactionRepoMySql implements TransactionRepoI {
             throw new TransactionException(ex);
         } finally {
             connectionPool.close(con, pstmt,rs);
+        }
+        return success;
+    }
+
+    @Override
+    public boolean addNew(Transaction transaction, Connection con) throws TransactionException {
+        String QUERY = "insert into transactions(user_id, sum, description) values(?,?,?)";
+        boolean success = false;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try{
+            pstmt = con.prepareStatement(QUERY);
+            pstmt.setInt(1,transaction.getUser().getID());
+            pstmt.setDouble(2,transaction.getSum());
+            pstmt.setString(3, transaction.getDescription());
+            pstmt.executeUpdate();
+            logger.debug("insert transaction was success");
+            success=true;
+        }catch (SQLException ex) {
+            logger.error("Error in TransactionRepo.addNew method", ex);
+            throw new TransactionException(ex);
+        } finally {
+            connectionPool.close(null, pstmt,rs);
         }
         return success;
     }

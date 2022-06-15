@@ -129,13 +129,4 @@ public class RequestReader {
         return transaction;
     }
 
-    public static int getUserIdFromSession(HttpServletRequest request) throws AuthenticationException {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            logger.error("Session error");
-            throw new AuthenticationException();
-        }
-        return (int)session.getAttribute(PageParameters.ID);
-    }
-
 }

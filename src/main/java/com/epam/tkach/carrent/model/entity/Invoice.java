@@ -1,21 +1,26 @@
 package com.epam.tkach.carrent.model.entity;
 
-import com.epam.tkach.carrent.model.entity.enums.InvoceTypes;
+import com.epam.tkach.carrent.model.entity.enums.InvoiceTypes;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 public class Invoice extends Entity{
-    @NotNull
+    @NotNull(message = "error.nullClient")
     private User client;
-    @NotNull
+    @NotNull(message = "error.nullOrder")
     private Order order;
-    @NotNull
+    @NotNull(message = "error.nullDescription")
     private String description;
-
+    @Positive(message = "error.nullAmount")
     private double amount;
-    @NotNull
-    private InvoceTypes type;
+    @NotNull(message = "error.nullInvoiceType")
+    private InvoiceTypes type;
     private boolean paid;
+    private Date dateTime;
 
     //Getters
 
@@ -35,12 +40,20 @@ public class Invoice extends Entity{
         return amount;
     }
 
-    public InvoceTypes getType() {
+    public InvoiceTypes getType() {
         return type;
     }
 
     public boolean isPaid() {
         return paid;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
+    }
+    public String getFormattedDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy h:mm a");
+        return sdf.format(dateTime);
     }
     //Setters
 
@@ -60,12 +73,16 @@ public class Invoice extends Entity{
         this.amount = amount;
     }
 
-    public void setType(InvoceTypes type) {
+    public void setType(InvoiceTypes type) {
         this.type = type;
     }
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
     //Constructor
 

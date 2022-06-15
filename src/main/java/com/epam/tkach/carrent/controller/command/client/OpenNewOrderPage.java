@@ -27,7 +27,7 @@ public class OpenNewOrderPage implements ICommand {
             HttpSession session = request.getSession(false);
             if (session == null) {
                 logger.error("Session error");
-                return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+                return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
             }
             int userId = (int)session.getAttribute(PageParameters.ID);
 
@@ -36,7 +36,7 @@ public class OpenNewOrderPage implements ICommand {
             return Path.PAGE_CREATE_ORDER;
         } catch (CarRepoException | UserRepoException e) {
             logger.error(e);
-            return Path.prepareErrorPage(request, Messages.ERROR_DATABASE_ERROR);
+            return Path.prepareErrorPage(request,response, Messages.ERROR_DATABASE_ERROR);
         }
     }
 }
