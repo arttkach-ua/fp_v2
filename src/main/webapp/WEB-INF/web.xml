@@ -10,6 +10,9 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 <display-name>Archetype Created Web Application</display-name>
+    <error-page>
+        <location>/WEB-INF/jsp/error_page.jsp</location>
+    </error-page>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -69,11 +72,11 @@
         <filter-class>com.epam.tkach.carrent.controller.filters.EncodingFilter</filter-class>
         <init-param>
             <param-name>requestEncoding</param-name>
-            <param-value>UTF8</param-value>
+            <param-value>UTF-8</param-value>
         </init-param>
         <init-param>
             <param-name>responseEncoding</param-name>
-            <param-value>cp1251</param-value>
+            <param-value>UTF-8</param-value>
         </init-param>
     </filter>
     <!--Security filter-->
@@ -107,6 +110,11 @@
     </filter>
 
     <filter-mapping>
+        <filter-name>charsetFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
         <filter-name>SecurityFilter</filter-name>
         <url-pattern>/*</url-pattern>
         <!--
@@ -115,10 +123,7 @@
     </filter-mapping>
     <!--Security filter-->
 
-    <filter-mapping>
-        <filter-name>charsetFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+
 
 </web-app>
 

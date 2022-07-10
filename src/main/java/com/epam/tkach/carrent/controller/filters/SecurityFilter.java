@@ -58,14 +58,14 @@ public class SecurityFilter implements Filter{
     private boolean accessAllowed(ServletRequest request) {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        HttpSession session = httpRequest.getSession(false);
-        if (session == null) {
-            return true;
-        }
-
         String commandName = request.getParameter("action");
         if (commandName == null || commandName.isEmpty()) {
             return true;
+        }
+
+        HttpSession session = httpRequest.getSession(false);
+        if (session == null) {
+            return commons.contains(commandName);
         }
 
         Role role = (Role)session.getAttribute("role");
@@ -124,6 +124,10 @@ public class SecurityFilter implements Filter{
 
     private ArrayList<String> getManagerCommands(){
         ArrayList<String> commands = new ArrayList();
+        commands.add("carBrands");
+        commands.add("carModels");
+        commands.add("tariffsList");
+        commands.add("completeSets");
         commands.add("ConfirmOrder");
         commands.add("OpenDeclineOrderPage");
         commands.add("declineOrder");
@@ -134,6 +138,8 @@ public class SecurityFilter implements Filter{
         commands.add("closeOrder");
         commands.add("closeOrderWithDamage");
         commands.add("openCloseOrderWithDamage");
+        commands.add("ordersList");
+        commands.add("invoiceList");
         return commands;
     }
     private ArrayList<String> getClientCommands(){

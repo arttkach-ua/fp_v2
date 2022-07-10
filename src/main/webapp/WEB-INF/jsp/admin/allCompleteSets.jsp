@@ -30,7 +30,7 @@
                         <td>${entity.getCarModel().getBrand().getCarBrandName()}</td>
                         <td>${entity.getCarModel().getModelName()}</td>
                         <td>${entity.getName()}</td>
-                        <td>${entity.getBodyStyle()}</td>
+                        <td><fmt:message key="${entity.getBodyStyle()}"/></td>
                         <td><fmt:message key="${entity.getTransmission()}"/></td>
                         <td><fmt:message key="${entity.getFuelType()}"/></td>
                         <td>${entity.getEngine()}</td>

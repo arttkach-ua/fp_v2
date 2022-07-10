@@ -1,6 +1,5 @@
 package com.epam.tkach.carrent.model.service;
 
-import com.epam.tkach.carrent.controller.command.client.AddNewOrder;
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
 import com.epam.tkach.carrent.controller.exceptions.InvoiceRepoException;
 import com.epam.tkach.carrent.controller.exceptions.OrderRepoException;
@@ -41,6 +40,8 @@ public class OrderService {
     public static void addNew(Order order) throws OrderRepoException, CarRepoException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection con = connectionPool.getConnection();
+        Car car = CarService.getById(order.getCar().getID());
+        if (!car.isAvailable()) throw new CarRepoException("Car is not available");
         try {
             con.setAutoCommit(false);
             OrderRepoI repo = RepositoryFactory.getOrderRepo();
@@ -95,6 +96,7 @@ public class OrderService {
             Car car = order.getCar();
             car.setAvailable(true);
             CarService.update(car,con);
+            con.commit();
         } catch (SQLException e) {
             logger.error("Error while declining order");
             logger.error(e);

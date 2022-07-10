@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,7 +35,7 @@ public class ShowInvoices implements ICommand {
                 filters.put("client_id", userId);
             }
 
-            if (paidFilter != "-1"&&paidFilter!=null){
+            if (paidFilter!=null&&!"-1".equals(paidFilter)&&!"".equals(paidFilter)){
                 filters.put("invoices.paid", "true".equals(paidFilter));
                 request.setAttribute(PageParameters.PAID_FILTER, "true".equals(paidFilter));
             }

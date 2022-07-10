@@ -4,7 +4,6 @@ import com.epam.tkach.carrent.controller.Path;
 import com.epam.tkach.carrent.controller.command.ICommand;
 import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.controller.exceptions.CarClassesRepoException;
-import com.epam.tkach.carrent.model.entity.Car;
 import com.epam.tkach.carrent.model.entity.CarBrand;
 import com.epam.tkach.carrent.model.entity.enums.CarClass;
 import com.epam.tkach.carrent.model.repository.CarBrandRepoI;

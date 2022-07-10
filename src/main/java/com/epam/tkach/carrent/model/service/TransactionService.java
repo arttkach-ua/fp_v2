@@ -1,6 +1,5 @@
 package com.epam.tkach.carrent.model.service;
 
-import com.epam.tkach.carrent.controller.PageParameters;
 import com.epam.tkach.carrent.controller.exceptions.TransactionException;
 import com.epam.tkach.carrent.model.entity.Transaction;
 import com.epam.tkach.carrent.model.entity.User;

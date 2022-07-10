@@ -51,7 +51,7 @@
         </form>
     </div>
 </div>
-<!--Car list form-->
+<!--Invoice list form-->
 <form action="controller?action=invoiceList" method="get">
     <main class="m-3">
         <div class="row col-md-6">

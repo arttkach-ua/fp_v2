@@ -1,10 +1,8 @@
 package com.epam.tkach.carrent.model.service;
 
-import com.epam.tkach.carrent.controller.PageParameters;
 import com.epam.tkach.carrent.controller.exceptions.CarBrandRepoException;
 import com.epam.tkach.carrent.model.entity.CarBrand;
 import com.epam.tkach.carrent.model.repository.CarBrandRepoI;
-import com.epam.tkach.carrent.model.repository.MySqlImp.CarBrandRepoMySql;
 import com.epam.tkach.carrent.model.repository.RepositoryFactory;
 
 import java.util.List;

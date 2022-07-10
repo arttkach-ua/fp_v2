@@ -12,18 +12,21 @@ public class EncodingFilter implements Filter {
 
     private String requestEncoding;
     private String responseEncoding;
+    //private String encoding;
 
     public void init(FilterConfig config) throws ServletException {
         requestEncoding = config.getInitParameter("requestEncoding");
         responseEncoding = config.getInitParameter("responseEncoding");
     }
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain net)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain next)
             throws IOException, ServletException {
         request.setCharacterEncoding(requestEncoding);
         response.setCharacterEncoding(responseEncoding);
+        response.setContentType("text/html;charset=UTF-8");
+
         loggger.debug("After - Request encoding: " + request.getCharacterEncoding());
-        net.doFilter(request, response);
+        next.doFilter(request, response);
     }
 
     public void destroy(){

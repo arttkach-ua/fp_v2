@@ -1,11 +1,8 @@
 package com.epam.tkach.carrent.model.service;
 
 import com.epam.tkach.carrent.controller.exceptions.CarRepoException;
-import com.epam.tkach.carrent.controller.exceptions.OrderRepoException;
 import com.epam.tkach.carrent.model.entity.Car;
-import com.epam.tkach.carrent.model.entity.Order;
 import com.epam.tkach.carrent.model.repository.CarRepoI;
-import com.epam.tkach.carrent.model.repository.OrderRepoI;
 import com.epam.tkach.carrent.model.repository.RepositoryFactory;
 
 import java.sql.Connection;

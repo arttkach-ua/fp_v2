@@ -64,7 +64,7 @@
         </form>
     </div>
 </div>
-<!--Car list form-->
+<!--Orders form-->
 <form action="controller?action=ordersList" method="get">
     <main class="m-3">
         <div class="row col-md-6">
@@ -88,12 +88,6 @@
                     <c:if test = "${sessionScope.role == 'MANAGER'}">
 
                     </c:if>
-                    <%--
-                    <th scope="col"><fmt:message key="vin_code"/></th>
-                    <th scope="col"><fmt:message key="state_number"/></th>
-                    <th scope="col"><fmt:message key="price_per_day"/></th>
-                    <th scope="col"><fmt:message key="driver_price"/></th>
-                    --%>
                 </tr>
 
                 <c:forEach items="${entityList}" var="entity">

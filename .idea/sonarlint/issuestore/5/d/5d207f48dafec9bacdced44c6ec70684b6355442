@@ -1,0 +1,8 @@
+
+E
+java:S3740n"/Provide the parametrized type for this generic.(ùœ™
+=
+java:S1481R"'Remove this unused "rs" local variable.(¶¨ÜŒ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(±ÁÆûÿÿÿÿ
+r
+java:S3655("PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(¸¦×ëøÿÿÿÿ8ÄŠñ0

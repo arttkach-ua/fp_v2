@@ -8,7 +8,7 @@
 <%@ include file="/WEB-INF/jsp/head.jsp" %>
 <body>
 <%@ include file="/WEB-INF/navigation/navbar.jsp" %>
-<!--New car brand form -->
+<!--Close with damage form -->
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

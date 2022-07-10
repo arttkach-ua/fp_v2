@@ -4,10 +4,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +20,7 @@ import com.epam.tkach.carrent.controller.Controller;
 public class ConnectionPool {
     private static ConnectionPool instance = null;
     private static final Logger logger = LogManager.getLogger(Controller.class);
+    private static final Properties properties = new Properties();
 
     private ConnectionPool() { }
 
@@ -38,11 +42,16 @@ public class ConnectionPool {
         Connection con = null;
         try{
             ctx = new InitialContext();
-            dataSource = (DataSource)ctx.lookup("java:comp/env/jdbc/car_rent");
+            String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            properties.load(new FileReader(rootPath + "app.properties"));
+            String databaseUrl = (String) properties.get("connection.url");
+            System.out.println(databaseUrl);
+            dataSource = (DataSource)ctx.lookup(databaseUrl);
+            //dataSource = (DataSource)ctx.lookup("java:comp/env/jdbc/car_rent");
             con = dataSource.getConnection();
             logger.info("Connection to pool success");
 
-        } catch (SQLException | NamingException ex) {
+        } catch (SQLException | NamingException| IOException ex) {
             logger.error("Pool connection error", ex);
         }
         return con;
